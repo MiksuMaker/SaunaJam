@@ -6,6 +6,9 @@ public class Room
 {
     // Room is used to store the data about the rooms
 
+    public TypeRoom type;
+    public Orientation orientation;
+
     public Connection north;
     public Connection west;
     public Connection east;

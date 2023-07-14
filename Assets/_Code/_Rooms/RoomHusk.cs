@@ -15,11 +15,16 @@ public class RoomHusk : MonoBehaviour
     #region Setup
     public void SetupRoomHusk(GameObject _graphics)
     {
+        if (graphics != null) { Destroy(graphics); }
+
         graphics = _graphics;
     }
     #endregion
 
     #region Functions
-
+    public void RotateGraphics(Quaternion rotation)
+    {
+        graphics.transform.rotation = rotation;
+    }
     #endregion
 }

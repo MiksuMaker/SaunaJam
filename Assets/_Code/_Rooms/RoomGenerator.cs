@@ -2,6 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum TypeRoom
+{
+    _1_deadEnd,
+    _2_corner, _2_straight,
+    _3_threeway,
+    _4_fourway,
+}
+
+public enum Orientation
+{
+    north, west, east, south,
+}
+
 public class RoomGenerator : MonoBehaviour
 {
     #region Properties
@@ -24,18 +37,7 @@ public class RoomGenerator : MonoBehaviour
 
     string mockupModifier = " Mockup";
 
-    enum TypeRoom
-    {
-        _1_deadEnd,
-        _2_corner,_2_straight,
-        _3_threeway,
-        _4_fourway,
-    }
-
-    enum Orientation
-    {
-        north, west, east, south,
-    }
+    
 
     enum DirectionOfConnection
     {
@@ -59,6 +61,9 @@ public class RoomGenerator : MonoBehaviour
     {
         // Generate first room
         GenerateRoom(DirectionOfConnection.north);
+
+        // Manifest it
+        RoomManager.Instance.InitiateFirstRoom();
 
         // Keep generating rooms until you have generated enough
 
@@ -91,15 +96,16 @@ public class RoomGenerator : MonoBehaviour
         Room room = new Room();
 
         // Room type
-        TypeRoom type = DecideRoomType();
+        room.type = DecideRoomType();
 
         // Orientation
-        Orientation orientation = DecideOrientation(type, connectionFrom);
+        room.orientation = DecideOrientation(room.type, connectionFrom);
 
         // Setup walls for the Room
-        SetupRoomWalls(room, type, orientation);
+        SetupRoomWalls(room, room.type, room.orientation);
 
-
+        // Add to the RoomsList
+        RoomManager.Instance.AddRoomToList(room);
     }
 
     private TypeRoom DecideRoomType(bool isStart = false)
