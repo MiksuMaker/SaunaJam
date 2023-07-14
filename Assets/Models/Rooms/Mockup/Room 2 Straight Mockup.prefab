@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 829040335437069536}
   - component: {fileID: 3341145913531917358}
   m_Layer: 0
-  m_Name: Room 2 Straight
+  m_Name: Room 2 Straight Mockup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

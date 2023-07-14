@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 371807787808788970}
   - component: {fileID: 1527592055261754102}
   m_Layer: 0
-  m_Name: Room 3 Threeway
+  m_Name: Room 3 Threeway Mockup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
