@@ -4,15 +4,51 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    #region Properties
+    RoomExplorer roomExplorer;
+    #endregion
+
+    #region Setup
+    private void Start()
     {
-        
+        roomExplorer = FindObjectOfType<RoomExplorer>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        CheckForMoveInput();
     }
+    #endregion
+
+    #region Functions
+    private void CheckForMoveInput()
+    {
+        Vector3 moveVector = Vector3.zero;
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            moveVector += Vector3.forward;
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            moveVector += Vector3.left;
+
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            moveVector += Vector3.right;
+
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            moveVector += Vector3.back;
+
+        }
+
+        if (moveVector == Vector3.zero) { return; }
+
+        if (roomExplorer == null) { Debug.Log("RoomExplorer not found"); }
+        roomExplorer.Explore(moveVector);
+    }
+    #endregion
 }

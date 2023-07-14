@@ -80,6 +80,8 @@ public class RoomGenerator : MonoBehaviour
 
 
         Debug.Log("Rooms amount: " + RoomManager.Instance.roomsCount);
+
+        RoomManager.Instance.DebugAllRooms();
     }
 
     private void CheckDirectionsAndGenerateIfNecessary(Room r)
@@ -126,6 +128,7 @@ public class RoomGenerator : MonoBehaviour
 
         // Add to the RoomsList
         RoomManager.Instance.AddRoomToList(room);
+        RoomManager.Instance.currentRoom = room;
 
         createdAmountOfRooms++;
 

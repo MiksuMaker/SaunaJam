@@ -5,6 +5,7 @@ using UnityEngine;
 public class Room
 {
     // Room is used to store the data about the rooms
+    public string name;
 
     public TypeRoom type;
     public Orientation orientation;
@@ -16,6 +17,8 @@ public class Room
 
     public Room()
     {
+        name = Random.Range(0, 100).ToString();
+
         north = new Connection();
         west = new Connection();
         east = new Connection();

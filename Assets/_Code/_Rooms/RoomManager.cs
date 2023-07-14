@@ -116,4 +116,55 @@ public class RoomManager : MonoBehaviour
         }
     }
     #endregion
+
+    #region Room Moving
+    public void TryChangeRoom(Vector3 moveVector)
+    {
+        if (currentRoom == null) { Debug.Log("Current Room is null"); }
+
+        
+        if (moveVector == Vector3.forward)
+        {
+            // Try go north
+            if (currentRoom.north.neighbour != null)
+            {
+                // Change room
+                currentRoom = currentRoom.north.neighbour;
+                ManifestRoom(currentRoom);
+            }
+        }
+        else if (moveVector == Vector3.left)
+        {
+            if (currentRoom.west.neighbour != null) { currentRoom = currentRoom.west.neighbour; ManifestRoom(currentRoom); }
+        }
+        else if (moveVector == Vector3.right)
+        {
+            if (currentRoom.east.neighbour != null) { currentRoom = currentRoom.east.neighbour; ManifestRoom(currentRoom); }
+        }
+        else if (moveVector == Vector3.back)
+        {
+            if (currentRoom.south.neighbour != null) { currentRoom = currentRoom.south.neighbour; ManifestRoom(currentRoom); }
+        }
+        else
+        {
+            Debug.Log("Bonk! There is a wall in " + moveVector.ToString() + " direction");
+        }
+    }
+
+    public void DebugAllRooms()
+    {
+        foreach (Room r in roomsList)
+        {
+            // Go through all neighbours
+            string log = "Room: " + r.name + " || ";
+
+            log += " N: " + (r.north.neighbour == null ? "null" : " " + r.north.neighbour.name);
+            log += " W: " + (r.west.neighbour == null ? "null" : " " + r.west.neighbour.name);
+            log += " E: " + (r.east.neighbour == null ? "null" : " " + r.east.neighbour.name);
+            log += " S: " + (r.south.neighbour == null ? "null" : " " + r.south.neighbour.name);
+
+            Debug.Log(log);
+        }
+    }
+    #endregion
 }
