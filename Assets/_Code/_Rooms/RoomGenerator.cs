@@ -21,21 +21,15 @@ public class RoomGenerator : MonoBehaviour
     [Header("Amount of Room tiles to create")]
     [SerializeField]
     int amountOfRooms = 4;
+    int createdAmountOfRooms = 0;
 
     [SerializeField]
     Transform roomParent;
 
-    List<Connection> unfinishedConnections = new List<Connection>();
+    List<Room> roomsWithUnfinishedConnections = new List<Room>();
 
 
-    // String paths
-    string deadEnd = "Room 1 DeadEnd";
-    string corner = "Room 2 Corner";
-    string straight = "Room 2 Straight";
-    string threeway = "Room 3 Threeway";
-    string fourway = "Room 4 Fourway";
-
-    string mockupModifier = " Mockup";
+    
 
     
 
@@ -60,43 +54,91 @@ public class RoomGenerator : MonoBehaviour
     public void GenerateRooms()
     {
         // Generate first room
-        GenerateRoom(DirectionOfConnection.north);
+        GenerateFirstRoom(DirectionOfConnection.north);
 
         // Manifest it
         RoomManager.Instance.InitiateFirstRoom();
 
         // Keep generating rooms until you have generated enough
+        RoomGenerationLoop();
+    }
 
+    private void RoomGenerationLoop()
+    {
+        while (createdAmountOfRooms < amountOfRooms)
+        {
+            if (roomsWithUnfinishedConnections.Count == 0) { break; }
+
+            // Pick an unfinished connection room
+            Room nextToConnect = roomsWithUnfinishedConnections[0];
+
+            // Create rooms for each unconnected connection
+            CheckDirectionsAndGenerateIfNecessary(nextToConnect);
+        }
+
+        // Fill up the rest of  unfinished connections with dead ends
+
+
+        Debug.Log("Rooms amount: " + RoomManager.Instance.roomsCount);
+    }
+
+    private void CheckDirectionsAndGenerateIfNecessary(Room r)
+    {
+        // Check each connection and connect if needed
+        if (CheckConnection(r.north))
+        {
+            // Create a room there
+            GenerateNewRoom(DirectionOfConnection.south, r);
+        }
+        if (CheckConnection(r.west))
+        {
+            GenerateNewRoom(DirectionOfConnection.east, r);
+        }
+        if (CheckConnection(r.east))
+        {
+            GenerateNewRoom(DirectionOfConnection.west, r);
+        }
+        if (CheckConnection(r.south))
+        {
+            GenerateNewRoom(DirectionOfConnection.north, r);
+        }
+
+        // Remove from unifinished rooms
+        roomsWithUnfinishedConnections.Remove(r);
     }
     #endregion
 
     #region Generation
-    private void GenerateOneRoom(DirectionOfConnection connectFrom)
-    {
-        // Load up one Room Prefab
-        GameObject roomGO = Instantiate(Resources.Load("Room"), roomParent) as GameObject;
-        RoomHusk room = roomGO.AddComponent<RoomHusk>();
 
-        // Decide what Type of Room it will be
-        TypeRoom type = DecideRoomType();
-
-        // Decide orientation
-        Orientation orientation = DecideOrientation(type, connectFrom); 
-
-        // Give correct graphics to it
-        GiveCorrectGraphics(roomGO, type);
-
-        // Give reference to RoomManager
-
-    }
-
-    private void GenerateRoom(DirectionOfConnection connectionFrom)
+    private void GenerateFirstRoom(DirectionOfConnection connectionDirectionFrom)
     {
         // Make new Room
         Room room = new Room();
 
         // Room type
-        room.type = DecideRoomType();
+        room.type = DecideRoomType(true);
+
+        // Orientation
+        room.orientation = DecideOrientation(room.type, connectionDirectionFrom);
+
+        // Setup walls for the Room
+        SetupRoomWalls(room, room.type, room.orientation);
+
+        // Add to the RoomsList
+        RoomManager.Instance.AddRoomToList(room);
+
+        createdAmountOfRooms++;
+
+        roomsWithUnfinishedConnections.Add(room);
+    }
+
+    private void GenerateNewRoom(DirectionOfConnection connectionFrom, Room fromRoom)
+    {
+        // Make new Room
+        Room room = new Room();
+
+        // Room type
+        room.type = DecideRoomType(true);
 
         // Orientation
         room.orientation = DecideOrientation(room.type, connectionFrom);
@@ -106,6 +148,15 @@ public class RoomGenerator : MonoBehaviour
 
         // Add to the RoomsList
         RoomManager.Instance.AddRoomToList(room);
+
+        createdAmountOfRooms++;
+
+        // Add unfinished connections
+        //CheckForUnfinishedConnections(room);
+
+        // Connect up to the fromRoom
+        ConnectToPrevious(fromRoom, room, connectionFrom);
+
     }
 
     private TypeRoom DecideRoomType(bool isStart = false)
@@ -184,10 +235,54 @@ public class RoomGenerator : MonoBehaviour
         room.east.isWall = e;
         room.south.isWall = s;
     }
+    #endregion
 
-    private void GiveCorrectGraphics(GameObject room, TypeRoom type)
+    #region Connections
+    private void CheckForUnfinishedConnections(Room r)
     {
+        // Go through all the connections
 
+        if (CheckConnection(r.north) || CheckConnection(r.west) || CheckConnection(r.east) || CheckConnection(r.south))
+        {
+            // Add to unfinished connections
+            if (!roomsWithUnfinishedConnections.Contains(r))
+            {
+                roomsWithUnfinishedConnections.Add(r);
+            }
+        }
+        else
+        {
+            // If no unfinished connections found, remove from list
+            if (roomsWithUnfinishedConnections.Contains(r))
+            {
+                roomsWithUnfinishedConnections.Remove(r);
+            }
+        }
+    }
+
+    private bool CheckConnection(Connection connection)
+    {
+        // Add those that are NOT a wall and don't have a neighbour yet to the list
+
+        if (!connection.isWall && connection.neighbour == null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private void ConnectToPrevious(Room previous, Room thisOne, DirectionOfConnection dir)
+    {
+        switch (dir)
+        {
+            case DirectionOfConnection.north: previous.south.neighbour = thisOne; break;
+            case DirectionOfConnection.west: previous.east.neighbour = thisOne; break;
+            case DirectionOfConnection.east: previous.west.neighbour = thisOne; break;
+            case DirectionOfConnection.south: previous.north.neighbour = thisOne; break;
+        }
     }
     #endregion
 }

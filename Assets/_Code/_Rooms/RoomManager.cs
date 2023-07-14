@@ -11,6 +11,8 @@ public class RoomManager : MonoBehaviour
 
     List<Room> roomsList = new List<Room>();
 
+    public int roomsCount { get { return roomsList.Count; } }
+
     // Manifestation
     RoomHusk roomHusk;
 
