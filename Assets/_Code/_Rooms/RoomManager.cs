@@ -149,6 +149,8 @@ public class RoomManager : MonoBehaviour
         {
             Debug.Log("Bonk! There is a wall in " + moveVector.ToString() + " direction");
         }
+
+        DebugLogRoom(currentRoom);
     }
 
     public void DebugAllRooms()
@@ -156,15 +158,22 @@ public class RoomManager : MonoBehaviour
         foreach (Room r in roomsList)
         {
             // Go through all neighbours
-            string log = "Room: " + r.name + " || ";
-
-            log += " N: " + (r.north.neighbour == null ? "null" : " " + r.north.neighbour.name);
-            log += " W: " + (r.west.neighbour == null ? "null" : " " + r.west.neighbour.name);
-            log += " E: " + (r.east.neighbour == null ? "null" : " " + r.east.neighbour.name);
-            log += " S: " + (r.south.neighbour == null ? "null" : " " + r.south.neighbour.name);
-
-            Debug.Log(log);
+            DebugLogRoom(r);
         }
+    }
+
+    private void DebugLogRoom(Room r)
+    {
+        string log = "Room: " + r.name + " || ";
+
+        log += " N: " + (r.north.neighbour == null ? "null" : " " + r.north.neighbour.name);
+        log += " W: " + (r.west.neighbour == null ? "null" : " " + r.west.neighbour.name);
+        log += " E: " + (r.east.neighbour == null ? "null" : " " + r.east.neighbour.name);
+        log += " S: " + (r.south.neighbour == null ? "null" : " " + r.south.neighbour.name);
+
+        log += " || " + r.type + " || " + r.orientation;
+
+        Debug.Log(log);
     }
     #endregion
 }
