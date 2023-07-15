@@ -95,4 +95,8 @@ public class RoomHusk : MonoBehaviour
 
     }
     #endregion
+
+    #region Husk Moving
+    
+    #endregion
 }

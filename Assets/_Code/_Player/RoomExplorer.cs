@@ -30,7 +30,7 @@ public class RoomExplorer : MonoBehaviour
             case (Direction.south): actualMoveVector += Vector3.back * value; break;
         }
 
-        RoomManager.Instance.TryChangeRoom(actualMoveVector);
+        RoomManager.Instance.TryChangeRoom2(actualMoveVector);
     }
 
     public void TurnFacingDirection(Vector3 turnVector)
