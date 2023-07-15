@@ -7,11 +7,10 @@ public class RoomExplorer : MonoBehaviour
     #region Properties
     public Direction currentFacingDirection = Direction.north;
 
-    Vector3 currentDesiredLocation = Vector3.zero;
-    Vector3 currentDesiredRotation = Vector3.forward;
 
     [SerializeField]
     GameObject Player;
+
 
     IEnumerator turnCoroutine;
     IEnumerator moveCoroutine;
@@ -58,8 +57,6 @@ public class RoomExplorer : MonoBehaviour
 
     private void MovePlayer(Vector3 moveVector)
     {
-        if (moving) { return; }
-
         if (moveCoroutine != null)
         {
             StopCoroutine(moveCoroutine);
@@ -70,14 +67,14 @@ public class RoomExplorer : MonoBehaviour
 
     IEnumerator MovingCoroutine(float timeToMove, Vector3 wantedDir)
     {
-        //moving = true;
 
         float increment = 1 / (timeToMove * 10f);
         WaitForSeconds wait = new WaitForSeconds(increment);
         float progress = 0f;
 
         Vector3 beginPos = Player.transform.position;
-        Vector3 wantedPos = GetRoundedPos2(beginPos + (wantedDir * WorldStats.Instance.Scale));
+        Vector3 wantedPos = GetRoundedPos(beginPos + (wantedDir * WorldStats.Instance.Scale));
+        //RoomManager.Instance.desiredLocation = wantedPos;
 
         while (progress < 1f)
         {
@@ -88,8 +85,6 @@ public class RoomExplorer : MonoBehaviour
             yield return wait;
         }
 
-        //Debug.Log("Moving has ended");
-        //moving = false;
     }
 
     public void TurnFacingDirection(Vector3 turnVector)
@@ -119,10 +114,10 @@ public class RoomExplorer : MonoBehaviour
 
         switch (currentFacingDirection)
         {
-            case (Direction.north): currentDesiredRotation = Vector3.forward; Turn(Vector3.forward); break;
-            case (Direction.west): currentDesiredRotation = Vector3.left; Turn(Vector3.left); break;
-            case (Direction.east): currentDesiredRotation = Vector3.right; Turn(Vector3.right); break;
-            case (Direction.south): currentDesiredRotation = Vector3.back; Turn(Vector3.back); break;
+            case (Direction.north): Turn(Vector3.forward); break;
+            case (Direction.west): Turn(Vector3.left); break;
+            case (Direction.east): Turn(Vector3.right); break;
+            case (Direction.south): Turn(Vector3.back); break;
         }
     }
 
@@ -160,25 +155,8 @@ public class RoomExplorer : MonoBehaviour
         //Debug.Log("Turning has ended");
     }
 
+
     private Vector3 GetRoundedPos(Vector3 currentPos)
-    {
-        float x = currentPos.x;
-        float y = currentPos.z;
-
-        float scale = WorldStats.Instance.Scale;
-
-        Debug.Log("X before:" + x);
-        Debug.Log("X rounded:" + Mathf.Round(x / scale));
-
-        // Round them to fit the World Scale
-        x = Mathf.Round(x / scale) * scale;
-        y = Mathf.Round(y / scale) * scale;
-        Debug.Log("X after:" + x);
-
-        return (Vector3.left * x) + (Vector3.forward * y);
-    }
-
-    private Vector3 GetRoundedPos2(Vector3 currentPos)
     {
         float x = currentPos.x;
         float y = currentPos.z;

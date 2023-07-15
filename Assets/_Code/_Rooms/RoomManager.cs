@@ -9,6 +9,9 @@ public class RoomManager : MonoBehaviour
 
     public Room currentRoom;
 
+    [HideInInspector]
+    public Vector3 desiredLocation = Vector3.zero;
+
     public List<Room> roomsList = new List<Room>();
 
     public int roomsCount { get { return roomsList.Count; } }
@@ -320,7 +323,7 @@ public class RoomManager : MonoBehaviour
 
         husks[2, 2] = huskCenter;
         currentRoom = roomsList[0];
-        ManifestRoom(currentRoom, huskCenter);
+        //ManifestRoom(currentRoom, huskCenter);
 
         // Fill up the rest of the husks
         currentRoom = roomsList[0];
@@ -332,43 +335,54 @@ public class RoomManager : MonoBehaviour
         // Center is at 3,3
         // Load up everything in the cross pattern
 
+        // CENTER
+        CreateHuskAt(2, 2, cr);
+
         // NORTH
-        if (cr.north.neighbour != null && husks[2, 3] == null)
+        //if (cr.north.neighbour != null && husks[2, 3] == null)
+        if (cr.north.neighbour != null)
         {
             // Create a husk there
             CreateHuskAt(2, 3, cr.north.neighbour);
-            if (cr.north.neighbour.north.neighbour != null && husks[2,4] == null)
+            //if (cr.north.neighbour.north.neighbour != null && husks[2,4] == null)
+            if (cr.north.neighbour.north.neighbour != null)
             {
                 CreateHuskAt(2, 4, cr.north.neighbour.north.neighbour);
             }
         }
 
         // WEST
-        if (cr.west.neighbour != null && husks[1, 2] == null)
+        //if (cr.west.neighbour != null && husks[1, 2] == null)
+        if (cr.west.neighbour != null)
         {
             CreateHuskAt(1, 2, cr.west.neighbour);
 
-            if (cr.west.neighbour.west.neighbour != null && husks[0, 2] == null)
+            //if (cr.west.neighbour.west.neighbour != null && husks[0, 2] == null)
+            if (cr.west.neighbour.west.neighbour != null)
             {
                 CreateHuskAt(0, 2, cr.west.neighbour.west.neighbour);
             }
         }
 
         // EAST
-        if (cr.east.neighbour != null && husks[3, 2] == null)
+        //if (cr.east.neighbour != null && husks[3, 2] == null)
+        if (cr.east.neighbour != null)
         {
             CreateHuskAt(3, 2, cr.east.neighbour);
-            if (cr.east.neighbour.east.neighbour != null && husks[4, 2] == null)
+            //if (cr.east.neighbour.east.neighbour != null && husks[4, 2] == null)
+            if (cr.east.neighbour.east.neighbour != null)
             {
                 CreateHuskAt(4, 2, cr.east.neighbour.east.neighbour);
             }
         }
 
         // SOUTH
-        if (cr.south.neighbour != null && husks[2, 1] == null)
+        //if (cr.south.neighbour != null && husks[2, 1] == null)
+        if (cr.south.neighbour != null)
         {
             CreateHuskAt(2, 1, cr.south.neighbour);
-            if (cr.south.neighbour.south.neighbour != null && husks[2, 0] == null)
+            //if (cr.south.neighbour.south.neighbour != null && husks[2, 0] == null)
+            if (cr.south.neighbour.south.neighbour != null)
             {
                 CreateHuskAt(2, 0, cr.south.neighbour.south.neighbour);
             }
@@ -383,8 +397,8 @@ public class RoomManager : MonoBehaviour
         //Debug.Log(x + "," + y);
         husks[x, y] = husk;
 
-        float X = HuskToRoomPosition(x, exaggarate);
-        float Y = HuskToRoomPosition(y, exaggarate);
+        float X = HuskToRoomPosition(x, exaggarate) + desiredLocation.x;
+        float Y = HuskToRoomPosition(y, exaggarate) + desiredLocation.z;
 
         husk.Position(X, Y);
         newHusk.transform.parent = transform;
@@ -419,6 +433,7 @@ public class RoomManager : MonoBehaviour
             if (currentRoom.north.neighbour != null)
             {
                 //MoveAllRooms(Direction.north, currentRoom.north.neighbour);
+                UpdateCurrentDesiredPosition(Vector3.forward);
                 MoveToRoom(Direction.south, currentRoom.north.neighbour);
                 return true;
             }
@@ -429,6 +444,7 @@ public class RoomManager : MonoBehaviour
             if (currentRoom.west.neighbour != null)
             {
                 //MoveAllRooms(Direction.west, currentRoom.west.neighbour);
+                UpdateCurrentDesiredPosition(Vector3.left);
                 MoveToRoom(Direction.south, currentRoom.west.neighbour);
 
                 return true;
@@ -440,6 +456,7 @@ public class RoomManager : MonoBehaviour
             if (currentRoom.east.neighbour != null)
             {
                 //MoveAllRooms(Direction.east, currentRoom.east.neighbour);
+                UpdateCurrentDesiredPosition(Vector3.right);
                 MoveToRoom(Direction.south, currentRoom.east.neighbour);
                 return true;
             }
@@ -450,6 +467,7 @@ public class RoomManager : MonoBehaviour
             if (currentRoom.south.neighbour != null)
             {
                 //MoveAllRooms(Direction.south, currentRoom.south.neighbour);
+                UpdateCurrentDesiredPosition(Vector3.back);
                 MoveToRoom(Direction.south, currentRoom.south.neighbour);
                 return true;
             }
@@ -465,18 +483,48 @@ public class RoomManager : MonoBehaviour
         //    //DebugLogRoom(currentRoom);
     }
 
+    private void UpdateCurrentDesiredPosition(Vector3 moveDir)
+    {
+        desiredLocation += moveDir * WorldStats.Instance.Scale;
+    }
+
     private void MoveToRoom(Direction toDirection, Room newRoom)
     {
         // Update current room etc.
         currentRoom = newRoom;
 
-        // Move all husks on grid to the Direction
-        //AdjustHuskGrid(toDirection);
+        // Regenerate Husks
+        //List<RoomHusk> toDeleted = new List<RoomHusk>();
+        //foreach (RoomHusk h in husks)
+        //{
+        //    if (h == null) { continue; }
+        //    toDeleted.Add(h);
+        //}
+
+        //int num = toDeleted.Count;
+        //Debug.Log("Num: " + num);
+        //for (int i = 0; i < num; i++)
+        //{
+        //    Destroy(toDeleted[0].gameObject);
+        //}
+
+        // Delete all children
+        //int childCount = transform.childCount;
+        //Debug.Log(childCount);
+        //int destroyedChildren = 0;
+        //for (int i = 0; i < childCount; i++)
+        //{
+        //    destroyedChildren++;
+        //    Destroy(transform.GetChild(0).gameObject);
+        //}
+        //Debug.Log("Killed children " + destroyedChildren);
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
 
         // Setup new husks
-        //FillUpRooms(currentRoom, true);
-
-        // Move all husks opposite to the "movement" direction
+        FillUpRooms(currentRoom, false);
 
 
         // Delete unnecessary husks
