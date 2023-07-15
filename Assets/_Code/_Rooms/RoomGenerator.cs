@@ -29,9 +29,9 @@ public class RoomGenerator : MonoBehaviour
     List<Room> roomsWithUnfinishedConnections = new List<Room>();
 
 
-    
 
-    
+
+
 
     enum FromConnection
     {
@@ -77,37 +77,55 @@ public class RoomGenerator : MonoBehaviour
         }
         if (createdAmountOfRooms >= amountOfRooms) { Debug.Log("Created full amount of rooms"); }
 
-        // Fill up the rest of  unfinished connections with dead ends
-
-
         Debug.Log("Rooms amount: " + RoomManager.Instance.roomsCount);
 
-        //RoomManager.Instance.DebugAllRooms();
+
+        // Fill up the rest of  unfinished connections with dead ends
+        FillDeadEnds();
     }
 
-    private void CheckDirectionsAndGenerateIfNecessary(Room r)
+    private void CheckDirectionsAndGenerateIfNecessary(Room r, bool forceDeadEnd = false)
     {
         // Check each connection and connect if needed
         if (CheckConnection(r.north))
         {
             // Create a room there
-            GenerateNewRoom(FromConnection.south, r);
+            GenerateNewRoom(FromConnection.south, r, forceDeadEnd);
         }
         if (CheckConnection(r.west))
         {
-            GenerateNewRoom(FromConnection.east, r);
+            GenerateNewRoom(FromConnection.east, r, forceDeadEnd);
         }
         if (CheckConnection(r.east))
         {
-            GenerateNewRoom(FromConnection.west, r);
+            GenerateNewRoom(FromConnection.west, r, forceDeadEnd);
         }
         if (CheckConnection(r.south))
         {
-            GenerateNewRoom(FromConnection.north, r);
+            GenerateNewRoom(FromConnection.north, r, forceDeadEnd);
         }
 
         // Remove from unifinished rooms
         roomsWithUnfinishedConnections.Remove(r);
+    }
+
+    private void FillDeadEnds()
+    {
+        // Go through all the rooms, check which ones don't have finished connections
+        int roomCount = RoomManager.Instance.roomsCount;
+
+        for (int i = 0; i < roomCount; i++)
+        {
+            CheckForUnfinishedConnections(RoomManager.Instance.roomsList[i]);
+        }
+
+        // Now that unfinished rooms have been added, go through them, adding dead ends
+        int stubCount = roomsWithUnfinishedConnections.Count;
+        for (int i = 0; i < stubCount; i++)
+            //foreach (Room r in roomsWithUnfinishedConnections)
+        {
+            CheckDirectionsAndGenerateIfNecessary(roomsWithUnfinishedConnections[0], true);
+        }
     }
     #endregion
 
@@ -136,13 +154,13 @@ public class RoomGenerator : MonoBehaviour
         roomsWithUnfinishedConnections.Add(room);
     }
 
-    private void GenerateNewRoom(FromConnection connectionFrom, Room fromRoom)
+    private void GenerateNewRoom(FromConnection connectionFrom, Room fromRoom, bool forceDeadEnd = false)
     {
         // Make new Room
         Room room = new Room();
 
         // Room type
-        room.type = DecideRoomType();
+        if (!forceDeadEnd) { room.type = DecideRoomType(); } else { room.type = TypeRoom._1_deadEnd; }
 
         // Orientation
         room.orientation = DecideOrientation(room.type, connectionFrom);
@@ -156,7 +174,8 @@ public class RoomGenerator : MonoBehaviour
         createdAmountOfRooms++;
 
         // Add to unfinished connections
-        roomsWithUnfinishedConnections.Add(room);
+        if (room.type != TypeRoom._1_deadEnd)
+        { roomsWithUnfinishedConnections.Add(room); }
 
         // Connect up to the fromRoom
         ConnectRooms(fromRoom, room, connectionFrom);
@@ -195,17 +214,21 @@ public class RoomGenerator : MonoBehaviour
             case (TypeRoom._2_straight, FromConnection.south): return Orientation.south;
 
             // CORNERS : Decide a direction
-            case (TypeRoom._2_corner, FromConnection.north): return GetRandomValidOrientation(new Orientation[2] 
-                                                                                                { Orientation.north,
+            case (TypeRoom._2_corner, FromConnection.north):
+                return GetRandomValidOrientation(new Orientation[2]
+                                                   { Orientation.north,
                                                                                                   Orientation.west});
-            case (TypeRoom._2_corner, FromConnection.west): return GetRandomValidOrientation(new Orientation[2]
-                                                                                                { Orientation.south,
+            case (TypeRoom._2_corner, FromConnection.west):
+                return GetRandomValidOrientation(new Orientation[2]
+                                                    { Orientation.south,
                                                                                                   Orientation.west});
-            case (TypeRoom._2_corner, FromConnection.east): return GetRandomValidOrientation(new Orientation[2]
-                                                                                                { Orientation.north,
+            case (TypeRoom._2_corner, FromConnection.east):
+                return GetRandomValidOrientation(new Orientation[2]
+                                                    { Orientation.north,
                                                                                                   Orientation.east});
-            case (TypeRoom._2_corner, FromConnection.south): return GetRandomValidOrientation(new Orientation[2]
-                                                                                                { Orientation.south,
+            case (TypeRoom._2_corner, FromConnection.south):
+                return GetRandomValidOrientation(new Orientation[2]
+                                                   { Orientation.south,
                                                                                                   Orientation.east});
 
             default: return Orientation.south;

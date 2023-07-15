@@ -9,7 +9,7 @@ public class RoomManager : MonoBehaviour
 
     public Room currentRoom;
 
-    List<Room> roomsList = new List<Room>();
+    public List<Room> roomsList = new List<Room>();
 
     public int roomsCount { get { return roomsList.Count; } }
 
