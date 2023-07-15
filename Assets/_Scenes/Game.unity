@@ -950,7 +950,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f80963366a578de428519a44cd107265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amountOfRooms: 3
+  amountOfRooms: 20
   roomParent: {fileID: 2097705100}
 --- !u!114 &2010123005
 MonoBehaviour:
