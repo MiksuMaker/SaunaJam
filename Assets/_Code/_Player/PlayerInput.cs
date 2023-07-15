@@ -39,7 +39,7 @@ public class PlayerInput : MonoBehaviour
         if (moveVector == Vector3.zero) { return; }
 
         if (roomExplorer == null) { Debug.Log("RoomExplorer not found"); }
-        roomExplorer.Explore(moveVector);
+        roomExplorer.Explore2(moveVector);
     }
 
     private void CheckForTurnInput()
