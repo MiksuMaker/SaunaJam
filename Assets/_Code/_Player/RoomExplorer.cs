@@ -9,10 +9,12 @@ public class RoomExplorer : MonoBehaviour
 
     [SerializeField]
     GameObject Player;
+
+    IEnumerator turnCoroutine;
     #endregion
 
     #region Setup
-    
+
     #endregion
 
     #region Functions
@@ -38,9 +40,9 @@ public class RoomExplorer : MonoBehaviour
 
         switch (rightwise, facingDirection)
         {
-            case (true, Direction.north): TurnToFace(Direction.east); break; 
-            case (true, Direction.east): TurnToFace(Direction.south); break; 
-            case (true, Direction.south): TurnToFace(Direction.west); break; 
+            case (true, Direction.north): TurnToFace(Direction.east); break;
+            case (true, Direction.east): TurnToFace(Direction.south); break;
+            case (true, Direction.south): TurnToFace(Direction.west); break;
             case (true, Direction.west): TurnToFace(Direction.north); break;
 
             case (false, Direction.north): TurnToFace(Direction.west); break;
@@ -57,7 +59,7 @@ public class RoomExplorer : MonoBehaviour
 
         // Turn camera towards new direction
 
-        switch(facingDirection)
+        switch (facingDirection)
         {
             case (Direction.north): Turn(Vector3.forward); break;
             case (Direction.west): Turn(Vector3.left); break;
@@ -68,7 +70,40 @@ public class RoomExplorer : MonoBehaviour
 
     private void Turn(Vector3 facingVector)
     {
-        Player.transform.LookAt(facingVector);
+        //Player.transform.LookAt(facingVector);
+        //float currentAngle
+        if (turnCoroutine != null)
+        {
+            StopCoroutine(turnCoroutine);
+        }
+        turnCoroutine = TurningCoroutine(3f, facingVector);
+        StartCoroutine(turnCoroutine);
+    }
+
+    IEnumerator TurningCoroutine(float timeToTurn, Vector3 wantedDir)
+    {
+        float increment = 1 / (timeToTurn * 10f);
+        WaitForSeconds wait = new WaitForSeconds(increment);
+        float progress = 0f;
+
+        //Quaternion wantedQuaternion = Quaternion.Euler(wantedDir);
+
+        Vector3 lookDir = Player.transform.forward;
+
+        while (progress < 1f)
+        {
+            progress += increment;
+
+            //nextAngle = Mathf.Lerp(wantedAngle, fromAngle, progress);
+            //transform.rotation = Quaternion.RotateTowards(transform.rotation, wantedQuaternion, 100f);
+            lookDir = Vector3.Lerp(lookDir, wantedDir, progress);
+            Debug.Log("Lerping, progress: " + progress);
+            Debug.Log("LookDir: " + lookDir.ToString());
+
+            Player.transform.LookAt(lookDir.normalized);
+
+            yield return wait;
+        }
     }
     #endregion
 }

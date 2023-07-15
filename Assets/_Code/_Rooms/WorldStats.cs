@@ -18,6 +18,6 @@ public class WorldStats : MonoBehaviour
         }
     }
 
-    public float X = 3f;
-    public float Z = 3f;
+    public float X = 6f;
+    public float Z = 6f;
 }
