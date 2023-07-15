@@ -86,20 +86,14 @@ public class RoomExplorer : MonoBehaviour
         WaitForSeconds wait = new WaitForSeconds(increment);
         float progress = 0f;
 
-        //Quaternion wantedQuaternion = Quaternion.Euler(wantedDir);
-
         Vector3 lookDir = Player.transform.forward;
 
         while (progress < 1f)
         {
             progress += increment;
 
-            //nextAngle = Mathf.Lerp(wantedAngle, fromAngle, progress);
-            //transform.rotation = Quaternion.RotateTowards(transform.rotation, wantedQuaternion, 100f);
             lookDir = Vector3.Lerp(lookDir, wantedDir, progress);
-            Debug.Log("Lerping, progress: " + progress);
-            Debug.Log("LookDir: " + lookDir.ToString());
-
+            
             Player.transform.LookAt(lookDir.normalized);
 
             yield return wait;
