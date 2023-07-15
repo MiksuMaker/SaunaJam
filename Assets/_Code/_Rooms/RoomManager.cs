@@ -14,7 +14,12 @@ public class RoomManager : MonoBehaviour
     public int roomsCount { get { return roomsList.Count; } }
 
     // Manifestation
-    RoomHusk roomHusk;
+    RoomHusk roomCenter;
+    RoomHusk roomNorth;
+    RoomHusk roomWest;
+    RoomHusk roomEast;
+    RoomHusk roomSouth;
+
 
     // String paths
     string deadEnd = "Room 1 DeadEnd";
@@ -38,7 +43,35 @@ public class RoomManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        roomHusk = FindObjectOfType<RoomHusk>();
+        SetupRoomHusks();
+    }
+
+    private void SetupRoomHusks()
+    {
+        roomCenter = FindObjectOfType<RoomHusk>();
+
+        string path = "RoomHusk";
+        var North = Instantiate(Resources.Load(path), transform) as GameObject;
+        roomNorth = North.GetComponent<RoomHusk>();
+        var West = Instantiate(Resources.Load(path), transform) as GameObject;
+        roomWest = West.GetComponent<RoomHusk>();
+        var East = Instantiate(Resources.Load(path), transform) as GameObject;
+        roomEast = East.GetComponent<RoomHusk>();
+        var South = Instantiate(Resources.Load(path), transform) as GameObject;
+        roomSouth = South.GetComponent<RoomHusk>();
+
+        // Position them correctly
+        roomNorth.Position(0f, WorldStats.Instance.Z);
+        roomWest.Position(-WorldStats.Instance.X, 0f);
+        roomEast.Position(WorldStats.Instance.X, 0f);
+        roomSouth.Position(0f, -WorldStats.Instance.Z);
+
+        // Rename
+        roomCenter.Name("Center");
+        roomNorth.Name("North");
+        roomWest.Name("West");
+        roomEast.Name("East");
+        roomSouth.Name("South");
     }
     #endregion
 
@@ -57,7 +90,7 @@ public class RoomManager : MonoBehaviour
 
     public void ManifestRoom(Room room)
     {
-        PickRoomGraphics(room, roomHusk);
+        PickRoomGraphics(room, roomCenter);
     }
 
     private void PickRoomGraphics(Room r, RoomHusk husk)
@@ -88,7 +121,7 @@ public class RoomManager : MonoBehaviour
 
         // Instantiate graphics
         GameObject graphics = Instantiate(Resources.Load(path + mockupModifier), husk.transform) as GameObject;
-        husk.SetupRoomHusk(graphics);
+        husk.ChangeRoomHuskGraphics(graphics);
 
         // Rotate them according to the angle
         Quaternion rotation = Quaternion.Euler(0f, angle, 0f);
