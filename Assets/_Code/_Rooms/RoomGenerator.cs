@@ -56,11 +56,11 @@ public class RoomGenerator : MonoBehaviour
         // Generate first room
         GenerateFirstRoom(FromConnection.north);
 
-        // Manifest it
-        RoomManager.Instance.InitiateFirstRoom();
-
         // Keep generating rooms until you have generated enough
         RoomGenerationLoop();
+
+        // Manifest it
+        RoomManager.Instance.InitiateFirstRoom();
     }
 
     private void RoomGenerationLoop()

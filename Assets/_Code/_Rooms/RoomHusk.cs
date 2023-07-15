@@ -13,11 +13,11 @@ public class RoomHusk : MonoBehaviour
     #endregion
 
     #region Setup
-    public void ChangeRoomHuskGraphics(GameObject _graphics)
+    public void ChangeHuskGraphics(GameObject _graphics)
     {
         if (graphics != null) { Destroy(graphics); }
 
-        if (!graphics.activeSelf) { graphics.SetActive(true); }
+        //if (!graphics.activeSelf) { graphics.SetActive(true); }
 
         graphics = _graphics;
     }
@@ -33,9 +33,10 @@ public class RoomHusk : MonoBehaviour
         graphics.transform.rotation = rotation;
     }
 
-    public void HideGraphics()
+    public void HideHuskGraphics()
     {
-        graphics.SetActive(false);
+        //graphics.SetActive(false);
+        if (graphics != null) { Destroy(graphics); }
     }
     #endregion
 

@@ -14,11 +14,11 @@ public class RoomManager : MonoBehaviour
     public int roomsCount { get { return roomsList.Count; } }
 
     // Manifestation
-    RoomHusk roomCenter;
-    RoomHusk roomNorth;
-    RoomHusk roomWest;
-    RoomHusk roomEast;
-    RoomHusk roomSouth;
+    RoomHusk huskCenter;
+    RoomHusk huskNorth;
+    RoomHusk huskWest;
+    RoomHusk huskEast;
+    RoomHusk huskSouth;
 
 
     // String paths
@@ -48,30 +48,30 @@ public class RoomManager : MonoBehaviour
 
     private void SetupRoomHusks()
     {
-        roomCenter = FindObjectOfType<RoomHusk>();
+        huskCenter = FindObjectOfType<RoomHusk>();
 
         string path = "RoomHusk";
         var North = Instantiate(Resources.Load(path), transform) as GameObject;
-        roomNorth = North.GetComponent<RoomHusk>();
+        huskNorth = North.GetComponent<RoomHusk>();
         var West = Instantiate(Resources.Load(path), transform) as GameObject;
-        roomWest = West.GetComponent<RoomHusk>();
+        huskWest = West.GetComponent<RoomHusk>();
         var East = Instantiate(Resources.Load(path), transform) as GameObject;
-        roomEast = East.GetComponent<RoomHusk>();
+        huskEast = East.GetComponent<RoomHusk>();
         var South = Instantiate(Resources.Load(path), transform) as GameObject;
-        roomSouth = South.GetComponent<RoomHusk>();
+        huskSouth = South.GetComponent<RoomHusk>();
 
         // Position them correctly
-        roomNorth.Position(0f, WorldStats.Instance.Z);
-        roomWest.Position(-WorldStats.Instance.X, 0f);
-        roomEast.Position(WorldStats.Instance.X, 0f);
-        roomSouth.Position(0f, -WorldStats.Instance.Z);
+        huskNorth.Position(0f, WorldStats.Instance.Z);
+        huskWest.Position(-WorldStats.Instance.X, 0f);
+        huskEast.Position(WorldStats.Instance.X, 0f);
+        huskSouth.Position(0f, -WorldStats.Instance.Z);
 
         // Rename
-        roomCenter.Name("Center");
-        roomNorth.Name("North");
-        roomWest.Name("West");
-        roomEast.Name("East");
-        roomSouth.Name("South");
+        huskCenter.Name("Center");
+        huskNorth.Name("North");
+        huskWest.Name("West");
+        huskEast.Name("East");
+        huskSouth.Name("South");
     }
     #endregion
 
@@ -85,12 +85,13 @@ public class RoomManager : MonoBehaviour
     #region Manifestation
     public void InitiateFirstRoom()
     {
-        ManifestRoom(roomsList[0]);
+        ManifestRoom(roomsList[0], huskCenter);
+        ChangeAdjacentRooms(roomsList[0]);
     }
 
-    public void ManifestRoom(Room room)
+    public void ManifestRoom(Room room, RoomHusk husk)
     {
-        PickRoomGraphics(room, roomCenter);
+        PickRoomGraphics(room, husk);
     }
 
     private void PickRoomGraphics(Room r, RoomHusk husk)
@@ -121,7 +122,9 @@ public class RoomManager : MonoBehaviour
 
         // Instantiate graphics
         GameObject graphics = Instantiate(Resources.Load(path + mockupModifier), husk.transform) as GameObject;
-        husk.ChangeRoomHuskGraphics(graphics);
+        if (husk == null) { Debug.LogError("No husk found"); }
+        if (graphics == null) { Debug.LogError("No graphics found"); }
+        husk.ChangeHuskGraphics(graphics);
 
         // Rotate them according to the angle
         Quaternion rotation = Quaternion.Euler(0f, angle, 0f);
@@ -163,20 +166,21 @@ public class RoomManager : MonoBehaviour
             {
                 // Change room
                 currentRoom = currentRoom.north.neighbour;
-                ManifestRoom(currentRoom);
+                ManifestRoom(currentRoom, huskCenter);
+                ChangeAdjacentRooms(currentRoom);
             }
         }
         else if (moveVector == Vector3.left)
         {
-            if (currentRoom.west.neighbour != null) { currentRoom = currentRoom.west.neighbour; ManifestRoom(currentRoom); }
+            if (currentRoom.west.neighbour != null) { currentRoom = currentRoom.west.neighbour; ManifestRoom(currentRoom, huskCenter); ChangeAdjacentRooms(currentRoom); }
         }
         else if (moveVector == Vector3.right)
         {
-            if (currentRoom.east.neighbour != null) { currentRoom = currentRoom.east.neighbour; ManifestRoom(currentRoom); }
+            if (currentRoom.east.neighbour != null) { currentRoom = currentRoom.east.neighbour; ManifestRoom(currentRoom, huskCenter); ChangeAdjacentRooms(currentRoom); }
         }
         else if (moveVector == Vector3.back)
         {
-            if (currentRoom.south.neighbour != null) { currentRoom = currentRoom.south.neighbour; ManifestRoom(currentRoom); }
+            if (currentRoom.south.neighbour != null) { currentRoom = currentRoom.south.neighbour; ManifestRoom(currentRoom, huskCenter); ChangeAdjacentRooms(currentRoom); }
         }
         else
         {
@@ -184,6 +188,26 @@ public class RoomManager : MonoBehaviour
         }
 
         DebugLogRoom(currentRoom);
+    }
+
+    private void ChangeAdjacentRooms(Room room)
+    {
+        // Check all adjacent rooms
+
+        // NORTH
+        if (room.north.neighbour != null)
+        {
+            // Change North Husk
+            ManifestRoom(room.north.neighbour, huskNorth);
+        }
+        else
+        {
+            // Hide the graphics of that Husk
+            huskNorth.HideHuskGraphics();
+        }
+        if (room.west.neighbour != null) { ManifestRoom(room.west.neighbour, huskWest); } else { huskWest.HideHuskGraphics(); }
+        if (room.east.neighbour != null) { ManifestRoom(room.east.neighbour, huskEast); } else { huskEast.HideHuskGraphics(); }
+        if (room.south.neighbour != null) { ManifestRoom(room.south.neighbour, huskSouth); } else { huskSouth.HideHuskGraphics(); }
     }
 
     public void DebugAllRooms()
