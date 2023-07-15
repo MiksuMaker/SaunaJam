@@ -50,8 +50,10 @@ public class RoomExplorer : MonoBehaviour
             case (Direction.south): actualMoveVector += Vector3.back * value; break;
         }
 
-        //RoomManager.Instance.TryChangeRoom2(actualMoveVector);
-        MovePlayer(actualMoveVector);
+        if (RoomManager.Instance.TryChangeRoom2(actualMoveVector))
+        {
+            MovePlayer(actualMoveVector);
+        }
     }
 
     private void MovePlayer(Vector3 moveVector)
@@ -62,12 +64,6 @@ public class RoomExplorer : MonoBehaviour
         {
             StopCoroutine(moveCoroutine);
         }
-        //if (turnCoroutine != null)
-        //{
-        //    StopCoroutine(turnCoroutine);
-        //    // Face the direction
-        //    Player.transform.LookAt(moveVector.normalized);
-        //}
         moveCoroutine = MovingCoroutine(4f, moveVector);
         StartCoroutine(moveCoroutine);
     }
@@ -81,18 +77,14 @@ public class RoomExplorer : MonoBehaviour
         float progress = 0f;
 
         Vector3 beginPos = Player.transform.position;
-        //Vector3 beginPos = GetRoundedPos(Player.transform.position);
-        //Vector3 wantedPos = beginPos + (wantedDir * WorldStats.Instance.Scale);
         Vector3 wantedPos = GetRoundedPos2(beginPos + (wantedDir * WorldStats.Instance.Scale));
-        //Vector3 wantedPos = GetRoundedPos(beginPos) + (wantedDir * WorldStats.Instance.Scale);
-        //GetRoundedPos2(beginPos);
 
         while (progress < 1f)
         {
             progress += increment;
 
             Player.transform.position = Vector3.Lerp(beginPos, wantedPos, progress);
-            
+
             yield return wait;
         }
 
@@ -127,7 +119,7 @@ public class RoomExplorer : MonoBehaviour
 
         switch (currentFacingDirection)
         {
-            case (Direction.north): currentDesiredRotation = Vector3.forward;  Turn(Vector3.forward); break;
+            case (Direction.north): currentDesiredRotation = Vector3.forward; Turn(Vector3.forward); break;
             case (Direction.west): currentDesiredRotation = Vector3.left; Turn(Vector3.left); break;
             case (Direction.east): currentDesiredRotation = Vector3.right; Turn(Vector3.right); break;
             case (Direction.south): currentDesiredRotation = Vector3.back; Turn(Vector3.back); break;
@@ -160,7 +152,7 @@ public class RoomExplorer : MonoBehaviour
             progress += increment;
 
             lookDir = Vector3.Lerp(lookDir, wantedDir, progress);
-            
+
             Player.transform.LookAt(lookDir.normalized + Player.transform.position);
 
             yield return wait;

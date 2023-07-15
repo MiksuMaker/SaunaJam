@@ -408,8 +408,8 @@ public class RoomManager : MonoBehaviour
     }
     #endregion
 
-    #region New Husk Movement
-    public void TryChangeRoom2(Vector3 moveVector)
+    #region New Room Movement
+    public bool TryChangeRoom2(Vector3 moveVector)
     {
         if (currentRoom == null) { Debug.Log("Current Room is null"); }
 
@@ -418,43 +418,54 @@ public class RoomManager : MonoBehaviour
             // Try go north
             if (currentRoom.north.neighbour != null)
             {
-                MoveAllRooms(Direction.north, currentRoom.north.neighbour);
+                //MoveAllRooms(Direction.north, currentRoom.north.neighbour);
+                MoveToRoom(Direction.south, currentRoom.north.neighbour);
+                return true;
             }
+            else { return false; }
         }
         else if (moveVector == Vector3.left)
         {
             if (currentRoom.west.neighbour != null)
             {
-                MoveAllRooms(Direction.west, currentRoom.west.neighbour);
+                //MoveAllRooms(Direction.west, currentRoom.west.neighbour);
+                MoveToRoom(Direction.south, currentRoom.west.neighbour);
 
+                return true;
             }
+            else { return false; }
         }
         else if (moveVector == Vector3.right)
         {
             if (currentRoom.east.neighbour != null)
             {
-                MoveAllRooms(Direction.east, currentRoom.east.neighbour);
-
+                //MoveAllRooms(Direction.east, currentRoom.east.neighbour);
+                MoveToRoom(Direction.south, currentRoom.east.neighbour);
+                return true;
             }
+            else { return false; }
         }
         else if (moveVector == Vector3.back)
         {
             if (currentRoom.south.neighbour != null)
             {
-                MoveAllRooms(Direction.south, currentRoom.south.neighbour);
-
+                //MoveAllRooms(Direction.south, currentRoom.south.neighbour);
+                MoveToRoom(Direction.south, currentRoom.south.neighbour);
+                return true;
             }
+            else { return false; }
         }
         else
         {
             Debug.Log("Bonk! There is a wall in " + moveVector.ToString() + " direction");
+            return false;
         }
 
 
         //    //DebugLogRoom(currentRoom);
     }
 
-    private void MoveAllRooms(Direction toDirection, Room newRoom)
+    private void MoveToRoom(Direction toDirection, Room newRoom)
     {
         // Update current room etc.
         currentRoom = newRoom;
