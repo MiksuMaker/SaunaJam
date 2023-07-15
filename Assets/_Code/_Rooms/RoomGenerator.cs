@@ -33,7 +33,7 @@ public class RoomGenerator : MonoBehaviour
 
     
 
-    enum DirConnection
+    enum FromConnection
     {
         north,
         west, east,
@@ -54,7 +54,7 @@ public class RoomGenerator : MonoBehaviour
     public void GenerateRooms()
     {
         // Generate first room
-        GenerateFirstRoom(DirConnection.north);
+        GenerateFirstRoom(FromConnection.north);
 
         // Manifest it
         RoomManager.Instance.InitiateFirstRoom();
@@ -67,7 +67,7 @@ public class RoomGenerator : MonoBehaviour
     {
         while (createdAmountOfRooms < amountOfRooms)
         {
-            if (roomsWithUnfinishedConnections.Count == 0) { break; }
+            if (roomsWithUnfinishedConnections.Count == 0) { Debug.Log("Run out of Unfinished connections!"); break; }
 
             // Pick an unfinished connection room
             Room nextToConnect = roomsWithUnfinishedConnections[0];
@@ -75,6 +75,7 @@ public class RoomGenerator : MonoBehaviour
             // Create rooms for each unconnected connection
             CheckDirectionsAndGenerateIfNecessary(nextToConnect);
         }
+        if (createdAmountOfRooms >= amountOfRooms) { Debug.Log("Created full amount of rooms"); }
 
         // Fill up the rest of  unfinished connections with dead ends
 
@@ -90,19 +91,19 @@ public class RoomGenerator : MonoBehaviour
         if (CheckConnection(r.north))
         {
             // Create a room there
-            GenerateNewRoom(DirConnection.south, r);
+            GenerateNewRoom(FromConnection.south, r);
         }
         if (CheckConnection(r.west))
         {
-            GenerateNewRoom(DirConnection.east, r);
+            GenerateNewRoom(FromConnection.east, r);
         }
         if (CheckConnection(r.east))
         {
-            GenerateNewRoom(DirConnection.west, r);
+            GenerateNewRoom(FromConnection.west, r);
         }
         if (CheckConnection(r.south))
         {
-            GenerateNewRoom(DirConnection.north, r);
+            GenerateNewRoom(FromConnection.north, r);
         }
 
         // Remove from unifinished rooms
@@ -112,7 +113,7 @@ public class RoomGenerator : MonoBehaviour
 
     #region Generation
 
-    private void GenerateFirstRoom(DirConnection connectionDirectionFrom)
+    private void GenerateFirstRoom(FromConnection connectionDirectionFrom)
     {
         // Make new Room
         Room room = new Room();
@@ -135,7 +136,7 @@ public class RoomGenerator : MonoBehaviour
         roomsWithUnfinishedConnections.Add(room);
     }
 
-    private void GenerateNewRoom(DirConnection connectionFrom, Room fromRoom)
+    private void GenerateNewRoom(FromConnection connectionFrom, Room fromRoom)
     {
         // Make new Room
         Room room = new Room();
@@ -176,14 +177,38 @@ public class RoomGenerator : MonoBehaviour
         return t;
     }
 
-    private Orientation DecideOrientation(TypeRoom type, DirConnection connectFrom)
+    private Orientation DecideOrientation(TypeRoom type, FromConnection connectFrom)
     {
-        //return Orientation.north;
+
         switch (type, connectFrom)
         {
-            case (TypeRoom._1_deadEnd, DirConnection.north):
-                //return Orie;
-            break;
+            // DEAD ENDS : No need for randomization
+            case (TypeRoom._1_deadEnd, FromConnection.north): return Orientation.north;
+            case (TypeRoom._1_deadEnd, FromConnection.west): return Orientation.west;
+            case (TypeRoom._1_deadEnd, FromConnection.east): return Orientation.east;
+            case (TypeRoom._1_deadEnd, FromConnection.south): return Orientation.south;
+
+            // STRAIGHTS : No need for randomization
+            case (TypeRoom._2_straight, FromConnection.north): return Orientation.north;
+            case (TypeRoom._2_straight, FromConnection.west): return Orientation.west;
+            case (TypeRoom._2_straight, FromConnection.east): return Orientation.east;
+            case (TypeRoom._2_straight, FromConnection.south): return Orientation.south;
+
+            // CORNERS : Decide a direction
+            case (TypeRoom._2_corner, FromConnection.north): return GetRandomValidOrientation(new Orientation[2] 
+                                                                                                { Orientation.north,
+                                                                                                  Orientation.west});
+            case (TypeRoom._2_corner, FromConnection.west): return GetRandomValidOrientation(new Orientation[2]
+                                                                                                { Orientation.south,
+                                                                                                  Orientation.west});
+            case (TypeRoom._2_corner, FromConnection.east): return GetRandomValidOrientation(new Orientation[2]
+                                                                                                { Orientation.north,
+                                                                                                  Orientation.east});
+            case (TypeRoom._2_corner, FromConnection.south): return GetRandomValidOrientation(new Orientation[2]
+                                                                                                { Orientation.south,
+                                                                                                  Orientation.east});
+
+            default: return Orientation.south;
         }
     }
 
@@ -289,16 +314,16 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
-    private void ConnectRooms(Room previous, Room newOne, DirConnection dir)
+    private void ConnectRooms(Room previous, Room newOne, FromConnection dir)
     {
         // Previous room connects to the new one, new one connects to the previous one
 
         switch (dir)
         {
-            case DirConnection.north: previous.south.neighbour = newOne; newOne.north.neighbour = previous; break;
-            case DirConnection.west: previous.east.neighbour = newOne; newOne.west.neighbour = previous; break;
-            case DirConnection.east: previous.west.neighbour = newOne; newOne.east.neighbour = previous; break;
-            case DirConnection.south: previous.north.neighbour = newOne; newOne.south.neighbour = previous; break;
+            case FromConnection.north: previous.south.neighbour = newOne; newOne.north.neighbour = previous; break;
+            case FromConnection.west: previous.east.neighbour = newOne; newOne.west.neighbour = previous; break;
+            case FromConnection.east: previous.west.neighbour = newOne; newOne.east.neighbour = previous; break;
+            case FromConnection.south: previous.north.neighbour = newOne; newOne.south.neighbour = previous; break;
         }
     }
     #endregion
