@@ -339,15 +339,16 @@ public class RoomManager : MonoBehaviour
         CreateHuskAt(2, 2, cr);
 
         // NORTH
-        //if (cr.north.neighbour != null && husks[2, 3] == null)
         if (cr.north.neighbour != null)
         {
             // Create a husk there
             CreateHuskAt(2, 3, cr.north.neighbour);
-            //if (cr.north.neighbour.north.neighbour != null && husks[2,4] == null)
             if (cr.north.neighbour.north.neighbour != null)
             {
                 CreateHuskAt(2, 4, cr.north.neighbour.north.neighbour);
+
+                if (cr.north.neighbour.north.neighbour.north.neighbour != null)
+                { CreateHuskAt(2, 5, cr.north.neighbour.north.neighbour.north.neighbour); }
             }
         }
 
@@ -361,6 +362,8 @@ public class RoomManager : MonoBehaviour
             if (cr.west.neighbour.west.neighbour != null)
             {
                 CreateHuskAt(0, 2, cr.west.neighbour.west.neighbour);
+                if (cr.west.neighbour.west.neighbour.west.neighbour != null)
+                { CreateHuskAt(-1, 2, cr.west.neighbour.west.neighbour.west.neighbour); }
             }
         }
 
@@ -373,6 +376,8 @@ public class RoomManager : MonoBehaviour
             if (cr.east.neighbour.east.neighbour != null)
             {
                 CreateHuskAt(4, 2, cr.east.neighbour.east.neighbour);
+                if (cr.east.neighbour.east.neighbour.east.neighbour != null)
+                { CreateHuskAt(5, 2, cr.east.neighbour.east.neighbour.east.neighbour); }
             }
         }
 
@@ -385,6 +390,8 @@ public class RoomManager : MonoBehaviour
             if (cr.south.neighbour.south.neighbour != null)
             {
                 CreateHuskAt(2, 0, cr.south.neighbour.south.neighbour);
+                if (cr.south.neighbour.south.neighbour.south.neighbour != null)
+                { CreateHuskAt(2, -1, cr.south.neighbour.south.neighbour.south.neighbour); }
             }
         }
     }
@@ -395,7 +402,7 @@ public class RoomManager : MonoBehaviour
         RoomHusk husk = newHusk.GetComponent<RoomHusk>();
 
         //Debug.Log(x + "," + y);
-        husks[x, y] = husk;
+        //husks[x, y] = husk;
 
         float X = HuskToRoomPosition(x, exaggarate) + desiredLocation.x;
         float Y = HuskToRoomPosition(y, exaggarate) + desiredLocation.z;
@@ -493,31 +500,7 @@ public class RoomManager : MonoBehaviour
         // Update current room etc.
         currentRoom = newRoom;
 
-        // Regenerate Husks
-        //List<RoomHusk> toDeleted = new List<RoomHusk>();
-        //foreach (RoomHusk h in husks)
-        //{
-        //    if (h == null) { continue; }
-        //    toDeleted.Add(h);
-        //}
-
-        //int num = toDeleted.Count;
-        //Debug.Log("Num: " + num);
-        //for (int i = 0; i < num; i++)
-        //{
-        //    Destroy(toDeleted[0].gameObject);
-        //}
-
-        // Delete all children
-        //int childCount = transform.childCount;
-        //Debug.Log(childCount);
-        //int destroyedChildren = 0;
-        //for (int i = 0; i < childCount; i++)
-        //{
-        //    destroyedChildren++;
-        //    Destroy(transform.GetChild(0).gameObject);
-        //}
-        //Debug.Log("Killed children " + destroyedChildren);
+        // Kill all children
         foreach (Transform child in transform)
         {
             Destroy(child.gameObject);
@@ -526,8 +509,6 @@ public class RoomManager : MonoBehaviour
         // Setup new husks
         FillUpRooms(currentRoom, false);
 
-
-        // Delete unnecessary husks
     }
 
     private void AdjustHuskGrid(Direction toDirection)
