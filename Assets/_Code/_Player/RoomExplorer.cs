@@ -14,7 +14,6 @@ public class RoomExplorer : MonoBehaviour
 
     IEnumerator turnCoroutine;
     IEnumerator moveCoroutine;
-    bool moving = false;
     #endregion
 
     #region Setup
