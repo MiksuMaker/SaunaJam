@@ -158,13 +158,11 @@ public class RoomManager : MonoBehaviour
     {
         if (currentRoom == null) { Debug.Log("Current Room is null"); }
 
-        
         if (moveVector == Vector3.forward)
         {
             // Try go north
             if (currentRoom.north.neighbour != null)
             {
-                // Change room
                 currentRoom = currentRoom.north.neighbour;
                 ManifestRoom(currentRoom, huskCenter);
                 ChangeAdjacentRooms(currentRoom);
@@ -172,22 +170,40 @@ public class RoomManager : MonoBehaviour
         }
         else if (moveVector == Vector3.left)
         {
-            if (currentRoom.west.neighbour != null) { currentRoom = currentRoom.west.neighbour; ManifestRoom(currentRoom, huskCenter); ChangeAdjacentRooms(currentRoom); }
+            if (currentRoom.west.neighbour != null) 
+            {
+                currentRoom = currentRoom.west.neighbour;
+                ManifestRoom(currentRoom, huskCenter);
+
+
+                ChangeAdjacentRooms(currentRoom);
+            }
         }
         else if (moveVector == Vector3.right)
         {
-            if (currentRoom.east.neighbour != null) { currentRoom = currentRoom.east.neighbour; ManifestRoom(currentRoom, huskCenter); ChangeAdjacentRooms(currentRoom); }
+            if (currentRoom.east.neighbour != null) 
+            {
+                currentRoom = currentRoom.east.neighbour;
+                ManifestRoom(currentRoom, huskCenter);
+                ChangeAdjacentRooms(currentRoom);
+            }
         }
         else if (moveVector == Vector3.back)
         {
-            if (currentRoom.south.neighbour != null) { currentRoom = currentRoom.south.neighbour; ManifestRoom(currentRoom, huskCenter); ChangeAdjacentRooms(currentRoom); }
+            if (currentRoom.south.neighbour != null) 
+            { 
+                currentRoom = currentRoom.south.neighbour;
+                ManifestRoom(currentRoom, huskCenter);
+                ChangeAdjacentRooms(currentRoom);
+            }
         }
         else
         {
             Debug.Log("Bonk! There is a wall in " + moveVector.ToString() + " direction");
         }
 
-        DebugLogRoom(currentRoom);
+
+        //DebugLogRoom(currentRoom);
     }
 
     private void ChangeAdjacentRooms(Room room)
@@ -208,6 +224,63 @@ public class RoomManager : MonoBehaviour
         if (room.west.neighbour != null) { ManifestRoom(room.west.neighbour, huskWest); } else { huskWest.HideHuskGraphics(); }
         if (room.east.neighbour != null) { ManifestRoom(room.east.neighbour, huskEast); } else { huskEast.HideHuskGraphics(); }
         if (room.south.neighbour != null) { ManifestRoom(room.south.neighbour, huskSouth); } else { huskSouth.HideHuskGraphics(); }
+    }
+
+    private void MoveRoom(RoomHusk husk, Direction moveDirection)
+    {
+        // Adopt graphics from the direction, if there are any
+        switch (moveDirection)
+        {
+            case Direction.north:
+                TryAdoption(huskCenter, huskSouth);
+                TryAdoption(huskNorth, huskCenter);
+
+                // Try to manifest new room in that direction
+
+                // MoveRooms
+                huskNorth.MoveRoom();
+                huskCenter.MoveRoom();
+
+                break;
+
+            case Direction.west:
+                TryAdoption(huskCenter, huskEast);
+                TryAdoption(huskWest, huskCenter);
+
+                // MoveRooms
+                huskWest.MoveRoom();
+                huskCenter.MoveRoom();
+                break;
+
+            case Direction.east:
+                TryAdoption(huskCenter, huskWest);
+                TryAdoption(huskEast, huskCenter);
+
+                // MoveRooms
+                huskEast.MoveRoom();
+                huskCenter.MoveRoom();
+                break;
+
+            case Direction.south:
+                TryAdoption(huskCenter, huskNorth);
+                TryAdoption(huskSouth, huskCenter);
+
+                // MoveRooms
+                huskSouth.MoveRoom();
+                huskCenter.MoveRoom();
+                break;
+        }
+
+    }
+
+    private void TryAdoption(RoomHusk oldParent, RoomHusk newAdopter)
+    {
+        // Check if old Parent is null
+        if (oldParent.hasGraphics)
+        {
+            // Adoption is possible
+            newAdopter.Adopt(oldParent.graphics);
+        }
     }
 
     public void DebugAllRooms()

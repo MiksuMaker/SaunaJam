@@ -8,8 +8,11 @@ public class RoomHusk : MonoBehaviour
 
     #region Properties
     // Generation
-    GameObject graphics;
+    [HideInInspector]
+    public GameObject graphics;
+    public bool hasGraphics { get { return (graphics != null); } }
 
+    IEnumerator roomMover;
     #endregion
 
     #region Setup
@@ -49,6 +52,48 @@ public class RoomHusk : MonoBehaviour
     public void Position(float X, float Z)
     {
         transform.position = new Vector3(X, 0f, Z);
+    }
+    #endregion
+
+    #region Moving
+    public void Adopt(GameObject _graphics)
+    {
+        graphics = _graphics;
+    }
+
+    public void MoveRoom()
+    {
+        MoveRoomGraphics(graphics.transform.position);
+    }
+
+    private void MoveRoomGraphics(Vector3 fromPos)
+    {
+        if (roomMover != null)
+        {
+            StopCoroutine(roomMover);
+        }
+        roomMover = RoomMover(1f, fromPos);
+    }
+
+    IEnumerator RoomMover(float desiredTime, Vector3 fromPos)
+    {
+        float increment = 0.1f;
+
+        WaitForSeconds wait = new WaitForSeconds(increment);
+
+        float waitedTime = 0f;
+        while (waitedTime < desiredTime)
+        {
+            yield return wait;
+
+            waitedTime += increment;
+
+            // Move
+            graphics.transform.position = Vector3.Lerp(fromPos, transform.position, (waitedTime / desiredTime));
+        }
+
+        // Finish moving
+        graphics.transform.position = transform.position;
     }
     #endregion
 }
