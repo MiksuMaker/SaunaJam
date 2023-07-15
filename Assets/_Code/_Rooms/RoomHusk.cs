@@ -61,9 +61,9 @@ public class RoomHusk : MonoBehaviour
         graphics = _graphics;
     }
 
-    public void MoveRoom()
+    public void MoveRoom(Vector3 fromPos)
     {
-        MoveRoomGraphics(graphics.transform.position);
+        MoveRoomGraphics(fromPos * WorldStats.Instance.X);
     }
 
     private void MoveRoomGraphics(Vector3 fromPos)
@@ -73,13 +73,19 @@ public class RoomHusk : MonoBehaviour
             StopCoroutine(roomMover);
         }
         roomMover = RoomMover(1f, fromPos);
+        StartCoroutine(roomMover);
     }
 
     IEnumerator RoomMover(float desiredTime, Vector3 fromPos)
     {
+        //Debug.Log("Began moving");
         float increment = 0.1f;
 
         WaitForSeconds wait = new WaitForSeconds(increment);
+
+
+        // Move graphics to FromPos
+        graphics.transform.position = fromPos;
 
         float waitedTime = 0f;
         while (waitedTime < desiredTime)
@@ -94,6 +100,7 @@ public class RoomHusk : MonoBehaviour
 
         // Finish moving
         graphics.transform.position = transform.position;
+
     }
     #endregion
 }
