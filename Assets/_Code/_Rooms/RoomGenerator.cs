@@ -60,7 +60,8 @@ public class RoomGenerator : MonoBehaviour
         RoomGenerationLoop();
 
         // Manifest it
-        RoomManager.Instance.InitiateFirstRoom();
+        //RoomManager.Instance.InitiateFirstRoom();
+        RoomManager.Instance.LoadInitialRooms();
     }
 
     private void RoomGenerationLoop()

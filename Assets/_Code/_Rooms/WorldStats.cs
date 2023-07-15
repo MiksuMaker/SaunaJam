@@ -20,4 +20,5 @@ public class WorldStats : MonoBehaviour
 
     public float X = 6f;
     public float Z = 6f;
+    public float Scale = 6f;
 }

@@ -14,12 +14,9 @@ public class RoomManager : MonoBehaviour
     public int roomsCount { get { return roomsList.Count; } }
 
     // Manifestation
+    //List<RoomHusk> husks = new List<RoomHusk>();
+    RoomHusk[,] husks = new RoomHusk[5, 5];
     RoomHusk huskCenter;
-    RoomHusk huskNorth;
-    RoomHusk huskWest;
-    RoomHusk huskEast;
-    RoomHusk huskSouth;
-
 
     // String paths
     string deadEnd = "Room 1 DeadEnd";
@@ -43,35 +40,40 @@ public class RoomManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        SetupRoomHusks();
+        //SetupRoomHusks2();
     }
 
     private void SetupRoomHusks()
     {
-        huskCenter = FindObjectOfType<RoomHusk>();
+        //huskCenter = FindObjectOfType<RoomHusk>();
 
-        string path = "RoomHusk";
-        var North = Instantiate(Resources.Load(path), transform) as GameObject;
-        huskNorth = North.GetComponent<RoomHusk>();
-        var West = Instantiate(Resources.Load(path), transform) as GameObject;
-        huskWest = West.GetComponent<RoomHusk>();
-        var East = Instantiate(Resources.Load(path), transform) as GameObject;
-        huskEast = East.GetComponent<RoomHusk>();
-        var South = Instantiate(Resources.Load(path), transform) as GameObject;
-        huskSouth = South.GetComponent<RoomHusk>();
+        //string path = "RoomHusk";
+        //var North = Instantiate(Resources.Load(path), transform) as GameObject;
+        //huskNorth = North.GetComponent<RoomHusk>();
+        //var West = Instantiate(Resources.Load(path), transform) as GameObject;
+        //huskWest = West.GetComponent<RoomHusk>();
+        //var East = Instantiate(Resources.Load(path), transform) as GameObject;
+        //huskEast = East.GetComponent<RoomHusk>();
+        //var South = Instantiate(Resources.Load(path), transform) as GameObject;
+        //huskSouth = South.GetComponent<RoomHusk>();
 
-        // Position them correctly
-        huskNorth.Position(0f, WorldStats.Instance.Z);
-        huskWest.Position(-WorldStats.Instance.X, 0f);
-        huskEast.Position(WorldStats.Instance.X, 0f);
-        huskSouth.Position(0f, -WorldStats.Instance.Z);
+        //// Position them correctly
+        //huskNorth.Position(0f, WorldStats.Instance.Z);
+        //huskWest.Position(-WorldStats.Instance.X, 0f);
+        //huskEast.Position(WorldStats.Instance.X, 0f);
+        //huskSouth.Position(0f, -WorldStats.Instance.Z);
 
-        // Rename
-        huskCenter.Name("Center");
-        huskNorth.Name("North");
-        huskWest.Name("West");
-        huskEast.Name("East");
-        huskSouth.Name("South");
+        //// Rename
+        //huskCenter.Name("Center");
+        //huskNorth.Name("North");
+        //huskWest.Name("West");
+        //huskEast.Name("East");
+        //huskSouth.Name("South");
+    }
+
+    private void SetupRoomHusks2()
+    {
+
     }
     #endregion
 
@@ -85,16 +87,18 @@ public class RoomManager : MonoBehaviour
     #region Manifestation
     public void InitiateFirstRoom()
     {
-        ManifestRoom(roomsList[0], huskCenter, Direction.nullDirection);
-        ChangeAdjacentRooms(roomsList[0]);
+        var firstHusk = Instantiate(Resources.Load("RoomHusk"), transform) as GameObject;
+        huskCenter = firstHusk.GetComponent<RoomHusk>();
+        ManifestRoom(roomsList[0], huskCenter);
+        //ChangeAdjacentRooms(roomsList[0]);
     }
 
-    public void ManifestRoom(Room room, RoomHusk husk, Direction moveDir)
+    public void ManifestRoom(Room room, RoomHusk husk)
     {
-        PickRoomGraphics(room, husk, moveDir);
+        PickRoomGraphics(room, husk);
     }
 
-    private void PickRoomGraphics(Room r, RoomHusk husk, Direction moveDir = Direction.nullDirection)
+    private void PickRoomGraphics(Room r, RoomHusk husk)
     {
         float angle = AngleRoomToOrientation(r.orientation);
 
@@ -105,19 +109,19 @@ public class RoomManager : MonoBehaviour
         {
             case TypeRoom._1_deadEnd:
                 path = deadEnd;
-                    break;
+                break;
             case TypeRoom._2_corner:
                 path = corner;
-                    break;
+                break;
             case TypeRoom._2_straight:
                 path = straight;
-                    break;
+                break;
             case TypeRoom._3_threeway:
                 path = threeway;
-                    break;
+                break;
             case TypeRoom._4_fourway:
                 path = fourway;
-                    break;
+                break;
         }
 
         // Instantiate graphics
@@ -129,9 +133,6 @@ public class RoomManager : MonoBehaviour
         // Rotate them according to the angle
         Quaternion rotation = Quaternion.Euler(0f, angle, 0f);
         husk.RotateGraphics(rotation);
-
-        // Try to move them
-        //MoveRooms(husk, moveDir);
     }
 
     private float AngleRoomToOrientation(Orientation orientation)
@@ -159,133 +160,133 @@ public class RoomManager : MonoBehaviour
     #region Room Moving
     public void TryChangeRoom(Vector3 moveVector)
     {
-        if (currentRoom == null) { Debug.Log("Current Room is null"); }
+        //if (currentRoom == null) { Debug.Log("Current Room is null"); }
 
-        if (moveVector == Vector3.forward)
-        {
-            // Try go north
-            if (currentRoom.north.neighbour != null)
-            {
-                currentRoom = currentRoom.north.neighbour;
-                ManifestRoom(currentRoom, huskCenter, Direction.north);
-                ChangeAdjacentRooms(currentRoom);
-            }
-        }
-        else if (moveVector == Vector3.left)
-        {
-            if (currentRoom.west.neighbour != null) 
-            {
-                currentRoom = currentRoom.west.neighbour;
-                ManifestRoom(currentRoom, huskCenter, Direction.west);
-
-
-                ChangeAdjacentRooms(currentRoom);
-            }
-        }
-        else if (moveVector == Vector3.right)
-        {
-            if (currentRoom.east.neighbour != null) 
-            {
-                currentRoom = currentRoom.east.neighbour;
-                ManifestRoom(currentRoom, huskCenter, Direction.east);
-                ChangeAdjacentRooms(currentRoom);
-            }
-        }
-        else if (moveVector == Vector3.back)
-        {
-            if (currentRoom.south.neighbour != null) 
-            { 
-                currentRoom = currentRoom.south.neighbour;
-                ManifestRoom(currentRoom, huskCenter, Direction.south);
-                ChangeAdjacentRooms(currentRoom);
-            }
-        }
-        else
-        {
-            Debug.Log("Bonk! There is a wall in " + moveVector.ToString() + " direction");
-        }
+        //if (moveVector == Vector3.forward)
+        //{
+        //    // Try go north
+        //    if (currentRoom.north.neighbour != null)
+        //    {
+        //        currentRoom = currentRoom.north.neighbour;
+        //        ManifestRoom(currentRoom, huskCenter, Direction.north);
+        //        ChangeAdjacentRooms(currentRoom);
+        //    }
+        //}
+        //else if (moveVector == Vector3.left)
+        //{
+        //    if (currentRoom.west.neighbour != null)
+        //    {
+        //        currentRoom = currentRoom.west.neighbour;
+        //        ManifestRoom(currentRoom, huskCenter, Direction.west);
 
 
-        //DebugLogRoom(currentRoom);
+        //        ChangeAdjacentRooms(currentRoom);
+        //    }
+        //}
+        //else if (moveVector == Vector3.right)
+        //{
+        //    if (currentRoom.east.neighbour != null)
+        //    {
+        //        currentRoom = currentRoom.east.neighbour;
+        //        ManifestRoom(currentRoom, huskCenter, Direction.east);
+        //        ChangeAdjacentRooms(currentRoom);
+        //    }
+        //}
+        //else if (moveVector == Vector3.back)
+        //{
+        //    if (currentRoom.south.neighbour != null)
+        //    {
+        //        currentRoom = currentRoom.south.neighbour;
+        //        ManifestRoom(currentRoom, huskCenter, Direction.south);
+        //        ChangeAdjacentRooms(currentRoom);
+        //    }
+        //}
+        //else
+        //{
+        //    Debug.Log("Bonk! There is a wall in " + moveVector.ToString() + " direction");
+        //}
+
+
+        //    //DebugLogRoom(currentRoom);
     }
 
-    private void ChangeAdjacentRooms(Room room)
-    {
-        // Check all adjacent rooms
+    //private void ChangeAdjacentRooms(Room room)
+    //{
+    //    // Check all adjacent rooms
 
-        // NORTH
-        if (room.north.neighbour != null)
-        {
-            // Change North Husk
-            ManifestRoom(room.north.neighbour, huskNorth, Direction.north);
-        }
-        else
-        {
-            // Hide the graphics of that Husk
-            huskNorth.HideHuskGraphics();
-        }
-        if (room.west.neighbour != null) { ManifestRoom(room.west.neighbour, huskWest, Direction.west); } else { huskWest.HideHuskGraphics(); }
-        if (room.east.neighbour != null) { ManifestRoom(room.east.neighbour, huskEast, Direction.east); } else { huskEast.HideHuskGraphics(); }
-        if (room.south.neighbour != null) { ManifestRoom(room.south.neighbour, huskSouth, Direction.south); } else { huskSouth.HideHuskGraphics(); }
-    }
+    //    // NORTH
+    //    if (room.north.neighbour != null)
+    //    {
+    //        // Change North Husk
+    //        ManifestRoom(room.north.neighbour, huskNorth, Direction.north);
+    //    }
+    //    else
+    //    {
+    //        // Hide the graphics of that Husk
+    //        huskNorth.HideHuskGraphics();
+    //    }
+    //    if (room.west.neighbour != null) { ManifestRoom(room.west.neighbour, huskWest, Direction.west); } else { huskWest.HideHuskGraphics(); }
+    //    if (room.east.neighbour != null) { ManifestRoom(room.east.neighbour, huskEast, Direction.east); } else { huskEast.HideHuskGraphics(); }
+    //    if (room.south.neighbour != null) { ManifestRoom(room.south.neighbour, huskSouth, Direction.south); } else { huskSouth.HideHuskGraphics(); }
+    //}
 
-    private void MoveRooms(RoomHusk husk, Direction moveDirection)
-    {
-        //Debug.Log("Moving rooms!"); 
-        // Adopt graphics from the direction, if there are any
-        switch (moveDirection)
-        {
-            case Direction.north:
-                //TryAdoption(huskCenter, huskSouth);
-                //TryAdoption(huskNorth, huskCenter);
+    //private void MoveRooms(RoomHusk husk, Direction moveDirection)
+    //{
+    //    //Debug.Log("Moving rooms!"); 
+    //    // Adopt graphics from the direction, if there are any
+    //    switch (moveDirection)
+    //    {
+    //        case Direction.north:
+    //            //TryAdoption(huskCenter, huskSouth);
+    //            //TryAdoption(huskNorth, huskCenter);
 
-                // Try to manifest new room in that direction
+    //            // Try to manifest new room in that direction
 
-                // MoveRooms
-                huskNorth.MoveRoom(Vector3.forward);
-                huskCenter.MoveRoom(Vector3.zero);
+    //            // MoveRooms
+    //            huskNorth.MoveRoom(Vector3.forward);
+    //            huskCenter.MoveRoom(Vector3.zero);
 
-                break;
+    //            break;
 
-            case Direction.west:
-                //TryAdoption(huskCenter, huskEast);
-                //TryAdoption(huskWest, huskCenter);
+    //        case Direction.west:
+    //            //TryAdoption(huskCenter, huskEast);
+    //            //TryAdoption(huskWest, huskCenter);
 
-                // MoveRooms
-                huskWest.MoveRoom(Vector3.right);
-                huskCenter.MoveRoom(Vector3.zero);
-                break;
+    //            // MoveRooms
+    //            huskWest.MoveRoom(Vector3.right);
+    //            huskCenter.MoveRoom(Vector3.zero);
+    //            break;
 
-            case Direction.east:
-                //TryAdoption(huskCenter, huskWest);
-                //TryAdoption(huskEast, huskCenter);
+    //        case Direction.east:
+    //            //TryAdoption(huskCenter, huskWest);
+    //            //TryAdoption(huskEast, huskCenter);
 
-                // MoveRooms
-                huskEast.MoveRoom(Vector3.left);
-                huskCenter.MoveRoom(Vector3.zero);
-                break;
+    //            // MoveRooms
+    //            huskEast.MoveRoom(Vector3.left);
+    //            huskCenter.MoveRoom(Vector3.zero);
+    //            break;
 
-            case Direction.south:
-                //TryAdoption(huskCenter, huskNorth);
-                //TryAdoption(huskSouth, huskCenter);
+    //        case Direction.south:
+    //            //TryAdoption(huskCenter, huskNorth);
+    //            //TryAdoption(huskSouth, huskCenter);
 
-                // MoveRooms
-                huskSouth.MoveRoom(Vector3.back);
-                huskCenter.MoveRoom(Vector3.zero);
-                break;
-        }
+    //            // MoveRooms
+    //            huskSouth.MoveRoom(Vector3.back);
+    //            huskCenter.MoveRoom(Vector3.zero);
+    //            break;
+    //    }
 
-    }
+    //}
 
-    private void TryAdoption(RoomHusk oldParent, RoomHusk newAdopter)
-    {
-        // Check if old Parent is null
-        if (oldParent.hasGraphics)
-        {
-            // Adoption is possible
-            newAdopter.Adopt(oldParent.graphics);
-        }
-    }
+    //private void TryAdoption(RoomHusk oldParent, RoomHusk newAdopter)
+    //{
+    //    // Check if old Parent is null
+    //    if (oldParent.hasGraphics)
+    //    {
+    //        // Adoption is possible
+    //        newAdopter.Adopt(oldParent.graphics);
+    //    }
+    //}
 
     public void DebugAllRooms()
     {
@@ -308,6 +309,97 @@ public class RoomManager : MonoBehaviour
         log += " || " + r.type + " || " + r.orientation;
 
         Debug.Log(log);
+    }
+    #endregion
+
+    #region New Room Movement
+    public void LoadInitialRooms()
+    {
+        var firstHusk = Instantiate(Resources.Load("RoomHusk"), transform) as GameObject;
+        huskCenter = firstHusk.GetComponent<RoomHusk>();
+
+        husks[2, 2] = huskCenter;
+        currentRoom = roomsList[0];
+        ManifestRoom(currentRoom, huskCenter);
+
+        // Fill up the rest of the husks
+        currentRoom = roomsList[0];
+        FillUpRooms(currentRoom);
+    }
+
+    private void FillUpRooms(Room cr)
+    {
+        // Center is at 3,3
+        // Load up everything in the cross pattern
+
+        // NORTH
+        if (cr.north.neighbour != null)
+        {
+            // Create a husk there
+            CreateHuskAt(2, 3, cr.north.neighbour);
+            if (cr.north.neighbour.north.neighbour != null)
+            {
+                CreateHuskAt(2, 4, cr.north.neighbour.north.neighbour);
+            }
+        }
+
+        // WEST
+        if (cr.west.neighbour != null)
+        {
+            CreateHuskAt(1, 2, cr.west.neighbour);
+
+            if (cr.west.neighbour.west.neighbour != null)
+            {
+                CreateHuskAt(0, 2, cr.west.neighbour.west.neighbour);
+            }
+        }
+
+        // EAST
+        if (cr.east.neighbour != null)
+        {
+            CreateHuskAt(3, 2, cr.east.neighbour);
+            if (cr.east.neighbour.east.neighbour != null)
+            {
+                CreateHuskAt(4, 2, cr.east.neighbour.east.neighbour);
+            }
+        }
+
+        // SOUTH
+        if (cr.south.neighbour != null)
+        {
+            CreateHuskAt(2, 1, cr.south.neighbour);
+            if (cr.south.neighbour.south.neighbour != null)
+            {
+                CreateHuskAt(2, 0, cr.south.neighbour.south.neighbour);
+            }
+        }
+    }
+
+    private void CreateHuskAt(int x, int y, Room room)
+    {
+        var newHusk = Instantiate(Resources.Load("RoomHusk")) as GameObject;
+        RoomHusk husk = newHusk.GetComponent<RoomHusk>();
+
+        //Debug.Log(x + "," + y);
+        husks[x, y] = husk;
+
+        float X = HuskToRoomPosition(x);
+        float Y = HuskToRoomPosition(y);
+
+        husk.Position(X, Y);
+        newHusk.transform.parent = transform;
+        husk.Name("Husk " + X + "," + Y);
+
+        ManifestRoom(room, husk);
+    }
+
+    private float HuskToRoomPosition(int value)
+    {
+        float returnValue = 0f;
+
+        returnValue = (value - 2) * WorldStats.Instance.Scale;
+
+        return returnValue;
     }
     #endregion
 }

@@ -56,15 +56,7 @@ public class RoomHusk : MonoBehaviour
     #endregion
 
     #region Moving
-    public void Adopt(GameObject _graphics)
-    {
-        graphics = _graphics;
-    }
-
-    public void MoveRoom(Vector3 fromPos)
-    {
-        MoveRoomGraphics(fromPos * WorldStats.Instance.X);
-    }
+    
 
     private void MoveRoomGraphics(Vector3 fromPos)
     {
