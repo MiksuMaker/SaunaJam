@@ -16,6 +16,7 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
+        CheckForTurnInput();
         CheckForMoveInput();
     }
     #endregion
@@ -29,16 +30,6 @@ public class PlayerInput : MonoBehaviour
         {
             moveVector += Vector3.forward;
         }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            moveVector += Vector3.left;
-
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            moveVector += Vector3.right;
-
-        }
         if (Input.GetKeyDown(KeyCode.S))
         {
             moveVector += Vector3.back;
@@ -49,6 +40,25 @@ public class PlayerInput : MonoBehaviour
 
         if (roomExplorer == null) { Debug.Log("RoomExplorer not found"); }
         roomExplorer.Explore(moveVector);
+    }
+
+    private void CheckForTurnInput()
+    {
+        Vector3 turnVector = Vector3.zero;
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            turnVector += Vector3.left;
+
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            turnVector += Vector3.right;
+        }
+
+        if (turnVector == Vector3.zero) { return; }
+
+        roomExplorer.TurnFacingDirection(turnVector);
     }
     #endregion
 }
