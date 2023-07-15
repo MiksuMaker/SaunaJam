@@ -28,10 +28,10 @@ public class RoomGenerator : MonoBehaviour
 
     List<Room> roomsWithUnfinishedConnections = new List<Room>();
 
-
-
-
-
+    List<Room> north_connections = new List<Room>();
+    List<Room> south_connections = new List<Room>();
+    List<Room> west_connections = new List<Room>();
+    List<Room> east_connections = new List<Room>();
 
     enum DirectionOfConnection
     {
@@ -110,6 +110,28 @@ public class RoomGenerator : MonoBehaviour
         roomsWithUnfinishedConnections.Remove(r);
     }
 
+    private void ListUpPotentialConnections(Room r)
+    {
+        // Check each connection and connect if needed
+        if (CheckConnection(r.north))
+        {
+            // Add to correct list
+            north_connections.Add(r);
+        }
+        if (CheckConnection(r.west))
+        {
+            west_connections.Add(r);
+        }
+        if (CheckConnection(r.east))
+        {
+            east_connections.Add(r);
+        }
+        if (CheckConnection(r.south))
+        {
+            south_connections.Add(r);
+        }
+    }
+
     private void FillDeadEnds()
     {
         // Go through all the rooms, check which ones don't have finished connections
@@ -121,10 +143,61 @@ public class RoomGenerator : MonoBehaviour
         }
 
         // Now that unfinished rooms have been added, go through them, adding dead ends
+        //int stubCount = roomsWithUnfinishedConnections.Count;
+        //for (int i = 0; i < stubCount; i++)
+        //{
+        //    //CheckDirectionsAndGenerateIfNecessary(roomsWithUnfinishedConnections[0], true); // V1, just dead ends
+        //}
+
+        foreach (Room r in roomsWithUnfinishedConnections)
+        {
+            ListUpPotentialConnections(r);
+        }
+
+        // Combine them at random
+        ConnectUpPotentials(north_connections, south_connections, DirectionOfConnection.south);
+        ConnectUpPotentials(west_connections, east_connections, DirectionOfConnection.east);
+
+        roomsWithUnfinishedConnections.Clear();
+
+        // Check again
+        for (int i = 0; i < roomCount; i++)
+        {
+            CheckForUnfinishedConnections(RoomManager.Instance.roomsList[i]);
+        }
+
+        // This time just fill them with dead ends
         int stubCount = roomsWithUnfinishedConnections.Count;
         for (int i = 0; i < stubCount; i++)
         {
-            CheckDirectionsAndGenerateIfNecessary(roomsWithUnfinishedConnections[0], true);
+            CheckDirectionsAndGenerateIfNecessary(roomsWithUnfinishedConnections[0], true); // V1, just dead ends
+        }
+    }
+
+    private void ConnectUpPotentials(List<Room> a, List<Room> b, DirectionOfConnection fromAtoB)
+    {
+
+        int a_count = a.Count;
+        int b_count = b.Count;
+
+        int max = Mathf.Min(a_count, b_count);
+
+        // Connect random members of each team to each other
+        for (int i = 0; i < max; i++)
+        {
+            // Take random members
+            Room A = a[Random.Range(0, a.Count)];
+            Room B = b[Random.Range(0, b.Count)];
+
+            // Check that they're not the same
+            if (A == B) { continue; }
+
+            // Connect them!
+            ConnectRooms(A, B, fromAtoB);
+
+            // Remove them from the lists
+            a.Remove(A);
+            b.Remove(B);
         }
     }
     #endregion
