@@ -703,8 +703,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f80963366a578de428519a44cd107265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amountOfRooms: 40
+  amountOfRooms: 15
   roomParent: {fileID: 2097705100}
+  startingLayout: {fileID: 11400000, guid: 1f9c47770d4c11a48b979fc754ef4c25, type: 2}
 --- !u!114 &2010123005
 MonoBehaviour:
   m_ObjectHideFlags: 0

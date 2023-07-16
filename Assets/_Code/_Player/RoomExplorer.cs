@@ -167,7 +167,7 @@ public class RoomExplorer : MonoBehaviour
 
         Vector3 roundedPos = new Vector3(x, 0f, y);
 
-        Debug.Log(roundedPos.ToString());
+        //Debug.Log(roundedPos.ToString());
 
         return roundedPos;
     }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Room
 {
     // Room is used to store the data about the rooms
@@ -15,9 +16,23 @@ public class Room
     public Connection east;
     public Connection south;
 
-    public Room()
+    public int depth;
+
+    public Room(int _depth = 0)
     {
         name = Random.Range(0, 100).ToString();
+
+        north = new Connection();
+        west = new Connection();
+        east = new Connection();
+        south = new Connection();
+
+        depth = _depth;
+    }
+
+    public Room(string _name)
+    {
+        name = _name;
 
         north = new Connection();
         west = new Connection();

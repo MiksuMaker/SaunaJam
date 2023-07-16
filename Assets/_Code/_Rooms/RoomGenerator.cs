@@ -8,6 +8,8 @@ public enum TypeRoom
     _2_corner, _2_straight,
     _3_threeway,
     _4_fourway,
+
+    random,
 }
 
 public enum Orientation
@@ -33,6 +35,10 @@ public class RoomGenerator : MonoBehaviour
     List<Room> west_connections = new List<Room>();
     List<Room> east_connections = new List<Room>();
 
+    [Space(10)]
+    [SerializeField]
+    PreSet startingLayout;
+
     enum DirectionOfConnection
     {
         north,
@@ -54,7 +60,7 @@ public class RoomGenerator : MonoBehaviour
     public void GenerateRooms()
     {
         // Generate first room
-        GenerateFirstRoom(DirectionOfConnection.north);
+        GenerateFirstRooms();
 
         // Keep generating rooms until you have generated enough
         RoomGenerationLoop();
@@ -142,12 +148,6 @@ public class RoomGenerator : MonoBehaviour
             CheckForUnfinishedConnections(RoomManager.Instance.roomsList[i]);
         }
 
-        // Now that unfinished rooms have been added, go through them, adding dead ends
-        //int stubCount = roomsWithUnfinishedConnections.Count;
-        //for (int i = 0; i < stubCount; i++)
-        //{
-        //    //CheckDirectionsAndGenerateIfNecessary(roomsWithUnfinishedConnections[0], true); // V1, just dead ends
-        //}
 
         foreach (Room r in roomsWithUnfinishedConnections)
         {
@@ -181,6 +181,7 @@ public class RoomGenerator : MonoBehaviour
         int b_count = b.Count;
 
         int max = Mathf.Min(a_count, b_count);
+        //Debug.Log("Max connections: " + max);
 
         // Connect random members of each team to each other
         for (int i = 0; i < max; i++)
@@ -204,16 +205,131 @@ public class RoomGenerator : MonoBehaviour
 
     #region Generation
 
-    private void GenerateFirstRoom(DirectionOfConnection connectionDirectionFrom)
+    private void GenerateFirstRooms()
+    {
+        // Check if Starting Layout has been given
+        if (startingLayout != null)
+        {
+            // Use the Starting Layout
+            UnravelStartingLayout();
+        }
+        else
+        {
+            DoBasicLayout();
+        }
+    }
+
+    private void UnravelStartingLayout()
+    {
+        List<(Room, PreSet.Layout)> startingRooms = new List<(Room, PreSet.Layout)>();
+
+        // Go through all the Rooms, create them
+        foreach (PreSet.Layout i in startingLayout.instructions)
+        {
+            // Create a room
+            Room r = new Room();
+            r.name = i.name;
+            r.type = i.type;
+            r.orientation = i.orientation;
+            SetupRoomWalls(r, r.type, r.orientation);
+            RoomManager.Instance.AddRoomToList(r);
+
+            // Pair it up
+            startingRooms.Add((r, i));
+        }
+
+        // Connect up all the rooms accordingly
+        int n = startingRooms.Count;
+        Debug.Log("Starting Rooms Count: " + startingRooms.Count);
+        foreach (var s in startingRooms)
+        {
+            #region Neighbour check zone
+            // Check that it isn't connected yet AND desires a neighbour
+            if (s.Item2.north_Neighbour_name != "")
+            {
+                // Go through all the rooms and check what is named as the neighbour
+                for (int i = 0; i < n; i++)
+                {
+                    if (startingRooms[i] == s) { continue; }
+
+                    if (startingRooms[i].Item2.name == s.Item2.north_Neighbour_name)
+                    {
+                        // They are neighbours! ---> CONNECT THEM
+                        ConnectRooms(s.Item1, startingRooms[i].Item1, DirectionOfConnection.south);
+                        DebugRoomCreation(s.Item1, startingRooms[i].Item1);
+                    }
+                }
+
+            }
+            #region Rest of the checks
+            // WEST
+            if (s.Item2.west_Neighbour_name != "")
+            {
+                // Go through all the rooms and check what is named as the neighbour
+                for (int i = 0; i < n; i++)
+                {
+                    if (startingRooms[i] == s) { continue; }
+                    if (startingRooms[i].Item2.name == s.Item2.west_Neighbour_name) 
+                    { ConnectRooms(s.Item1, startingRooms[i].Item1, DirectionOfConnection.east);
+                        DebugRoomCreation(s.Item1, startingRooms[i].Item1);
+                    }
+                }
+            }
+            // EAST
+            if (s.Item2.east_Neighbour_name!= "")
+            {
+                // Go through all the rooms and check what is named as the neighbour
+                for (int i = 0; i < n; i++)
+                {
+                    if (startingRooms[i] == s) { continue; }
+                    if (startingRooms[i].Item2.name == s.Item2.east_Neighbour_name)
+                    { ConnectRooms(s.Item1, startingRooms[i].Item1, DirectionOfConnection.west);
+                        DebugRoomCreation(s.Item1, startingRooms[i].Item1);
+                    }
+                }
+            }
+            // SOUTH
+            //if (s.Item1.south == null && s.Item2.south_Neighbour_name != "")
+            //if (s.Item1.south == null)
+                if (s.Item2.south_Neighbour_name != "")
+            {
+                // Go through all the rooms and check what is named as the neighbour
+                for (int i = 0; i < n; i++)
+                {
+                    if (startingRooms[i] == s) { continue; }
+                    if (startingRooms[i].Item2.name == s.Item2.south_Neighbour_name)
+                    { ConnectRooms(s.Item1, startingRooms[i].Item1, DirectionOfConnection.north);
+                        DebugRoomCreation(s.Item1, startingRooms[i].Item1);
+                    }
+                }
+            }
+            #endregion
+            #endregion
+        }
+
+        // See if there are any unfinished rooms
+        foreach (var u in startingRooms)
+        {
+            // Check each for unfinished rooms
+            CheckForUnfinishedConnections(u.Item1);
+        }
+    }
+
+    private void DebugRoomCreation(Room r1, Room r2)
+    {
+        Debug.Log("Room " + r1.name + " has been connected with Room " + r2.name);
+    }
+
+    private void DoBasicLayout()
     {
         // Make new Room
-        Room room = new Room();
+        Room room = new Room(1);
 
         // Room type
         room.type = DecideRoomType(true);
 
         // Orientation
-        room.orientation = DecideOrientation(room.type, connectionDirectionFrom);
+        room.orientation = DecideOrientation(room.type, DirectionOfConnection.north);
 
         // Setup walls for the Room
         SetupRoomWalls(room, room.type, room.orientation);
@@ -223,14 +339,24 @@ public class RoomGenerator : MonoBehaviour
         RoomManager.Instance.currentRoom = room;
 
         createdAmountOfRooms++;
+        roomsWithUnfinishedConnections.Add(room);   // Add to Unfinished rooms
 
-        roomsWithUnfinishedConnections.Add(room);
+        // Make the Sauna room a dead end in front of Player
+        Room saunaRoom = new Room(0);
+        saunaRoom.type = TypeRoom._1_deadEnd;
+        saunaRoom.orientation = Orientation.south;
+        SetupRoomWalls(saunaRoom, saunaRoom.type, saunaRoom.orientation);
+        RoomManager.Instance.AddRoomToList(saunaRoom);
+        createdAmountOfRooms++;
+
+        // Connect them
+        ConnectRooms(saunaRoom, room, DirectionOfConnection.north);
     }
 
     private void GenerateNewRoom(DirectionOfConnection connectionFrom, Room fromRoom, bool forceDeadEnd = false)
     {
         // Make new Room
-        Room room = new Room();
+        Room room = new Room(fromRoom.depth + 1);
 
         // Room type
         if (!forceDeadEnd) { room.type = DecideRoomType(); } else { room.type = TypeRoom._1_deadEnd; }

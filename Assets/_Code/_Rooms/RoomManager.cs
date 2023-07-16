@@ -198,6 +198,8 @@ public class RoomManager : MonoBehaviour
 
         log += " || " + r.type + " || " + r.orientation;
 
+        log += " || Depth: " + r.depth;
+
         Debug.Log(log);
     }
     #endregion
@@ -395,6 +397,8 @@ public class RoomManager : MonoBehaviour
         // Setup new husks
         FillUpRooms(currentRoom, false);
 
+
+        DebugLogRoom(currentRoom);
     }
 
 
