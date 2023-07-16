@@ -7,6 +7,7 @@ public class Room
 {
     // Room is used to store the data about the rooms
     public string name;
+    public int depth;
 
     public TypeRoom type;
     public Orientation orientation;
@@ -16,7 +17,7 @@ public class Room
     public Connection east;
     public Connection south;
 
-    public int depth;
+    public List<Item> items = new List<Item>();
 
     public Room(int _depth = 0)
     {
