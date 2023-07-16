@@ -220,9 +220,6 @@ public class RoomManager : MonoBehaviour
 
     private void FillUpRooms(Room cr, bool exaggarate = false)
     {
-        // Center is at 3,3
-        // Load up everything in the cross pattern
-
         // CENTER
         CreateHuskAt(2, 2, cr);
 
@@ -289,8 +286,7 @@ public class RoomManager : MonoBehaviour
         var newHusk = Instantiate(Resources.Load("RoomHusk")) as GameObject;
         RoomHusk husk = newHusk.GetComponent<RoomHusk>();
 
-        //Debug.Log(x + "," + y);
-        //husks[x, y] = husk;
+
 
         float X = HuskToRoomPosition(x, exaggarate) + desiredLocation.x;
         float Y = HuskToRoomPosition(y, exaggarate) + desiredLocation.z;
@@ -300,6 +296,9 @@ public class RoomManager : MonoBehaviour
         husk.Name("Husk " + X + "," + Y);
 
         ManifestRoom(room, husk);
+
+        // Manifest Items too
+        ItemManager.Instance.ManifestRoomItems(room, new Vector3(X, 0f, Y));
     }
 
     private float HuskToRoomPosition(int value, bool exaggarate = false)
@@ -393,6 +392,8 @@ public class RoomManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+        // Demanifest all items
+        ItemManager.Instance.ClearManifestations();
 
         // Setup new husks
         FillUpRooms(currentRoom, false);

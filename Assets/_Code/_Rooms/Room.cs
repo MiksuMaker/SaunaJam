@@ -18,6 +18,7 @@ public class Room
     public Connection south;
 
     public List<Item> items = new List<Item>();
+    public bool hasItems { get { return (items.Count != 0); } }
 
     public Room(int _depth = 0)
     {

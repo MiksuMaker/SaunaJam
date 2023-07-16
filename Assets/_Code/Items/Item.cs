@@ -7,6 +7,7 @@ public class Item
 {
     // Abstract object. Used to spawn in Item Manifests (gameobjects with distinct behaviours)
 
+
     public enum Type
     {
         // Major Objects
@@ -20,6 +21,7 @@ public class Item
     }
 
     public Type type;
-    public Orientation whichWallIsItOn;
+    public Orientation wallOrientation;
 
+    public string description = "";
 }

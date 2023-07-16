@@ -91,53 +91,7 @@ public class RoomGenerator : MonoBehaviour
         FillDeadEnds();
     }
 
-    private void CheckDirectionsAndGenerateIfNecessary(Room r, bool forceDeadEnd = false)
-    {
-        // Check each connection and connect if needed
-        if (CheckConnection(r.north))
-        {
-            // Create a room there
-            GenerateNewRoom(DirectionOfConnection.south, r, forceDeadEnd);
-        }
-        if (CheckConnection(r.west))
-        {
-            GenerateNewRoom(DirectionOfConnection.east, r, forceDeadEnd);
-        }
-        if (CheckConnection(r.east))
-        {
-            GenerateNewRoom(DirectionOfConnection.west, r, forceDeadEnd);
-        }
-        if (CheckConnection(r.south))
-        {
-            GenerateNewRoom(DirectionOfConnection.north, r, forceDeadEnd);
-        }
-
-        // Remove from unifinished rooms
-        roomsWithUnfinishedConnections.Remove(r);
-    }
-
-    private void ListUpPotentialConnections(Room r)
-    {
-        // Check each connection and connect if needed
-        if (CheckConnection(r.north))
-        {
-            // Add to correct list
-            north_connections.Add(r);
-        }
-        if (CheckConnection(r.west))
-        {
-            west_connections.Add(r);
-        }
-        if (CheckConnection(r.east))
-        {
-            east_connections.Add(r);
-        }
-        if (CheckConnection(r.south))
-        {
-            south_connections.Add(r);
-        }
-    }
-
+    
     private void FillDeadEnds()
     {
         // Go through all the rooms, check which ones don't have finished connections
@@ -205,6 +159,7 @@ public class RoomGenerator : MonoBehaviour
 
     #region Generation
 
+    #region SETUP
     private void GenerateFirstRooms()
     {
         // Check if Starting Layout has been given
@@ -233,6 +188,8 @@ public class RoomGenerator : MonoBehaviour
             r.orientation = i.orientation;
             SetupRoomWalls(r, r.type, r.orientation);
             RoomManager.Instance.AddRoomToList(r);
+
+            if (r.name == "Sauna") { SetupSauna(r); }
 
             // Pair it up
             startingRooms.Add((r, i));
@@ -289,8 +246,6 @@ public class RoomGenerator : MonoBehaviour
                 }
             }
             // SOUTH
-            //if (s.Item1.south == null && s.Item2.south_Neighbour_name != "")
-            //if (s.Item1.south == null)
                 if (s.Item2.south_Neighbour_name != "")
             {
                 // Go through all the rooms and check what is named as the neighbour
@@ -353,6 +308,13 @@ public class RoomGenerator : MonoBehaviour
         ConnectRooms(saunaRoom, room, DirectionOfConnection.north);
     }
 
+    private void SetupSauna(Room r)
+    {
+        ItemManager.Instance.SetupSauna(r);
+    }
+    #endregion
+
+    #region New Room Generation
     private void GenerateNewRoom(DirectionOfConnection connectionFrom, Room fromRoom, bool forceDeadEnd = false)
     {
         // Make new Room
@@ -556,6 +518,8 @@ public class RoomGenerator : MonoBehaviour
     }
     #endregion
 
+    #endregion
+
     #region Connections
     private void CheckForUnfinishedConnections(Room r)
     {
@@ -605,6 +569,54 @@ public class RoomGenerator : MonoBehaviour
             case DirectionOfConnection.south: previous.north.neighbour = newOne; newOne.south.neighbour = previous; break;
         }
     }
+
+    private void CheckDirectionsAndGenerateIfNecessary(Room r, bool forceDeadEnd = false)
+    {
+        // Check each connection and connect if needed
+        if (CheckConnection(r.north))
+        {
+            // Create a room there
+            GenerateNewRoom(DirectionOfConnection.south, r, forceDeadEnd);
+        }
+        if (CheckConnection(r.west))
+        {
+            GenerateNewRoom(DirectionOfConnection.east, r, forceDeadEnd);
+        }
+        if (CheckConnection(r.east))
+        {
+            GenerateNewRoom(DirectionOfConnection.west, r, forceDeadEnd);
+        }
+        if (CheckConnection(r.south))
+        {
+            GenerateNewRoom(DirectionOfConnection.north, r, forceDeadEnd);
+        }
+
+        // Remove from unifinished rooms
+        roomsWithUnfinishedConnections.Remove(r);
+    }
+
+    private void ListUpPotentialConnections(Room r)
+    {
+        // Check each connection and connect if needed
+        if (CheckConnection(r.north))
+        {
+            // Add to correct list
+            north_connections.Add(r);
+        }
+        if (CheckConnection(r.west))
+        {
+            west_connections.Add(r);
+        }
+        if (CheckConnection(r.east))
+        {
+            east_connections.Add(r);
+        }
+        if (CheckConnection(r.south))
+        {
+            south_connections.Add(r);
+        }
+    }
+
     #endregion
 }
 
