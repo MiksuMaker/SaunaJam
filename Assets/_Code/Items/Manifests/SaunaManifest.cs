@@ -8,9 +8,9 @@ public class SaunaManifest : ItemManifest
     #endregion
 
     #region Setup
-    public override void SetupManifest(Vector3 worldPos)
+    public override void SetupManifest(Item item, Vector3 worldPos)
     {
-        base.SetupManifest(worldPos);
+        base.SetupManifest(item, worldPos);
     }
     #endregion
 

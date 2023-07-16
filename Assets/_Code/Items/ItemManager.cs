@@ -58,7 +58,7 @@ public class ItemManager : MonoBehaviour
 
         manifestationsList.Add(manifest);
 
-        manifest.SetupManifest(roomCoordinates);
+        manifest.SetupManifest(item, roomCoordinates);
     }
 
     public void DeManifestItem(ItemManifest manifest)
@@ -96,6 +96,15 @@ public class ItemManager : MonoBehaviour
     #endregion
 
     #region PutItems
+    public void DecorateRoom(Room r, List<Item> itemList)
+    {
+        foreach (Item i in itemList)
+        {
+            //CreateAndAddItem(i.type, r, i.wallOrientation);
+            AddItem(i, r, i.wallOrientation);
+        }
+    }
+
     public void AddItem(Item item, Room r, Orientation wall)
     {
         item.wallOrientation = wall;
@@ -104,7 +113,17 @@ public class ItemManager : MonoBehaviour
 
     public void CreateAndAddItem(Item.Type type, Room r, Orientation wall)
     {
-        
+        Item item = new Item();
+        switch (type)
+        {
+            case Item.Type.sauna: item.type = Item.Type.sauna; break;
+            case Item.Type.saunaStone: item.type = Item.Type.saunaStone; break;
+            case Item.Type.water: item.type = Item.Type.water; break;
+            case Item.Type.woodLog: item.type = Item.Type.woodLog; break;
+            case Item.Type.writing: item.type = Item.Type.writing; break;
+        }
+
+        AddItem(item, r, wall);
     }
     #endregion
 

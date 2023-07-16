@@ -188,8 +188,8 @@ public class RoomGenerator : MonoBehaviour
             r.orientation = i.orientation;
             SetupRoomWalls(r, r.type, r.orientation);
             RoomManager.Instance.AddRoomToList(r);
-
-            if (r.name == "Sauna") { SetupSauna(r); }
+            //SetupSauna(r);
+            SetupItems(r, i);
 
             // Pair it up
             startingRooms.Add((r, i));
@@ -213,7 +213,7 @@ public class RoomGenerator : MonoBehaviour
                     {
                         // They are neighbours! ---> CONNECT THEM
                         ConnectRooms(s.Item1, startingRooms[i].Item1, DirectionOfConnection.south);
-                        DebugRoomCreation(s.Item1, startingRooms[i].Item1);
+                        //DebugRoomCreation(s.Item1, startingRooms[i].Item1);
                     }
                 }
 
@@ -228,7 +228,7 @@ public class RoomGenerator : MonoBehaviour
                     if (startingRooms[i] == s) { continue; }
                     if (startingRooms[i].Item2.name == s.Item2.west_Neighbour_name) 
                     { ConnectRooms(s.Item1, startingRooms[i].Item1, DirectionOfConnection.east);
-                        DebugRoomCreation(s.Item1, startingRooms[i].Item1);
+                        //DebugRoomCreation(s.Item1, startingRooms[i].Item1);
                     }
                 }
             }
@@ -241,7 +241,7 @@ public class RoomGenerator : MonoBehaviour
                     if (startingRooms[i] == s) { continue; }
                     if (startingRooms[i].Item2.name == s.Item2.east_Neighbour_name)
                     { ConnectRooms(s.Item1, startingRooms[i].Item1, DirectionOfConnection.west);
-                        DebugRoomCreation(s.Item1, startingRooms[i].Item1);
+                        //DebugRoomCreation(s.Item1, startingRooms[i].Item1);
                     }
                 }
             }
@@ -254,7 +254,7 @@ public class RoomGenerator : MonoBehaviour
                     if (startingRooms[i] == s) { continue; }
                     if (startingRooms[i].Item2.name == s.Item2.south_Neighbour_name)
                     { ConnectRooms(s.Item1, startingRooms[i].Item1, DirectionOfConnection.north);
-                        DebugRoomCreation(s.Item1, startingRooms[i].Item1);
+                        //DebugRoomCreation(s.Item1, startingRooms[i].Item1);
                     }
                 }
             }
@@ -311,6 +311,17 @@ public class RoomGenerator : MonoBehaviour
     private void SetupSauna(Room r)
     {
         ItemManager.Instance.SetupSauna(r);
+    }
+
+    private void SetupItems(Room r, PreSet.Layout l)
+    {
+        if (!l.hasItems) 
+        { 
+            //Debug.Log("Room " + l.name + " has no Items!"); 
+            return;
+        }
+
+        ItemManager.Instance.DecorateRoom(r, l.items);
     }
     #endregion
 

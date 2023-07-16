@@ -10,8 +10,10 @@ public class ItemManifest : MonoBehaviour
     #endregion
 
     #region Setup
-    public virtual void SetupManifest(Vector3 worldPos)
+    public virtual void SetupManifest(Item item, Vector3 worldPos)
     {
+        this.item = item;
+
         // Setup position and rotation
         transform.position = worldPos;
         RotationToOrientation(item.wallOrientation);

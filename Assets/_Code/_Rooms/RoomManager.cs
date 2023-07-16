@@ -200,6 +200,8 @@ public class RoomManager : MonoBehaviour
 
         log += " || Depth: " + r.depth;
 
+        log += " || Items: " + r.hasItems;
+
         Debug.Log(log);
     }
     #endregion

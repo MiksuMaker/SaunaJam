@@ -21,8 +21,8 @@ public class PreSet : ScriptableObject
         public string east_Neighbour_name = "";
         public string south_Neighbour_name = "";
 
-        public bool saunaRoom = false;
-        public bool firstRoom = false;
+        public List<Item> items = new List<Item>();
+        public bool hasItems {  get { return (items.Count != 0); } }
     }
 
 }
