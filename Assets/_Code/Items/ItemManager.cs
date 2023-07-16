@@ -7,7 +7,7 @@ public class ItemManager : MonoBehaviour
     #region Properties
     static public ItemManager Instance;
 
-    List<ItemManifest> manifestationsList = new List<ItemManifest>();
+    List<(ItemManifest, Room)> manifestationsList = new List<(ItemManifest, Room)>();
     string manifestPath = "Items/ItemManifest";
 
     Transform itemParent;
@@ -46,24 +46,24 @@ public class ItemManager : MonoBehaviour
 
         foreach (Item i in r.items)
         {
-            ManifestItem(i, roomCoordinates);
+            ManifestItem(i, r, roomCoordinates);
         }
     }
 
-    public void ManifestItem(Item item, Vector3 roomCoordinates)
+    public void ManifestItem(Item item, Room r, Vector3 roomCoordinates)
     {
         //GameObject itemGO = Instantiate(Resources.Load(manifestPath), itemParent) as GameObject;
         GameObject itemGO = Instantiate(Resources.Load(ItemTypeToPath(item)), itemParent) as GameObject;
         ItemManifest manifest = itemGO.GetComponent<ItemManifest>() as ItemManifest;
 
-        manifestationsList.Add(manifest);
+        manifestationsList.Add((manifest, r));
 
         manifest.SetupManifest(item, roomCoordinates);
     }
 
-    public void DeManifestItem(ItemManifest manifest)
+    public void DeManifestItem(ItemManifest manifest, Room r)
     {
-        manifestationsList.Remove(manifest);
+        manifestationsList.Remove((manifest, r));
         Destroy(manifest.go);
     }
 
@@ -127,6 +127,53 @@ public class ItemManager : MonoBehaviour
     }
     #endregion
 
+    #region Item Handling
+    public bool TestForItem(Room r, Orientation facingOrientation)
+    {
+        if (!r.hasItems) { return false; }
+
+        foreach (var i in r.items)
+        {
+            if (i.wallOrientation == facingOrientation)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ItemManifest GetItem(Room r, Orientation facingOrientation)
+    {
+        foreach (var i in manifestationsList)
+        {
+            if (r == i.Item2)
+            {
+                //if (TestForItem(r, facingOrientation))
+                //{
+                //}
+                return i.Item1;
+            }
+        }
+        return null;
+    }
+
+    public void RemoveItem(ItemManifest manifest)
+    {
+        // Remove from room
+        foreach (var pair in manifestationsList)
+        {
+            if (pair.Item1 == manifest)
+            {
+                // Remove Item from room
+                pair.Item2.items.Remove(pair.Item1.item);
+
+                // Destroy Item Manifestation
+                DeManifestItem(manifest, pair.Item2);
+            }
+        }
+    }
+    #endregion
+
     #region Wall picking
     private Orientation PickRandomWall(Room r)
     {
@@ -138,7 +185,7 @@ public class ItemManager : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             int newRandNum;
-            while(true)
+            while (true)
             {
                 newRandNum = Random.Range(0, 4);
                 if (!usedNums.Contains(newRandNum))

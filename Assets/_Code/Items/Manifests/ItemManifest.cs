@@ -20,7 +20,18 @@ public class ItemManifest : MonoBehaviour
     }
     #endregion
 
-    #region Functions
+    #region Handling
+    public virtual void UseItem()
+    {
+        // Do what you want the item to do here
+        Debug.Log("Item " + item.type + " in use!");
+
+        // Destroy after use
+        ItemManager.Instance.RemoveItem(this);
+    }
+    #endregion
+
+    #region Helpers
     protected void RotationToOrientation(Orientation wall)
     {
         float angle = 0f;

@@ -13,24 +13,6 @@ MonoBehaviour:
   m_Name: Trippy
   m_EditorClassIdentifier: 
   instructions:
-  - name: Sauna
-    type: 0
-    orientation: 3
-    north_Neighbour_name: 
-    west_Neighbour_name: 
-    east_Neighbour_name: 
-    south_Neighbour_name: Inbetween
-    saunaRoom: 1
-    firstRoom: 0
-  - name: Inbetween
-    type: 3
-    orientation: 0
-    north_Neighbour_name: Sauna
-    west_Neighbour_name: 
-    east_Neighbour_name: 
-    south_Neighbour_name: Intersection
-    saunaRoom: 0
-    firstRoom: 0
   - name: Intersection
     type: 4
     orientation: 0
@@ -38,8 +20,29 @@ MonoBehaviour:
     west_Neighbour_name: 
     east_Neighbour_name: 
     south_Neighbour_name: 
-    saunaRoom: 0
-    firstRoom: 1
+    items:
+    - type: 0
+      wallOrientation: 1
+      description: 
+  - name: Sauna
+    type: 0
+    orientation: 3
+    north_Neighbour_name: 
+    west_Neighbour_name: 
+    east_Neighbour_name: 
+    south_Neighbour_name: Inbetween
+    items:
+    - type: 0
+      wallOrientation: 2
+      description: 
+  - name: Inbetween
+    type: 3
+    orientation: 0
+    north_Neighbour_name: Sauna
+    west_Neighbour_name: 
+    east_Neighbour_name: 
+    south_Neighbour_name: Intersection
+    items: []
   - name: LeftToUp
     type: 1
     orientation: 1
@@ -47,8 +50,7 @@ MonoBehaviour:
     west_Neighbour_name: Intersection
     east_Neighbour_name: 
     south_Neighbour_name: 
-    saunaRoom: 0
-    firstRoom: 0
+    items: []
   - name: UpToRight
     type: 1
     orientation: 2
@@ -56,5 +58,4 @@ MonoBehaviour:
     west_Neighbour_name: 
     east_Neighbour_name: Intersection
     south_Neighbour_name: LeftToUp
-    saunaRoom: 0
-    firstRoom: 0
+    items: []

@@ -10,14 +10,17 @@ public class RoomExplorer : MonoBehaviour
 
     [SerializeField]
     GameObject Player;
-
+    ItemHandler itemHandler;
 
     IEnumerator turnCoroutine;
     IEnumerator moveCoroutine;
     #endregion
 
     #region Setup
-
+    private void Awake()
+    {
+        itemHandler = FindObjectOfType<ItemHandler>();
+    }
     #endregion
 
     #region Functions
@@ -51,6 +54,28 @@ public class RoomExplorer : MonoBehaviour
         if (RoomManager.Instance.TryChangeRoom2(actualMoveVector))
         {
             MovePlayer(actualMoveVector);
+        }
+        else
+        {
+            // Check if there is item there
+            if (ItemManager.Instance.TestForItem(RoomManager.Instance.currentRoom,
+                                                DirToOrientation(currentFacingDirection)))
+            {
+                itemHandler.InteractWithItem(ItemManager.Instance.GetItem(RoomManager.Instance.currentRoom,
+                                                                          DirToOrientation(currentFacingDirection)));
+            }
+        }
+    }
+
+    private Orientation DirToOrientation(Direction dir)
+    {
+        switch (dir)
+        {
+            case Direction.north: return Orientation.north;
+            case Direction.west: return Orientation.west;
+            case Direction.east: return Orientation.east;
+            case Direction.south: return Orientation.south;
+            default: return Orientation.north;
         }
     }
 
