@@ -330,7 +330,7 @@ public class RoomManager : MonoBehaviour
             {
                 //MoveAllRooms(Direction.north, currentRoom.north.neighbour);
                 UpdateCurrentDesiredPosition(Vector3.forward);
-                MoveToRoom(Direction.south, currentRoom.north.neighbour);
+                MoveToRoom(currentRoom.north.neighbour);
                 return true;
             }
             else { return false; }
@@ -341,7 +341,7 @@ public class RoomManager : MonoBehaviour
             {
                 //MoveAllRooms(Direction.west, currentRoom.west.neighbour);
                 UpdateCurrentDesiredPosition(Vector3.left);
-                MoveToRoom(Direction.south, currentRoom.west.neighbour);
+                MoveToRoom(currentRoom.west.neighbour);
 
                 return true;
             }
@@ -353,7 +353,7 @@ public class RoomManager : MonoBehaviour
             {
                 //MoveAllRooms(Direction.east, currentRoom.east.neighbour);
                 UpdateCurrentDesiredPosition(Vector3.right);
-                MoveToRoom(Direction.south, currentRoom.east.neighbour);
+                MoveToRoom(currentRoom.east.neighbour);
                 return true;
             }
             else { return false; }
@@ -364,7 +364,7 @@ public class RoomManager : MonoBehaviour
             {
                 //MoveAllRooms(Direction.south, currentRoom.south.neighbour);
                 UpdateCurrentDesiredPosition(Vector3.back);
-                MoveToRoom(Direction.south, currentRoom.south.neighbour);
+                MoveToRoom(currentRoom.south.neighbour);
                 return true;
             }
             else { return false; }
@@ -384,7 +384,7 @@ public class RoomManager : MonoBehaviour
         desiredLocation += moveDir * WorldStats.Instance.Scale;
     }
 
-    private void MoveToRoom(Direction toDirection, Room newRoom)
+    private void MoveToRoom(Room newRoom)
     {
         // Update current room etc.
         currentRoom = newRoom;
@@ -408,14 +408,14 @@ public class RoomManager : MonoBehaviour
     #endregion
 
 
-    private Vector3 DirectionToVector(Direction dir)
+    private Vector3 OrientationToVector(Orientation dir)
     {
         switch (dir)
         {
-            case Direction.north: return Vector3.forward;
-            case Direction.west: return Vector3.left;
-            case Direction.east: return Vector3.right;
-            case Direction.south: return Vector3.back;
+            case Orientation.north: return Vector3.forward;
+            case Orientation.west: return Vector3.left;
+            case Orientation.east: return Vector3.right;
+            case Orientation.south: return Vector3.back;
             default: return Vector3.zero;
         }
     }
