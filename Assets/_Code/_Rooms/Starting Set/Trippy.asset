@@ -29,9 +29,9 @@ MonoBehaviour:
     east_Neighbour_name: 
     south_Neighbour_name: Inbetween
     items:
-    - type: 0
+    - type: 1
       wallOrientation: 0
-      description: 
+      description: Bye
   - name: Inbetween
     type: 3
     orientation: 0

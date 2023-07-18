@@ -6,23 +6,31 @@ public class PlayerInput : MonoBehaviour
 {
     #region Properties
     RoomExplorer roomExplorer;
+    Writer writer;
 
     KeyCode InteractionKey = KeyCode.Space;
+
     KeyCode WriteKey = KeyCode.R;
     KeyCode EnterKey = KeyCode.KeypadEnter;
+    bool writing = false;
     #endregion
 
     #region Setup
-    private void Start()
+    private void Awake()
     {
+        writer = FindObjectOfType<Writer>();
         roomExplorer = FindObjectOfType<RoomExplorer>();
     }
 
     private void Update()
     {
-        CheckForTurnInput();
-        CheckForMoveInput();
-        CheckForInteractionInput();
+        if (!writing)
+        {
+            CheckForTurnInput();
+            CheckForMoveInput();
+            CheckForInteractionInput();
+        }
+
         CheckForWriteInput();
     }
     #endregion
@@ -77,7 +85,51 @@ public class PlayerInput : MonoBehaviour
 
     private void CheckForWriteInput()
     {
+        if (!writing)
+        {
+            if (Input.GetKeyDown(WriteKey))
+            {
+                // Check if viable to Write
+                if (writer.CheckIfLegalToWrite())
+                {
+                    // Start Writing
+                    writing = true;
+                    writer.StartWriting();
+                }
+            }
+            //else if (Input.GetKeyDown(EnterKey))
+            //{
+            //    // Stop Writing
 
+            //}
+        }
+        else
+        {
+            string text = writer.GetCurrentText();
+
+            foreach (char c in Input.inputString)
+            {
+                if (c == '\b') // Backspace
+                {
+                    if (text.Length != 0)
+                    {
+                        text = text.Substring(0, text.Length - 1);
+                        writer.Write(text);
+                    }
+                }
+                else if ((c == '\n') || (c == '\r')) // enter/return
+                {
+                    // End writing
+                    writer.StopWriting();
+                    writing = false;
+                }
+                else
+                {
+                    // Just add it to the text
+                    writer.Write(text + c);
+                }
+            }
+        }
     }
     #endregion
 }

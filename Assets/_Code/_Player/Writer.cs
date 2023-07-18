@@ -14,7 +14,7 @@ public class Writer : MonoBehaviour
     #endregion
 
     #region Setup
-    private void Awake()
+    private void Start()
     {
         itemM = ItemManager.Instance;
         roomM = RoomManager.Instance;
@@ -22,19 +22,66 @@ public class Writer : MonoBehaviour
         explorer = FindObjectOfType<RoomExplorer>();
     }
 
-    public void OpenWriting()
+    public bool CheckIfLegalToWrite()
     {
+        Room currentRoom = roomM.currentRoom;
+        Orientation orientation = explorer.currentOrientation;
 
+        // Check if there is a wall
+        if (itemM.CheckWallValidity(currentRoom, orientation))
+        {
+            // Next Check if it is an empty wall OR if there is already some text
+            if (!itemM.CheckIfOccupied(currentRoom, orientation) || itemM.CheckForWriting(currentRoom, orientation))
+            {
+                return true;
+            }
+        }
+        // Else
+        return false;
+    }
+
+    public void StartWriting()
+    {
+        Room curRoom = roomM.currentRoom;
+        Orientation Ori = explorer.currentOrientation;
+        // Check if there already is text
+        if (itemM.CheckForWriting(curRoom, Ori))
+        {
+            // There is? Continue writing that
+            currentText = itemM.GetItem(curRoom, Ori);
+            currentTextManifest = itemM.GetItemManifest(curRoom, Ori);
+        }
+        else
+        {
+            // If not, create new writing item + manifest
+            itemM.CreateAndAddItem(Item.Type.writing, curRoom, Ori);
+            currentText = itemM.GetItem(curRoom, Ori);
+            currentTextManifest = itemM.GetItemManifest(curRoom, Ori);
+        }
+    }
+
+    public void StopWriting()
+    {
+        currentText = null;
+        currentTextManifest = null;
     }
     #endregion
 
     #region Functions
-    public void Write()
+    public void Write(string input)
     {
-        if (itemM.GetItem(roomM.currentRoom, explorer.currentOrientation))
-        {
+        //Debug.Log("Input: " + input);
 
-        }
+        // Add it to current text
+        currentText.description = input;
+
+        // Update the manifest
+        currentTextManifest.UpdateManifest();
+    }
+
+    public string GetCurrentText()
+    {
+        return currentText.description;
     }
     #endregion
 }

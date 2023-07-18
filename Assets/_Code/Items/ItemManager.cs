@@ -124,6 +124,8 @@ public class ItemManager : MonoBehaviour
         }
 
         AddItem(item, r, wall);
+
+        if (RoomManager.Instance.currentRoom == r) { ManifestItem(item, r, RoomManager.Instance.desiredLocation); }
     }
     #endregion
 
@@ -142,7 +144,8 @@ public class ItemManager : MonoBehaviour
         return false;
     }
 
-    public ItemManifest GetItem(Room r, Orientation facingOrientation)
+
+    public ItemManifest GetItemManifest(Room r, Orientation facingOrientation)
     {
         foreach (var i in manifestationsList)
         {
@@ -157,7 +160,7 @@ public class ItemManager : MonoBehaviour
         return null;
     }
 
-    public void RemoveItem(ItemManifest manifest)
+    public void RemoveItemManifest(ItemManifest manifest)
     {
         // Remove from room
         foreach (var pair in manifestationsList)
@@ -171,6 +174,18 @@ public class ItemManager : MonoBehaviour
                 DeManifestItem(manifest, pair.Item2);
             }
         }
+    }
+
+    public Item GetItem(Room r, Orientation facing)
+    {
+        foreach (Item i in r.items)
+        {
+            if (facing == i.wallOrientation)
+            {
+                return i;
+            }
+        }
+        return null;
     }
     #endregion
 
@@ -208,6 +223,23 @@ public class ItemManager : MonoBehaviour
     #endregion
 
     #region Validation
+    public bool CheckForWriting(Room r, Orientation wall)
+    {
+        if (!r.hasItems) { return false; }
+
+        foreach (Item i in r.items)
+        {
+            if (i.wallOrientation == wall)
+            {
+                if (i.type == Item.Type.writing)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private bool CheckValidity(Room r, Orientation wall)
     {
         // Check if both wall is valid AND that it isn't occupied

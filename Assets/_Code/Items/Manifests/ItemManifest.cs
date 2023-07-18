@@ -18,6 +18,11 @@ public class ItemManifest : MonoBehaviour
         transform.position = worldPos;
         RotationToOrientation(item.wallOrientation);
     }
+
+    public virtual void UpdateManifest()
+    {
+        //
+    }
     #endregion
 
     #region Handling
@@ -27,7 +32,7 @@ public class ItemManifest : MonoBehaviour
         Debug.Log("Item " + item.type + " in use!");
 
         // Destroy after use
-        ItemManager.Instance.RemoveItem(this);
+        ItemManager.Instance.RemoveItemManifest(this);
     }
     #endregion
 

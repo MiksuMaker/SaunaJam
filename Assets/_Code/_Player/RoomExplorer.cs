@@ -72,7 +72,7 @@ public class RoomExplorer : MonoBehaviour
         //if (ItemManager.Instance.TestForItem(RoomManager.Instance.currentRoom, DirToOrientation(currentFacingDirection)))
         if (ItemManager.Instance.TestForItem(RoomManager.Instance.currentRoom, currentOrientation))
         {
-            itemHandler.InteractWithItem(ItemManager.Instance.GetItem(RoomManager.Instance.currentRoom, currentOrientation));
+            itemHandler.InteractWithItem(ItemManager.Instance.GetItemManifest(RoomManager.Instance.currentRoom, currentOrientation));
         }
     }
 
