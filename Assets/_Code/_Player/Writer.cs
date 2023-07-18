@@ -70,9 +70,6 @@ public class Writer : MonoBehaviour
     #region Functions
     public void Write(string input)
     {
-        Debug.Log("TextItem: " + currentText.description);
-        Debug.Log("TextManifest: " + currentTextManifest.item.description);
-
         // Add it to current text
         currentText.description = input;
 

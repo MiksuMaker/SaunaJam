@@ -21,4 +21,7 @@ public class WorldStats : MonoBehaviour
     public float X = 6f;
     public float Z = 6f;
     public float Scale = 6f;
+
+    public int numberOfRooms = 0;
+    public int getNumberOfRoomsAndCountup { get { int num = numberOfRooms; numberOfRooms++; return num; } }
 }

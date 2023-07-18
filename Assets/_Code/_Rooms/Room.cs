@@ -22,7 +22,8 @@ public class Room
 
     public Room(int _depth = 0)
     {
-        name = Random.Range(0, 100).ToString();
+        //name = Random.Range(0, 100).ToString();
+        name = WorldStats.Instance.getNumberOfRoomsAndCountup.ToString();
 
         north = new Connection();
         west = new Connection();
@@ -35,6 +36,7 @@ public class Room
     public Room(string _name)
     {
         name = _name;
+        depth = 0;
 
         north = new Connection();
         west = new Connection();
