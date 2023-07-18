@@ -5,7 +5,8 @@ using UnityEngine;
 public class RoomExplorer : MonoBehaviour
 {
     #region Properties
-    public Direction currentFacingDirection = Direction.north;
+    //public Direction currentFacingDirection = Direction.north;
+    public Orientation currentOrientation = Orientation.north;
 
 
     [SerializeField]
@@ -28,12 +29,17 @@ public class RoomExplorer : MonoBehaviour
     {
         float value = moveVector.z;
         Vector3 actualMoveVector = Vector3.zero;
-        switch (currentFacingDirection)
+        switch (currentOrientation)
         {
-            case (Direction.north): actualMoveVector += Vector3.forward * value; break;
-            case (Direction.west): actualMoveVector += Vector3.left * value; break;
-            case (Direction.east): actualMoveVector += Vector3.right * value; break;
-            case (Direction.south): actualMoveVector += Vector3.back * value; break;
+            //case (Direction.north): actualMoveVector += Vector3.forward * value; break;
+            //case (Direction.west): actualMoveVector += Vector3.left * value; break;
+            //case (Direction.east): actualMoveVector += Vector3.right * value; break;
+            //case (Direction.south): actualMoveVector += Vector3.back * value; break;
+
+            case (Orientation.north): actualMoveVector += Vector3.forward * value; break;
+            case (Orientation.west): actualMoveVector += Vector3.left * value; break;
+            case (Orientation.east): actualMoveVector += Vector3.right * value; break;
+            case (Orientation.south): actualMoveVector += Vector3.back * value; break;
         }
 
         RoomManager.Instance.TryChangeRoom2(actualMoveVector);
@@ -43,12 +49,12 @@ public class RoomExplorer : MonoBehaviour
     {
         float value = moveVector.z;
         Vector3 actualMoveVector = Vector3.zero;
-        switch (currentFacingDirection)
+        switch (currentOrientation)
         {
-            case (Direction.north): actualMoveVector += Vector3.forward * value; break;
-            case (Direction.west): actualMoveVector += Vector3.left * value; break;
-            case (Direction.east): actualMoveVector += Vector3.right * value; break;
-            case (Direction.south): actualMoveVector += Vector3.back * value; break;
+            case (Orientation.north): actualMoveVector += Vector3.forward * value; break;
+            case (Orientation.west): actualMoveVector += Vector3.left * value; break;
+            case (Orientation.east): actualMoveVector += Vector3.right * value; break;
+            case (Orientation.south): actualMoveVector += Vector3.back * value; break;
         }
 
         if (RoomManager.Instance.TryChangeRoom2(actualMoveVector))
@@ -57,25 +63,16 @@ public class RoomExplorer : MonoBehaviour
         }
         else
         {
-            // Check if there is item there
-            if (ItemManager.Instance.TestForItem(RoomManager.Instance.currentRoom,
-                                                DirToOrientation(currentFacingDirection)))
-            {
-                itemHandler.InteractWithItem(ItemManager.Instance.GetItem(RoomManager.Instance.currentRoom,
-                                                                          DirToOrientation(currentFacingDirection)));
-            }
+            // Replaced by Interact()
         }
     }
 
-    private Orientation DirToOrientation(Direction dir)
+    public void Interact()
     {
-        switch (dir)
+        //if (ItemManager.Instance.TestForItem(RoomManager.Instance.currentRoom, DirToOrientation(currentFacingDirection)))
+        if (ItemManager.Instance.TestForItem(RoomManager.Instance.currentRoom, currentOrientation))
         {
-            case Direction.north: return Orientation.north;
-            case Direction.west: return Orientation.west;
-            case Direction.east: return Orientation.east;
-            case Direction.south: return Orientation.south;
-            default: return Orientation.north;
+            itemHandler.InteractWithItem(ItemManager.Instance.GetItem(RoomManager.Instance.currentRoom, currentOrientation));
         }
     }
 
@@ -116,32 +113,32 @@ public class RoomExplorer : MonoBehaviour
         bool rightwise = true;
         if (turnVector == Vector3.left) { rightwise = false; }
 
-        switch (rightwise, currentFacingDirection)
+        switch (rightwise, currentOrientation)
         {
-            case (true, Direction.north): TurnToFace(Direction.east); break;
-            case (true, Direction.east): TurnToFace(Direction.south); break;
-            case (true, Direction.south): TurnToFace(Direction.west); break;
-            case (true, Direction.west): TurnToFace(Direction.north); break;
+            case (true, Orientation.north): TurnToFace(Orientation.east); break;
+            case (true, Orientation.west): TurnToFace(Orientation.north); break;
+            case (true, Orientation.east): TurnToFace(Orientation.south); break;
+            case (true, Orientation.south): TurnToFace(Orientation.west); break;
 
-            case (false, Direction.north): TurnToFace(Direction.west); break;
-            case (false, Direction.west): TurnToFace(Direction.south); break;
-            case (false, Direction.south): TurnToFace(Direction.east); break;
-            case (false, Direction.east): TurnToFace(Direction.north); break;
+            case (false, Orientation.north): TurnToFace(Orientation.west); break;
+            case (false, Orientation.west): TurnToFace(Orientation.south); break;
+            case (false, Orientation.east): TurnToFace(Orientation.north); break;
+            case (false, Orientation.south): TurnToFace(Orientation.east); break;
         }
     }
 
-    private void TurnToFace(Direction nextFaceDirection)
+    private void TurnToFace(Orientation nextFaceDirection)
     {
-        currentFacingDirection = nextFaceDirection;
+        currentOrientation = nextFaceDirection;
 
         // Turn camera towards new direction
 
-        switch (currentFacingDirection)
+        switch (currentOrientation)
         {
-            case (Direction.north): Turn(Vector3.forward); break;
-            case (Direction.west): Turn(Vector3.left); break;
-            case (Direction.east): Turn(Vector3.right); break;
-            case (Direction.south): Turn(Vector3.back); break;
+            case (Orientation.north): Turn(Vector3.forward); break;
+            case (Orientation.west): Turn(Vector3.left); break;
+            case (Orientation.east): Turn(Vector3.right); break;
+            case (Orientation.south): Turn(Vector3.back); break;
         }
     }
 
@@ -197,14 +194,14 @@ public class RoomExplorer : MonoBehaviour
         return roundedPos;
     }
 
-    private Vector3 DirectionToVector(Direction dir)
+    public Vector3 OrientationToVector(Orientation dir)
     {
         switch (dir)
         {
-            case Direction.north: return Vector3.forward;
-            case Direction.west: return Vector3.left;
-            case Direction.east: return Vector3.right;
-            case Direction.south: return Vector3.back;
+            case Orientation.north: return Vector3.forward;
+            case Orientation.west: return Vector3.left;
+            case Orientation.east: return Vector3.right;
+            case Orientation.south: return Vector3.back;
             default: return Vector3.zero;
         }
     }

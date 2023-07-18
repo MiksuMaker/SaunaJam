@@ -6,6 +6,10 @@ public class PlayerInput : MonoBehaviour
 {
     #region Properties
     RoomExplorer roomExplorer;
+
+    KeyCode InteractionKey = KeyCode.Space;
+    KeyCode WriteKey = KeyCode.R;
+    KeyCode EnterKey = KeyCode.KeypadEnter;
     #endregion
 
     #region Setup
@@ -18,6 +22,8 @@ public class PlayerInput : MonoBehaviour
     {
         CheckForTurnInput();
         CheckForMoveInput();
+        CheckForInteractionInput();
+        CheckForWriteInput();
     }
     #endregion
 
@@ -59,6 +65,19 @@ public class PlayerInput : MonoBehaviour
         if (turnVector == Vector3.zero) { return; }
 
         roomExplorer.TurnFacingDirection(turnVector);
+    }
+
+    private void CheckForInteractionInput()
+    {
+        if (Input.GetKeyDown(InteractionKey))
+        {
+            roomExplorer.Interact();
+        }
+    }
+
+    private void CheckForWriteInput()
+    {
+
     }
     #endregion
 }

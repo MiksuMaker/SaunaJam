@@ -43,11 +43,6 @@ public class Room
     }
 }
 
-public enum Direction
-{
-    north, west, east, south,
-    nullDirection,
-}
 
 public class Connection
 {

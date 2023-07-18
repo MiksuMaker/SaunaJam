@@ -20,10 +20,7 @@ MonoBehaviour:
     west_Neighbour_name: 
     east_Neighbour_name: 
     south_Neighbour_name: 
-    items:
-    - type: 0
-      wallOrientation: 1
-      description: 
+    items: []
   - name: Sauna
     type: 0
     orientation: 3
@@ -33,7 +30,7 @@ MonoBehaviour:
     south_Neighbour_name: Inbetween
     items:
     - type: 0
-      wallOrientation: 2
+      wallOrientation: 0
       description: 
   - name: Inbetween
     type: 3
