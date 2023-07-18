@@ -149,11 +149,10 @@ public class ItemManager : MonoBehaviour
     {
         foreach (var i in manifestationsList)
         {
-            if (r == i.Item2)
+
+            // If it is the same room AND the item is in the wanted orientation
+            if (r == i.Item2 && i.Item1.item.wallOrientation == facingOrientation)
             {
-                //if (TestForItem(r, facingOrientation))
-                //{
-                //}
                 return i.Item1;
             }
         }

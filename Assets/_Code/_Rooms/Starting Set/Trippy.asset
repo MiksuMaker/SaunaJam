@@ -29,9 +29,12 @@ MonoBehaviour:
     east_Neighbour_name: 
     south_Neighbour_name: Inbetween
     items:
-    - type: 1
+    - type: 0
       wallOrientation: 0
-      description: Bye
+      description: 
+    - type: 1
+      wallOrientation: 1
+      description: Sacrifice to Sauna
   - name: Inbetween
     type: 3
     orientation: 0
