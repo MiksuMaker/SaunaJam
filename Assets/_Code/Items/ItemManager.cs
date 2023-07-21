@@ -6,6 +6,7 @@ public class ItemManager : MonoBehaviour
 {
     #region Properties
     static public ItemManager Instance;
+    ItemSpawner itemSpawner;
 
     List<(ItemManifest, Room)> manifestationsList = new List<(ItemManifest, Room)>();
     string manifestPath = "Items/ItemManifest";
@@ -26,6 +27,7 @@ public class ItemManager : MonoBehaviour
         }
 
         itemParent = FindObjectOfType<ItemParent>().gameObject.transform;
+        itemSpawner = GetComponent<ItemSpawner>();
     }
 
     public void SetupSauna(Room saunaRoom, Orientation wallPreference = Orientation.north)
@@ -36,6 +38,13 @@ public class ItemManager : MonoBehaviour
 
         // Add Sauna to saunaRoom
         AddItem(sauna, saunaRoom, wallPreference);
+    }
+    #endregion
+
+    #region Spawn Items
+    public void SpawnItems()
+    {
+        itemSpawner.SpawnItems();
     }
     #endregion
 
@@ -244,10 +253,10 @@ public class ItemManager : MonoBehaviour
         return false;
     }
 
-    private bool CheckValidity(Room r, Orientation wall)
+    public bool CheckValidity(Room r, Orientation wall)
     {
         // Check if both wall is valid AND that it isn't occupied
-        if (CheckWallValidity(r, wall) && CheckIfOccupiedByItem(r, wall))
+        if (CheckWallValidity(r, wall) && !CheckIfOccupiedByItem(r, wall))
         {
             return true;
         }

@@ -868,6 +868,7 @@ MonoBehaviour:
   longerRotationTime: 100
   normalRot: {x: 0, y: 0, z: 0}
   downTiltedRot: {x: 30, y: 0, z: 0}
+  lesserTiltedRot: {x: 20, y: 0, z: 0}
 --- !u!1 &2097705099
 GameObject:
   m_ObjectHideFlags: 0

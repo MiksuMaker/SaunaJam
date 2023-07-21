@@ -192,7 +192,7 @@ public class RoomExplorer : MonoBehaviour
         else
         {
             // No item! Orient normally
-            cameraHandler.TiltCamera(true, turning);
+            cameraHandler.TiltCamera(Vector3.zero, turning);
         }
     }
 

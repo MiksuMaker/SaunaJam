@@ -17,9 +17,12 @@ public class CameraHandler : MonoBehaviour
     [SerializeField]
     Vector3 normalRot;
 
-    [Header("DownTilt")]
+    [Header("Down Tilt")]
     [SerializeField]
     Vector3 downTiltedRot;
+    [Header("Lesser Tilt")]
+    [SerializeField]
+    Vector3 lesserTiltedRot;
 
     IEnumerator cameraTilter;
     #endregion
@@ -39,19 +42,23 @@ public class CameraHandler : MonoBehaviour
     #region Functions
     public void CheckCameraTilt(Item.Type type, bool turning = true)
     {
-        if (type == Item.Type.water || type == Item.Type.woodLog || type == Item.Type.saunaStone)
+        if (type == Item.Type.woodLog || type == Item.Type.saunaStone)
         {
             // Tilt the camera
-            TiltCamera(false, turning);
+            TiltCamera(downTiltedRot, turning);
+        }
+        else if (type == Item.Type.water)
+        {
+            TiltCamera(lesserTiltedRot, turning);
         }
         else
         {
             // Tilt it back to normal pos
-            TiltCamera(true, turning);
+            TiltCamera(normalRot, turning);
         }
     }
 
-    public void TiltCamera(bool normalTiltOn, bool turning = true)
+    public void TiltCamera(Vector3 toRot, bool turning = true)
     {
         // Stop the Coroutine
         if (cameraTilter != null) { StopCoroutine(cameraTilter); }
@@ -63,15 +70,7 @@ public class CameraHandler : MonoBehaviour
             // Faster tilt than when walking straight ahead
             timeToTilt = longerRotationTime;
         }
-
-        if (normalTiltOn)
-        {
-            cameraTilter = CameraTilter(cameraGO.transform.rotation, normalRot, timeToTilt);
-        }
-        else
-        {
-            cameraTilter = CameraTilter(cameraGO.transform.rotation, downTiltedRot, timeToTilt);
-        }
+        cameraTilter = CameraTilter(cameraGO.transform.rotation, toRot, timeToTilt);
 
         // Start the Coroutine again
         StartCoroutine(cameraTilter);
@@ -91,8 +90,6 @@ public class CameraHandler : MonoBehaviour
 
         Quaternion finalRot = Quaternion.Euler(toRot.x, r.y, r.z);
 
-
-        float timeElapsedInSeconds = Time.time;
         float timeWaited = 0f;
         while (timeWaited < timeToTilt)
         {
@@ -110,9 +107,6 @@ public class CameraHandler : MonoBehaviour
 
         // Finish
         cameraGO.transform.localRotation = Quaternion.Euler(toRot.x, r.y, r.z);
-
-        timeElapsedInSeconds = Time.time - timeElapsedInSeconds;
-        Debug.Log("Actual time elapsed: " + timeElapsedInSeconds);
     }
     #endregion
 }

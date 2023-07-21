@@ -112,16 +112,12 @@ public class RoomManager : MonoBehaviour
         {
             case Orientation.north:
                 return 180f;
-                break;
             case Orientation.west:
                 return 90f;
-                break;
             case Orientation.east:
                 return -90f;
-                break;
             case Orientation.south:
                 return 0f;
-                break;
             default:
                 return 0f;
         }
@@ -129,57 +125,6 @@ public class RoomManager : MonoBehaviour
     #endregion
 
     #region Room Moving
-    public void TryChangeRoom(Vector3 moveVector)
-    {
-        //if (currentRoom == null) { Debug.Log("Current Room is null"); }
-
-        //if (moveVector == Vector3.forward)
-        //{
-        //    // Try go north
-        //    if (currentRoom.north.neighbour != null)
-        //    {
-        //        currentRoom = currentRoom.north.neighbour;
-        //        ManifestRoom(currentRoom, huskCenter, Direction.north);
-        //        ChangeAdjacentRooms(currentRoom);
-        //    }
-        //}
-        //else if (moveVector == Vector3.left)
-        //{
-        //    if (currentRoom.west.neighbour != null)
-        //    {
-        //        currentRoom = currentRoom.west.neighbour;
-        //        ManifestRoom(currentRoom, huskCenter, Direction.west);
-
-
-        //        ChangeAdjacentRooms(currentRoom);
-        //    }
-        //}
-        //else if (moveVector == Vector3.right)
-        //{
-        //    if (currentRoom.east.neighbour != null)
-        //    {
-        //        currentRoom = currentRoom.east.neighbour;
-        //        ManifestRoom(currentRoom, huskCenter, Direction.east);
-        //        ChangeAdjacentRooms(currentRoom);
-        //    }
-        //}
-        //else if (moveVector == Vector3.back)
-        //{
-        //    if (currentRoom.south.neighbour != null)
-        //    {
-        //        currentRoom = currentRoom.south.neighbour;
-        //        ManifestRoom(currentRoom, huskCenter, Direction.south);
-        //        ChangeAdjacentRooms(currentRoom);
-        //    }
-        //}
-        //else
-        //{
-        //    Debug.Log("Bonk! There is a wall in " + moveVector.ToString() + " direction");
-        //}
-
-
-        //    //DebugLogRoom(currentRoom);
-    }
 
     public void DebugAllRooms()
     {
@@ -217,7 +162,6 @@ public class RoomManager : MonoBehaviour
         var firstHusk = Instantiate(Resources.Load("RoomHusk"), transform) as GameObject;
         huskCenter = firstHusk.GetComponent<RoomHusk>();
 
-        //husks[2, 2] = huskCenter;
         currentRoom = roomsList[0];
 
         // Fill up the rest of the husks
@@ -225,7 +169,7 @@ public class RoomManager : MonoBehaviour
         FillUpRooms(currentRoom);
     }
 
-    private void FillUpRooms(Room cr, bool exaggarate = false)
+    private void FillUpRooms(Room cr)
     {
         // CENTER
         CreateHuskAt(2, 2, cr);
@@ -288,15 +232,15 @@ public class RoomManager : MonoBehaviour
         }
     }
 
-    private void CreateHuskAt(int x, int y, Room room, bool exaggarate = false)
+    private void CreateHuskAt(int x, int y, Room room)
     {
         var newHusk = Instantiate(Resources.Load("RoomHusk")) as GameObject;
         RoomHusk husk = newHusk.GetComponent<RoomHusk>();
 
 
 
-        float X = HuskToRoomPosition(x, exaggarate) + desiredLocation.x;
-        float Y = HuskToRoomPosition(y, exaggarate) + desiredLocation.z;
+        float X = HuskToRoomPosition(x) + desiredLocation.x;
+        float Y = HuskToRoomPosition(y) + desiredLocation.z;
 
         husk.Position(X, Y);
         newHusk.transform.parent = transform;
@@ -308,15 +252,10 @@ public class RoomManager : MonoBehaviour
         ItemManager.Instance.ManifestRoomItems(room, new Vector3(X, 0f, Y));
     }
 
-    private float HuskToRoomPosition(int value, bool exaggarate = false)
+    private float HuskToRoomPosition(int value)
     {
         float calcValue = (value - 2);
 
-        if (exaggarate)
-        {
-            float sign = Mathf.Sign(calcValue);
-            calcValue += sign;
-        }
 
         return calcValue * WorldStats.Instance.Scale;
 
@@ -403,7 +342,7 @@ public class RoomManager : MonoBehaviour
         ItemManager.Instance.ClearManifestations();
 
         // Setup new husks
-        FillUpRooms(currentRoom, false);
+        FillUpRooms(currentRoom);
 
 
         DebugLogRoom(currentRoom);
@@ -411,17 +350,4 @@ public class RoomManager : MonoBehaviour
 
 
     #endregion
-
-
-    private Vector3 OrientationToVector(Orientation dir)
-    {
-        switch (dir)
-        {
-            case Orientation.north: return Vector3.forward;
-            case Orientation.west: return Vector3.left;
-            case Orientation.east: return Vector3.right;
-            case Orientation.south: return Vector3.back;
-            default: return Vector3.zero;
-        }
-    }
 }

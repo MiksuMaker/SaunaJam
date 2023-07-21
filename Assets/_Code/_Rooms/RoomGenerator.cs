@@ -65,8 +65,10 @@ public class RoomGenerator : MonoBehaviour
         // Keep generating rooms until you have generated enough
         RoomGenerationLoop();
 
+        // Generate Items
+        ItemManager.Instance.SpawnItems();
+
         // Manifest it
-        //RoomManager.Instance.InitiateFirstRoom();
         RoomManager.Instance.LoadInitialRooms();
     }
 
