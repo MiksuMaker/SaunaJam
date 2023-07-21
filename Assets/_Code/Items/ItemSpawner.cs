@@ -24,6 +24,7 @@ public class ItemSpawner : MonoBehaviour
         int itemsPlaced = 0;
 
         // First, spawn those items that MUST be spawned
+        //MustPlaceItem(rooms, 1, 1, 1, 0, 1);
         MustPlaceItem(rooms, 1, 1, 1, 0, 1);
         //MustPlaceItem(rooms, 0, 0, 0, 0, 10);
 
@@ -72,7 +73,7 @@ public class ItemSpawner : MonoBehaviour
         }
     }
 
-    private void MustPlaceItem(List<Room> mustRooms, int mustWater = 0, int mustWood = 0, int mustStone = 0, int mustWrite = 0, int mustSauna = 0)
+    private void MustPlaceItem(List<Room> rooms, int mustWater = 0, int mustWood = 0, int mustStone = 0, int mustWrite = 0, int mustSauna = 0)
     {
         int[] musts = new int[] { mustWater, mustWood, mustStone, mustWrite, mustSauna };
         Item.Type[] types = new Item.Type[] { Item.Type.water, Item.Type.woodLog, Item.Type.saunaStone, Item.Type.writing, Item.Type.sauna };
@@ -83,7 +84,7 @@ public class ItemSpawner : MonoBehaviour
             if (musts[i] == 0) { continue; }
 
             int successes = 0;
-            foreach (var r in mustRooms)
+            foreach (var r in rooms)
             {
                 Orientation orientation;
                 if (ItemManager.Instance.TryGetRandomValidWall(r, out orientation))
@@ -106,7 +107,7 @@ public class ItemSpawner : MonoBehaviour
             }
 
             // Reshuffle rooms
-            if (musts[i] != 0) { mustRooms = ShuffleRooms(mustRooms); }
+            //rooms = ShuffleRooms(rooms);
         }
     }
     #endregion
@@ -114,6 +115,7 @@ public class ItemSpawner : MonoBehaviour
     #region Room Shuffling
     private List<Room> ShuffleRooms(List<Room> rooms)
     {
+        DebugAllRooms(rooms);
         for (int i = 0; i < rooms.Count; i++)
         {
             Room temp = rooms[0];
@@ -122,7 +124,16 @@ public class ItemSpawner : MonoBehaviour
 
             //Debug.Log("Placed room nro: " + i + " into slot nro: " + randomIndex);
         }
+        DebugAllRooms(rooms);
         return rooms;
+    }
+
+    private void DebugAllRooms(List<Room> rooms)
+    {
+        foreach (var r in rooms)
+        {
+            Debug.Log(r.name);
+        }
     }
     #endregion
 }
