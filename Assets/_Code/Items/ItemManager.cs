@@ -253,6 +253,35 @@ public class ItemManager : MonoBehaviour
         return false;
     }
 
+    public bool TryGetRandomValidWall(Room r, out Orientation orientation)
+    {
+        // Shuffle orientations
+        Orientation[] orientations = new Orientation[] { Orientation.north, Orientation.west, Orientation.east, Orientation.south };
+        int n = orientations.Length;
+        while (n > 1)
+        {
+            n--;
+            int k = Random.Range(0, n + 1);
+            Orientation nxt = orientations[k];
+            orientations[k] = orientations[n];
+            orientations[n] = nxt;
+        }
+
+        // Try out all walls in random sequence
+        foreach (var o in orientations)
+        {
+            if (CheckValidity(r,o))
+            {
+                // Valid wall, return orientation
+                orientation = o;
+                return true;
+            }
+        }
+        // If not found, return false
+        orientation = Orientation.north;
+        return false;
+    }
+
     public bool CheckValidity(Room r, Orientation wall)
     {
         // Check if both wall is valid AND that it isn't occupied

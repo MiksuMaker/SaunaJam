@@ -141,16 +141,16 @@ public class RoomManager : MonoBehaviour
 
         string log = "Room: " + r.name + " || ";
 
-        log += " N: " + (r.north.neighbour == null ? "null" : " " + r.north.neighbour.name);
-        log += " W: " + (r.west.neighbour == null ? "null" : " " + r.west.neighbour.name);
-        log += " E: " + (r.east.neighbour == null ? "null" : " " + r.east.neighbour.name);
-        log += " S: " + (r.south.neighbour == null ? "null" : " " + r.south.neighbour.name);
+        //log += " N: " + (r.north.neighbour == null ? "null" : " " + r.north.neighbour.name);
+        //log += " W: " + (r.west.neighbour == null ? "null" : " " + r.west.neighbour.name);
+        //log += " E: " + (r.east.neighbour == null ? "null" : " " + r.east.neighbour.name);
+        //log += " S: " + (r.south.neighbour == null ? "null" : " " + r.south.neighbour.name);
 
-        log += " || " + r.type + " || " + r.orientation;
+        //log += " || " + r.type + " || " + r.orientation;
 
         log += " || Depth: " + r.depth;
 
-        log += " || Items: " + r.hasItems;
+        //log += " || Items: " + r.hasItems;
 
         Debug.Log(log);
     }

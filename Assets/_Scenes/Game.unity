@@ -794,7 +794,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   desiredLocation: {x: 0, y: 0, z: 0}
-  debugOn: 0
+  debugOn: 1
 --- !u!114 &2010123006
 MonoBehaviour:
   m_ObjectHideFlags: 0
