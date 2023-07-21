@@ -162,15 +162,19 @@ public class ItemManager : MonoBehaviour
     public void RemoveItemManifest(ItemManifest manifest)
     {
         // Remove from room
-        foreach (var pair in manifestationsList)
+
+        int pairAmount = manifestationsList.Count;
+        for (int i = 0; i < pairAmount; i++)
         {
-            if (pair.Item1 == manifest)
+            if (manifestationsList[i].Item1 == manifest)
             {
                 // Remove Item from room
-                pair.Item2.items.Remove(pair.Item1.item);
+                manifestationsList[i].Item2.items.Remove(manifestationsList[i].Item1.item);
 
                 // Destroy Item Manifestation
-                DeManifestItem(manifest, pair.Item2);
+                DeManifestItem(manifest, manifestationsList[i].Item2);
+
+                return;
             }
         }
     }

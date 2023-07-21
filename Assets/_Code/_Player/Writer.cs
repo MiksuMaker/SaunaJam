@@ -11,6 +11,8 @@ public class Writer : MonoBehaviour
 
     Item currentText;
     ItemManifest currentTextManifest;
+
+    public bool writing = false;
     #endregion
 
     #region Setup
@@ -21,6 +23,7 @@ public class Writer : MonoBehaviour
 
         explorer = FindObjectOfType<RoomExplorer>();
     }
+    #endregion
 
     public bool CheckIfLegalToWrite()
     {
@@ -42,6 +45,8 @@ public class Writer : MonoBehaviour
 
     public void StartWriting()
     {
+        writing = true;
+
         Room curRoom = roomM.currentRoom;
         Orientation Ori = explorer.currentOrientation;
         // Check if there already is text
@@ -60,12 +65,13 @@ public class Writer : MonoBehaviour
         }
     }
 
-    public void StopWriting()
+    public void EndWriting()
     {
+        writing = false;
+
         currentText = null;
         currentTextManifest = null;
     }
-    #endregion
 
     #region Functions
     public void Write(string input)

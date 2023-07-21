@@ -5,7 +5,7 @@ using UnityEngine;
 public class ItemHandler : MonoBehaviour
 {
     #region Properties
-
+    Writer writer;
     #endregion
 
     #region Setup
@@ -15,6 +15,13 @@ public class ItemHandler : MonoBehaviour
     #region Functions
     public void InteractWithItem(ItemManifest itemManifest)
     {
+        //if (itemManifest.item.type == Item.Type.writing)
+        //{
+        //    // Instead write
+        //    if (writer == null) { writer = GetComponent<Writer>(); }
+        //    writer.StartWriting();
+        //}
+
         // Default to just use
         itemManifest.UseItem();
     }

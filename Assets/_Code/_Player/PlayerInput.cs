@@ -12,7 +12,6 @@ public class PlayerInput : MonoBehaviour
 
     KeyCode WriteKey = KeyCode.R;
     KeyCode EnterKey = KeyCode.Return;
-    bool writing = false;
     #endregion
 
     #region Setup
@@ -24,7 +23,7 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
-        if (!writing)
+        if (!writer.writing)
         {
             CheckForTurnInput();
             CheckForMoveInput();
@@ -85,7 +84,7 @@ public class PlayerInput : MonoBehaviour
 
     private void CheckForWriteInput()
     {
-        if (!writing)
+        if (!writer.writing)
         {
             // Check if Player wishes to begin writing
             //if (Input.GetKeyDown(WriteKey) || Input.GetKeyDown(EnterKey))
@@ -95,7 +94,6 @@ public class PlayerInput : MonoBehaviour
                 if (writer.CheckIfLegalToWrite())
                 {
                     // Start Writing
-                    writing = true;
                     writer.StartWriting();
                 }
             }
@@ -115,11 +113,11 @@ public class PlayerInput : MonoBehaviour
                         writer.Write(text);
                     }
                 }
-                else if ((c == '\n') || (c == '\r')) // enter/return
+                else if ((c == '\n') || (c == '\r') || (c == ' ')) // enter/return
                 {
+                    Debug.Log("Ending Writing");
                     // End writing
-                    writer.StopWriting();
-                    writing = false;
+                    writer.EndWriting();
                 }
                 else
                 {
