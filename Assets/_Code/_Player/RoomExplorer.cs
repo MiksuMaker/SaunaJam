@@ -88,14 +88,12 @@ public class RoomExplorer : MonoBehaviour
 
     IEnumerator MovingCoroutine(float timeToMove, Vector3 wantedDir)
     {
-
-        float increment = 1 / (timeToMove * 10f);
+        #region New Version
+        float increment = 1 / (timeToMove * 100f);
         WaitForSeconds wait = new WaitForSeconds(increment);
 
         Vector3 beginPos = Player.transform.position;
         Vector3 wantedPos = GetRoundedPos(beginPos + (wantedDir * WorldStats.Instance.Scale));
-
-        float timeElapsedInSeconds = Time.time;
 
         float progress = 0f;
         while (progress < timeToMove)
@@ -104,15 +102,13 @@ public class RoomExplorer : MonoBehaviour
 
             //Player.transform.position = Vector3.Lerp(beginPos, wantedPos, (timeElapsed / timeToMove));
             //Player.transform.position = Vector3.Lerp(beginPos, wantedPos, progress);
-            Player.transform.position = Vector3.Lerp(Player.transform.position, wantedPos, progress);
+            //Player.transform.position = Vector3.Lerp(Player.transform.position, wantedPos, progress);
+            Player.transform.position = Vector3.Lerp(Player.transform.position, wantedPos, (progress / timeToMove));
 
             yield return wait;
         }
-
         Player.transform.position = wantedPos;
-
-        timeElapsedInSeconds = Time.time - timeElapsedInSeconds;
-        Debug.Log("Actual time elapsed: " + timeElapsedInSeconds);
+        #endregion
     }
 
     public void TurnFacingDirection(Vector3 turnVector)

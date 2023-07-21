@@ -199,6 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentOrientation: 0
+  timeToMoveBetweenRooms: 10
   Player: {fileID: 1755068054}
 --- !u!4 &572642060
 Transform:
