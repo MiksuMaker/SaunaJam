@@ -27,6 +27,9 @@ public class RoomManager : MonoBehaviour
     string fourway = "Room 4 Fourway";
 
     string mockupModifier = " Mockup";
+
+    [SerializeField]
+    bool debugOn = false;
     #endregion
 
     #region Setup
@@ -189,6 +192,8 @@ public class RoomManager : MonoBehaviour
 
     private void DebugLogRoom(Room r)
     {
+        if (!debugOn) { return; }
+
         string log = "Room: " + r.name + " || ";
 
         log += " N: " + (r.north.neighbour == null ? "null" : " " + r.north.neighbour.name);

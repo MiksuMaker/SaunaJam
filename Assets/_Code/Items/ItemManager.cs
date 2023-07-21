@@ -247,7 +247,7 @@ public class ItemManager : MonoBehaviour
     private bool CheckValidity(Room r, Orientation wall)
     {
         // Check if both wall is valid AND that it isn't occupied
-        if (CheckWallValidity(r, wall) && CheckIfOccupied(r, wall))
+        if (CheckWallValidity(r, wall) && CheckIfOccupiedByItem(r, wall))
         {
             return true;
         }
@@ -269,7 +269,7 @@ public class ItemManager : MonoBehaviour
         }
     }
 
-    public bool CheckIfOccupied(Room r, Orientation wall)
+    public bool CheckIfOccupiedByItem(Room r, Orientation wall)
     {
         if (!r.hasItems) { return false; }
 
@@ -285,6 +285,19 @@ public class ItemManager : MonoBehaviour
 
         // There's free space
         return false;
+    }
+
+    public Item.Type CheckItemType(Room r, Orientation wall)
+    {
+        foreach (Item i in r.items)
+        {
+            if (i.wallOrientation == wall)
+            {
+                // Return type
+                return i.type;
+            }
+        }
+        return Item.Type.woodLog; // Default
     }
 
     private Connection OrientationToWall(Room r, Orientation orientation)

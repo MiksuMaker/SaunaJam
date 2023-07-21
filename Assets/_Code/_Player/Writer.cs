@@ -34,7 +34,7 @@ public class Writer : MonoBehaviour
         if (itemM.CheckWallValidity(currentRoom, orientation))
         {
             // Next Check if it is an empty wall OR if there is already some text
-            if (!itemM.CheckIfOccupied(currentRoom, orientation) || itemM.CheckForWriting(currentRoom, orientation))
+            if (!itemM.CheckIfOccupiedByItem(currentRoom, orientation) || itemM.CheckForWriting(currentRoom, orientation))
             {
                 return true;
             }

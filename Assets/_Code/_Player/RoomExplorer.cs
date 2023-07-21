@@ -12,6 +12,7 @@ public class RoomExplorer : MonoBehaviour
     [SerializeField]
     GameObject Player;
     ItemHandler itemHandler;
+    CameraHandler cameraHandler;
 
     IEnumerator turnCoroutine;
     IEnumerator moveCoroutine;
@@ -21,6 +22,7 @@ public class RoomExplorer : MonoBehaviour
     private void Awake()
     {
         itemHandler = FindObjectOfType<ItemHandler>();
+        cameraHandler = Player.GetComponentInChildren<CameraHandler>();
     }
     #endregion
 
@@ -31,11 +33,6 @@ public class RoomExplorer : MonoBehaviour
         Vector3 actualMoveVector = Vector3.zero;
         switch (currentOrientation)
         {
-            //case (Direction.north): actualMoveVector += Vector3.forward * value; break;
-            //case (Direction.west): actualMoveVector += Vector3.left * value; break;
-            //case (Direction.east): actualMoveVector += Vector3.right * value; break;
-            //case (Direction.south): actualMoveVector += Vector3.back * value; break;
-
             case (Orientation.north): actualMoveVector += Vector3.forward * value; break;
             case (Orientation.west): actualMoveVector += Vector3.left * value; break;
             case (Orientation.east): actualMoveVector += Vector3.right * value; break;
@@ -60,6 +57,7 @@ public class RoomExplorer : MonoBehaviour
         if (RoomManager.Instance.TryChangeRoom2(actualMoveVector))
         {
             MovePlayer(actualMoveVector);
+            OrientCamera(false);
         }
         else
         {
@@ -69,7 +67,6 @@ public class RoomExplorer : MonoBehaviour
 
     public void Interact()
     {
-        //if (ItemManager.Instance.TestForItem(RoomManager.Instance.currentRoom, DirToOrientation(currentFacingDirection)))
         if (ItemManager.Instance.TestForItem(RoomManager.Instance.currentRoom, currentOrientation))
         {
             itemHandler.InteractWithItem(ItemManager.Instance.GetItemManifest(RoomManager.Instance.currentRoom, currentOrientation));
@@ -144,8 +141,8 @@ public class RoomExplorer : MonoBehaviour
 
     private void Turn(Vector3 facingVector)
     {
-        //Player.transform.LookAt(facingVector);
-        //float currentAngle
+        OrientCamera(true);
+
         if (turnCoroutine != null)
         {
             StopCoroutine(turnCoroutine);
@@ -156,12 +153,11 @@ public class RoomExplorer : MonoBehaviour
 
     IEnumerator TurningCoroutine(float timeToTurn, Vector3 wantedDir)
     {
-        float increment = 1 / (timeToTurn * 10f);
+        float increment = 1 / (timeToTurn * 100f);
         WaitForSeconds wait = new WaitForSeconds(increment);
         float progress = 0f;
 
         Vector3 lookDir = Player.transform.forward;
-        //Vector3 lookDir = DirectionToVector(currentFacingDirection);
 
         while (progress < 1f)
         {
@@ -173,9 +169,26 @@ public class RoomExplorer : MonoBehaviour
 
             yield return wait;
         }
-        //Debug.Log("Turning has ended");
+
     }
 
+    void OrientCamera(bool turning)
+    {
+        // Check if there is an item
+        if (ItemManager.Instance.CheckIfOccupiedByItem(RoomManager.Instance.currentRoom, currentOrientation))
+        {
+            // Check type
+            Item.Type type = ItemManager.Instance.CheckItemType(RoomManager.Instance.currentRoom, currentOrientation);
+
+            // Orient camera if needed
+            cameraHandler.CheckCameraTilt(type, turning);
+        }
+        else
+        {
+            // No item! Orient normally
+            cameraHandler.TiltCamera(true, turning);
+        }
+    }
 
     private Vector3 GetRoundedPos(Vector3 currentPos)
     {
