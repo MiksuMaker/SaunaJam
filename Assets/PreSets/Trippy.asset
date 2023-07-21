@@ -42,7 +42,10 @@ MonoBehaviour:
     west_Neighbour_name: 
     east_Neighbour_name: 
     south_Neighbour_name: Intersection
-    items: []
+    items:
+    - type: 2
+      wallOrientation: 1
+      description: 
   - name: LeftToUp
     type: 1
     orientation: 1
