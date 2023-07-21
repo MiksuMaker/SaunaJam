@@ -22,6 +22,11 @@ public class ItemSpawner : MonoBehaviour
         int amountOfWater = 5;
 
         int itemsPlaced = 0;
+
+        // First, spawn those items that MUST be spawned
+        MustPlaceItem(rooms, 1, 1, 1, 0, 1);
+        //MustPlaceItem(rooms, 0, 0, 0, 0, 10);
+
         // Start spawning items
         foreach (Room r in rooms)
         {
@@ -66,6 +71,44 @@ public class ItemSpawner : MonoBehaviour
             return Item.Type.water;
         }
     }
+
+    private void MustPlaceItem(List<Room> mustRooms, int mustWater = 0, int mustWood = 0, int mustStone = 0, int mustWrite = 0, int mustSauna = 0)
+    {
+        int[] musts = new int[] { mustWater, mustWood, mustStone, mustWrite, mustSauna };
+        Item.Type[] types = new Item.Type[] { Item.Type.water, Item.Type.woodLog, Item.Type.saunaStone, Item.Type.writing, Item.Type.sauna };
+
+        // Place them randomly among the provided rooms
+        for (int i = 0; i < musts.Length; i++)
+        {
+            if (musts[i] == 0) { continue; }
+
+            int successes = 0;
+            foreach (var r in mustRooms)
+            {
+                Orientation orientation;
+                if (ItemManager.Instance.TryGetRandomValidWall(r, out orientation))
+                {
+                    ItemManager.Instance.CreateAndAddItem(types[i], r, orientation);
+
+                    // Check if enough
+                    successes++;
+                    if (successes >= musts[i]) { break; }
+                }
+                Debug.Log("Tried to find spot for typeof " + types[i]);
+            }
+
+            // Check that all items spawned
+            if (successes < musts[i]) 
+            { 
+                Debug.LogWarning("Not all items of type " + types[i] + " spawned!");
+
+                Debug.LogWarning("Successes: " + successes + ", Musts: " + musts[i]);
+            }
+
+            // Reshuffle rooms
+            if (musts[i] != 0) { mustRooms = ShuffleRooms(mustRooms); }
+        }
+    }
     #endregion
 
     #region Room Shuffling
@@ -77,7 +120,7 @@ public class ItemSpawner : MonoBehaviour
             int randomIndex = Random.Range(0, rooms.Count);
             rooms[randomIndex] = temp;
 
-            Debug.Log("Placed room nro: " + i + " into slot nro: " + randomIndex);
+            //Debug.Log("Placed room nro: " + i + " into slot nro: " + randomIndex);
         }
         return rooms;
     }
