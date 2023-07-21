@@ -115,7 +115,7 @@ public class PlayerInput : MonoBehaviour
                 }
                 else if ((c == '\n') || (c == '\r') || (c == ' ')) // enter/return
                 {
-                    Debug.Log("Ending Writing");
+                    //Debug.Log("Ending Writing");
                     // End writing
                     writer.EndWriting();
                 }

@@ -20,6 +20,13 @@ public class WritingManifest : ItemManifest
     #endregion
 
     #region Functions
+    public override void UseItem()
+    {
+        // Do nothing
+
+        // Maybe prompt the user to use ENTER instead
+    }
+
     public override void UpdateManifest()
     {
         // Update the text component

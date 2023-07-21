@@ -11,7 +11,7 @@ public class WaterManifest : ItemManifest
 
     public override void UseItem()
     {
-        Debug.Log("Water was collected!");
+        //Debug.Log("Water was collected!");
 
         // Notify that water was collected
 

@@ -6,13 +6,13 @@ public class WoodManifest : ItemManifest
 {
     public override void SetupManifest(Item item, Vector3 worldPos)
     {
-        Debug.Log("Wood is manifested!");
+        //Debug.Log("Wood is manifested!");
        base.SetupManifest(item, worldPos);
     }
 
     public override void UseItem()
     {
-        Debug.Log("WOOD was collected!");
+        //Debug.Log("WOOD was collected!");
 
         // Notify that WOOD was collected
 

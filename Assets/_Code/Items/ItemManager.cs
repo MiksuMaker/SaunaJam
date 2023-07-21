@@ -174,7 +174,8 @@ public class ItemManager : MonoBehaviour
                 // Destroy Item Manifestation
                 DeManifestItem(manifest, manifestationsList[i].Item2);
 
-                return;
+                // Recalculate pairAmount
+                pairAmount--;
             }
         }
     }
