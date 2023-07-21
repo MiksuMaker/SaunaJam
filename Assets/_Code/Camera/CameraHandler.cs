@@ -90,13 +90,14 @@ public class CameraHandler : MonoBehaviour
         Vector3 r = transform.localRotation.eulerAngles;
 
         Quaternion finalRot = Quaternion.Euler(toRot.x, r.y, r.z);
-        
 
+
+        float timeElapsedInSeconds = Time.time;
         float timeWaited = 0f;
         while (timeWaited < timeToTilt)
         {
             // Desired Rotation
-            cameraGO.transform.rotation.Set(0f, 0f, 0f, 1f);
+            //cameraGO.transform.rotation.Set(0f, 0f, 0f, 1f);
 
             // Turn the camera a bit towards the goal rotation
             cameraGO.transform.localRotation = Quaternion.Lerp(cameraGO.transform.localRotation, finalRot, (timeWaited / rotationTime));
@@ -109,7 +110,9 @@ public class CameraHandler : MonoBehaviour
 
         // Finish
         cameraGO.transform.localRotation = Quaternion.Euler(toRot.x, r.y, r.z);
-        
+
+        timeElapsedInSeconds = Time.time - timeElapsedInSeconds;
+        Debug.Log("Actual time elapsed: " + timeElapsedInSeconds);
     }
     #endregion
 }

@@ -113,7 +113,7 @@ public class PlayerInput : MonoBehaviour
                         writer.Write(text);
                     }
                 }
-                else if ((c == '\n') || (c == '\r') || (c == ' ')) // enter/return
+                else if ((c == '\n') || (c == '\r')) // enter/return
                 {
                     //Debug.Log("Ending Writing");
                     // End writing

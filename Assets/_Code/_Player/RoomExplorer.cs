@@ -8,6 +8,8 @@ public class RoomExplorer : MonoBehaviour
     //public Direction currentFacingDirection = Direction.north;
     public Orientation currentOrientation = Orientation.north;
 
+    [SerializeField]
+    float timeToMoveBetweenRooms = 2f;
 
     [SerializeField]
     GameObject Player;
@@ -16,6 +18,7 @@ public class RoomExplorer : MonoBehaviour
 
     IEnumerator turnCoroutine;
     IEnumerator moveCoroutine;
+
     #endregion
 
     #region Setup
@@ -79,7 +82,7 @@ public class RoomExplorer : MonoBehaviour
         {
             StopCoroutine(moveCoroutine);
         }
-        moveCoroutine = MovingCoroutine(4f, moveVector);
+        moveCoroutine = MovingCoroutine(timeToMoveBetweenRooms, moveVector);
         StartCoroutine(moveCoroutine);
     }
 
@@ -88,21 +91,28 @@ public class RoomExplorer : MonoBehaviour
 
         float increment = 1 / (timeToMove * 10f);
         WaitForSeconds wait = new WaitForSeconds(increment);
-        float progress = 0f;
 
         Vector3 beginPos = Player.transform.position;
         Vector3 wantedPos = GetRoundedPos(beginPos + (wantedDir * WorldStats.Instance.Scale));
-        //RoomManager.Instance.desiredLocation = wantedPos;
 
-        while (progress < 1f)
+        float timeElapsedInSeconds = Time.time;
+
+        float progress = 0f;
+        while (progress < timeToMove)
         {
             progress += increment;
 
-            Player.transform.position = Vector3.Lerp(beginPos, wantedPos, progress);
+            //Player.transform.position = Vector3.Lerp(beginPos, wantedPos, (timeElapsed / timeToMove));
+            //Player.transform.position = Vector3.Lerp(beginPos, wantedPos, progress);
+            Player.transform.position = Vector3.Lerp(Player.transform.position, wantedPos, progress);
 
             yield return wait;
         }
 
+        Player.transform.position = wantedPos;
+
+        timeElapsedInSeconds = Time.time - timeElapsedInSeconds;
+        Debug.Log("Actual time elapsed: " + timeElapsedInSeconds);
     }
 
     public void TurnFacingDirection(Vector3 turnVector)
