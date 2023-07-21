@@ -32,6 +32,7 @@ public class ItemSpawner : MonoBehaviour
             if (ItemManager.Instance.TryGetRandomValidWall(r, out orientation))
             {
                 //ItemManager.Instance.CreateAndAddItem(Item.Type.water, r, orientation);
+                ItemManager.Instance.CreateAndAddItem(GetRandomItem(), r, orientation);
                 itemsPlaced++;
             }
             #endregion
@@ -41,9 +42,29 @@ public class ItemSpawner : MonoBehaviour
     #endregion
 
     #region Item Randomization
-    private Item.Type GetRandomItem(float waterChance = 0.3f, float woodChance = 0.3f, float stoneChance = 0.3f)
+    private Item.Type GetRandomItem(float waterChance = 1f, float woodChance = 1f, float stoneChance = 1f)
     {
-        
+        float woodLikelyhood = waterChance;
+        float stoneLikelyhood = waterChance + woodChance;
+        float total = stoneLikelyhood + stoneChance;
+
+        float rand = Random.Range(0f, total);
+
+        if (rand >= stoneLikelyhood)
+        {
+            // Spawn STONE
+            return Item.Type.saunaStone;
+        }
+        else if (rand >= woodLikelyhood)
+        {
+            // Spawn WOOD
+            return Item.Type.woodLog;
+        }
+        else
+        {
+            // Spawn WATER
+            return Item.Type.water;
+        }
     }
     #endregion
 
