@@ -76,6 +76,8 @@ public class RoomGenerator : MonoBehaviour
     {
         while (createdAmountOfRooms < amountOfRooms)
         {
+
+
             if (roomsWithUnfinishedConnections.Count == 0) { Debug.Log("Run out of Unfinished connections!"); break; }
 
             // Pick an unfinished connection room
@@ -83,6 +85,8 @@ public class RoomGenerator : MonoBehaviour
 
             // Create rooms for each unconnected connection
             CheckDirectionsAndGenerateIfNecessary(nextToConnect);
+
+
         }
         if (createdAmountOfRooms >= amountOfRooms) { Debug.Log("Created full amount of rooms"); }
 
@@ -328,8 +332,15 @@ public class RoomGenerator : MonoBehaviour
         // Make new Room
         Room room = new Room(fromRoom.depth + 1);
 
-        // Room type
-        if (!forceDeadEnd) { room.type = DecideRoomType(); } else { room.type = TypeRoom._1_deadEnd; }
+        // DECIDE Room type
+        if (!forceDeadEnd) 
+        {
+            room.type = DecideRoomType(.5f, 2f, 3f, 1f, 1f);
+        }
+        else 
+        {
+            room.type = TypeRoom._1_deadEnd; 
+        }
 
         // Orientation
         room.orientation = DecideOrientation(room.type, connectionFrom);
