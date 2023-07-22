@@ -52,6 +52,9 @@ public class RoomGenerator : MonoBehaviour
     {
         allowed, forceDeadEnd, forbidden,
     }
+
+    [Header("Room Generation Settings")]
+    [SerializeField] bool forbidFinishingDeadEnd = true;
     #endregion
 
     #region Setup
@@ -87,8 +90,13 @@ public class RoomGenerator : MonoBehaviour
             // Pick an unfinished connection room
             Room nextToConnect = roomsWithUnfinishedConnections[0];
 
+            // Handle Settings
+            DeadEndMode dMode = DeadEndMode.allowed;
+            if (forbidFinishingDeadEnd && roomsWithUnfinishedConnections.Count <= 1) 
+            { Debug.Log("DeadEnds forbidden as last piece!");  dMode = DeadEndMode.forbidden; }
+
             // Create rooms for each unconnected connection
-            CheckDirectionsAndGenerateIfNecessary(nextToConnect);
+            CheckDirectionsAndGenerateIfNecessary(nextToConnect, dMode);
 
 
         }
@@ -337,16 +345,6 @@ public class RoomGenerator : MonoBehaviour
         Room room = new Room(fromRoom.depth + 1);
 
         // DECIDE Room type
-        //if (deadMode == DeadEndMode.allowed)
-        //{
-        //    room.type = DecideRoomType(.5f, 2f, 30f, 1f, 1f);
-        //}
-        //else
-        //{
-        //    room.type = TypeRoom._1_deadEnd;
-        //}
-        Debug.LogError("FINISH THIS!!!!");
-
 
         // THIS needs to take DeadEndMode into calculations, and handle it with grace
         if (deadMode == DeadEndMode.forceDeadEnd)
@@ -356,7 +354,9 @@ public class RoomGenerator : MonoBehaviour
         else
         {
             float deadEndChance = .5f;
-            if (deadMode == DeadEndMode.forbidden) ;
+            if (deadMode == DeadEndMode.forbidden) { deadEndChance = 0f; }
+
+            room.type = DecideRoomType(deadEndChance, 2f, 3f, 1f, 1f);
         }
 
 
