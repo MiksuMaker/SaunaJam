@@ -19,7 +19,7 @@ MonoBehaviour:
   fourwayChance: 1
   skipChance: 1
   forbidCuttingShort: 1
-  useRules: 0
+  useRules: 1
   rules:
   - fromType: 4
     afterType: 2
