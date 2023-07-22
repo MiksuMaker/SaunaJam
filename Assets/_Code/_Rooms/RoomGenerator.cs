@@ -35,9 +35,27 @@ public class RoomGenerator : MonoBehaviour
     List<Room> west_connections = new List<Room>();
     List<Room> east_connections = new List<Room>();
 
-    [Space(10)]
+    [Header("Preset")]
     [SerializeField]
     PreSet startingLayout;
+
+    [Header("Room Generation Settings")]
+    #region Preferences
+    [SerializeField]
+    GenerationPreference preferences;
+    [SerializeField] bool usePreferences = true;
+
+    [Space(10)]
+
+    [SerializeField] float deadEnd_Chance = 1f;
+    [SerializeField] float corner_Chance = 1f;
+    [SerializeField] float straight_Chance = 1f;
+    [SerializeField] float threeway_Chance = 1f;
+    [SerializeField] float fourway_Chance = 1f;
+    [SerializeField] float skip_Chance = 1f;
+
+    [SerializeField] bool forbidCutttingShort = true;
+    #endregion
 
     enum DirectionOfConnection
     {
@@ -53,15 +71,31 @@ public class RoomGenerator : MonoBehaviour
         allowed, forceDeadEnd, forbidden,
     }
 
-    [Header("Room Generation Settings")]
-    [SerializeField] bool forbidFinishingDeadEnd = true;
     #endregion
 
     #region Setup
     private void Start()
     {
+        // Set Preferences
+        SetPreferences();
+
         // Mockup start
         GenerateRooms();
+    }
+
+    private void SetPreferences()
+    {
+        if (preferences == null || !usePreferences) { return; }
+
+        // Set settings according to Preferences
+        deadEnd_Chance = preferences.deadEndChance;
+        corner_Chance = preferences.cornerChance;
+        straight_Chance = preferences.straigthChance;
+        threeway_Chance = preferences.threewayChance;
+        fourway_Chance = preferences.fourwayChance;
+        skip_Chance = preferences.skipChance;
+
+        forbidCutttingShort = preferences.forbidCuttingShort;
     }
 
     public void GenerateRooms()
@@ -92,7 +126,7 @@ public class RoomGenerator : MonoBehaviour
 
             // Handle Settings
             CutShortMode dMode = CutShortMode.allowed;
-            if (forbidFinishingDeadEnd && roomsWithUnfinishedConnections.Count <= 1) 
+            if (forbidCutttingShort && roomsWithUnfinishedConnections.Count <= 1) 
             { Debug.Log("DeadEnds forbidden as last piece!");  dMode = CutShortMode.forbidden; }
 
             // Create rooms for each unconnected connection
@@ -351,11 +385,11 @@ public class RoomGenerator : MonoBehaviour
         }
         else
         {
-            float deadEndChance = .5f;
-            float skipChance = 1f;
+            float deadEndChance = deadEnd_Chance;
+            float skipChance = skip_Chance;
             if (deadMode == CutShortMode.forbidden) { deadEndChance = 0f; skipChance = 0f; }
 
-            type = DecideRoomType(deadEndChance, 2f, 3f, 1f, 1f, skipChance);
+            type = DecideRoomType(deadEndChance, corner_Chance, straight_Chance, threeway_Chance, fourway_Chance, skipChance);
         }
 
         // Check if the room should be SKIPPED

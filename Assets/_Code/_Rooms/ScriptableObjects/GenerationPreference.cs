@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/RoomGeneration Preference")]
-public class GenerationPreference : MonoBehaviour
+[CreateAssetMenu(menuName = "ScriptableObjects/RoomGenerationPreference")]
+public class GenerationPreference : ScriptableObject
 {
     [Header("Chances for certain room type")]
 
@@ -18,5 +18,5 @@ public class GenerationPreference : MonoBehaviour
 
     [Space(10)]
     // Can a RoomGeneration be cut short from an "unlucky" DeadEnd?
-    public bool forbidFinishingDeadEnd = true;   
+    public bool forbidCuttingShort = true;   
 }
