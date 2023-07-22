@@ -9,7 +9,7 @@ public enum TypeRoom
     _3_threeway,
     _4_fourway,
 
-    random,
+    skip,
 }
 
 public enum Orientation
@@ -48,7 +48,7 @@ public class RoomGenerator : MonoBehaviour
         start,
     }
 
-    enum DeadEndMode
+    enum CutShortMode
     {
         allowed, forceDeadEnd, forbidden,
     }
@@ -91,9 +91,9 @@ public class RoomGenerator : MonoBehaviour
             Room nextToConnect = roomsWithUnfinishedConnections[0];
 
             // Handle Settings
-            DeadEndMode dMode = DeadEndMode.allowed;
+            CutShortMode dMode = CutShortMode.allowed;
             if (forbidFinishingDeadEnd && roomsWithUnfinishedConnections.Count <= 1) 
-            { Debug.Log("DeadEnds forbidden as last piece!");  dMode = DeadEndMode.forbidden; }
+            { Debug.Log("DeadEnds forbidden as last piece!");  dMode = CutShortMode.forbidden; }
 
             // Create rooms for each unconnected connection
             CheckDirectionsAndGenerateIfNecessary(nextToConnect, dMode);
@@ -142,7 +142,7 @@ public class RoomGenerator : MonoBehaviour
         int stubCount = roomsWithUnfinishedConnections.Count;
         for (int i = 0; i < stubCount; i++)
         {
-            CheckDirectionsAndGenerateIfNecessary(roomsWithUnfinishedConnections[0], DeadEndMode.forceDeadEnd); // V1, just dead ends
+            CheckDirectionsAndGenerateIfNecessary(roomsWithUnfinishedConnections[0], CutShortMode.forceDeadEnd); // V1, just dead ends
         }
     }
 
@@ -339,26 +339,34 @@ public class RoomGenerator : MonoBehaviour
     #endregion
 
     #region New Room Generation
-    private void GenerateNewRoom(DirectionOfConnection connectionFrom, Room fromRoom, DeadEndMode deadMode = DeadEndMode.allowed)
+    private void GenerateNewRoom(DirectionOfConnection connectionFrom, Room fromRoom, CutShortMode deadMode = CutShortMode.allowed)
     {
-        // Make new Room
-        Room room = new Room(fromRoom.depth + 1);
-
-        // DECIDE Room type
+        // First, DECIDE Room type
+        TypeRoom type;
 
         // THIS needs to take DeadEndMode into calculations, and handle it with grace
-        if (deadMode == DeadEndMode.forceDeadEnd)
+        if (deadMode == CutShortMode.forceDeadEnd)
         {
-            room.type = TypeRoom._1_deadEnd;
+            type = TypeRoom._1_deadEnd;
         }
         else
         {
             float deadEndChance = .5f;
-            if (deadMode == DeadEndMode.forbidden) { deadEndChance = 0f; }
+            float skipChance = 1f;
+            if (deadMode == CutShortMode.forbidden) { deadEndChance = 0f; skipChance = 0f; }
 
-            room.type = DecideRoomType(deadEndChance, 2f, 3f, 1f, 1f);
+            type = DecideRoomType(deadEndChance, 2f, 3f, 1f, 1f, skipChance);
         }
 
+        // Check if the room should be SKIPPED
+        if (type == TypeRoom.skip) { Debug.LogWarning("Skipped"); return; /* Skip it */}
+
+
+        // THEN, Make new Room
+        Room room = new Room(fromRoom.depth + 1);
+
+        // Then remember to assign type!
+        room.type = type;
 
         // Orientation
         room.orientation = DecideOrientation(room.type, connectionFrom);
@@ -380,14 +388,15 @@ public class RoomGenerator : MonoBehaviour
 
     }
 
-    private TypeRoom DecideRoomType(float deadC = 1f, float cornerC = 1f, float straightC = 1f, float threeC = 1f, float fourC = 1f)
+    private TypeRoom DecideRoomType(float deadC = 1f, float cornerC = 1f, float straightC = 1f, float threeC = 1f, float fourC = 1f, float skipC = 0f)
     {
         float deadChance = deadC;
         float cornerChance = deadChance + cornerC;
         float straightChance = cornerChance + straightC;
         float threeChance = straightChance + threeC;
         float fourChance = threeChance + fourC;
-        float total = fourChance;
+        float skipChance = fourChance + skipC;
+        float total = skipChance;   // Cap the chances
 
         float rand = Random.Range(0f, total);
 
@@ -398,6 +407,7 @@ public class RoomGenerator : MonoBehaviour
         else if (rand <= straightChance) { t = TypeRoom._2_straight; }
         else if (rand <= threeChance) { t = TypeRoom._3_threeway; }
         else if (rand <= fourChance) { t = TypeRoom._4_fourway; }
+        else if (rand <= skipChance) { t = TypeRoom.skip; }
 
         return t;
     }
@@ -611,7 +621,7 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
-    private void CheckDirectionsAndGenerateIfNecessary(Room r, DeadEndMode dMode = DeadEndMode.allowed)
+    private void CheckDirectionsAndGenerateIfNecessary(Room r, CutShortMode dMode = CutShortMode.allowed)
     {
         // Check each connection and connect if needed
         if (CheckConnection(r.north))
