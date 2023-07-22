@@ -283,7 +283,7 @@ public class RoomGenerator : MonoBehaviour
         Room room = new Room(1);
 
         // Room type
-        room.type = DecideRoomType(true);
+        room.type = DecideRoomType();
 
         // Orientation
         room.orientation = DecideOrientation(room.type, DirectionOfConnection.north);
@@ -308,11 +308,6 @@ public class RoomGenerator : MonoBehaviour
 
         // Connect them
         ConnectRooms(saunaRoom, room, DirectionOfConnection.north);
-    }
-
-    private void SetupSauna(Room r)
-    {
-        ItemManager.Instance.SetupSauna(r);
     }
 
     private void SetupItems(Room r, PreSet.Layout l)
@@ -356,20 +351,24 @@ public class RoomGenerator : MonoBehaviour
 
     }
 
-    private TypeRoom DecideRoomType(bool isStart = false)
+    private TypeRoom DecideRoomType(float deadC = 1f, float cornerC = 1f, float straightC = 1f, float threeC = 1f, float fourC = 1f)
     {
-        int maxNum = 5;
-        int randNum = Random.Range(0, maxNum);
-        if (isStart) { randNum = Random.Range(1, maxNum); }
+        float deadChance = deadC;
+        float cornerChance = deadChance + cornerC;
+        float straightChance = cornerChance + straightC;
+        float threeChance = straightChance + threeC;
+        float fourChance = threeChance + fourC;
+        float total = fourChance;
 
+        float rand = Random.Range(0f, total);
 
-        TypeRoom t = TypeRoom._1_deadEnd;
-        if (randNum == 0) { t = TypeRoom._1_deadEnd; }
-        else if (randNum == 1) { t = TypeRoom._2_corner; }
-        else if (randNum == 2) { t = TypeRoom._2_straight; }
+        TypeRoom t = TypeRoom._1_deadEnd; // Default
 
-        else if (randNum == 3) { t = TypeRoom._3_threeway; }
-        else if (randNum == 4) { t = TypeRoom._4_fourway; }
+        if (rand <= deadChance) { t = TypeRoom._1_deadEnd; }
+        else if (rand <= cornerChance) { t = TypeRoom._2_corner; }
+        else if (rand <= straightChance) { t = TypeRoom._2_straight; }
+        else if (rand <= threeChance) { t = TypeRoom._3_threeway; }
+        else if (rand <= fourChance) { t = TypeRoom._4_fourway; }
 
         return t;
     }

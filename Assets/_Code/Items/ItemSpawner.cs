@@ -16,22 +16,21 @@ public class ItemSpawner : MonoBehaviour
         List<Room> rooms = RoomManager.Instance.roomsList;
 
         // Arrange according to Depth
-        //rooms = rooms.OrderByDescending(x => x.depth).ToList();
         rooms = ShuffleRooms(rooms);
 
-
-        int amountOfWater = 5;
-
-        int itemsPlaced = 0;
 
         // First, spawn those items that MUST be spawned
         //MustPlaceItem(rooms, 1, 1, 1, 0, 1);
         MustPlaceItem(rooms, 10, 8, 6);
 
+
+        int amountOfRandomItems = 5;
+        int itemsPlaced = 0;
+
         // Start spawning items
         foreach (Room r in rooms)
         {
-            if (itemsPlaced >= amountOfWater) { break; }
+            if (itemsPlaced >= amountOfRandomItems) { break; }
 
             #region V1 - TOTAL RANDOMIZATION
             Orientation orientation;
