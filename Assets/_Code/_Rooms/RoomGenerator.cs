@@ -97,7 +97,9 @@ public class RoomGenerator : MonoBehaviour
 
         forbidCutttingShort = preferences.forbidCuttingShort;
     }
+    #endregion
 
+    #region ROOM GENERATION PROTOCOL
     public void GenerateRooms()
     {
         // Generate first room
@@ -126,8 +128,8 @@ public class RoomGenerator : MonoBehaviour
 
             // Handle Settings
             CutShortMode dMode = CutShortMode.allowed;
-            if (forbidCutttingShort && roomsWithUnfinishedConnections.Count <= 1) 
-            { Debug.Log("DeadEnds forbidden as last piece!");  dMode = CutShortMode.forbidden; }
+            if (forbidCutttingShort && roomsWithUnfinishedConnections.Count <= 1)
+            { Debug.Log("DeadEnds forbidden as last piece!"); dMode = CutShortMode.forbidden; }
 
             // Create rooms for each unconnected connection
             CheckDirectionsAndGenerateIfNecessary(nextToConnect, dMode);
@@ -143,7 +145,7 @@ public class RoomGenerator : MonoBehaviour
         FillDeadEnds();
     }
 
-    
+
     private void FillDeadEnds()
     {
         // Go through all the rooms, check which ones don't have finished connections
@@ -209,9 +211,8 @@ public class RoomGenerator : MonoBehaviour
     }
     #endregion
 
-    #region Generation
 
-    #region SETUP
+    #region First Room Creation
     private void GenerateFirstRooms()
     {
         // Check if Starting Layout has been given
@@ -278,34 +279,37 @@ public class RoomGenerator : MonoBehaviour
                 for (int i = 0; i < n; i++)
                 {
                     if (startingRooms[i] == s) { continue; }
-                    if (startingRooms[i].Item2.name == s.Item2.west_Neighbour_name) 
-                    { ConnectRooms(s.Item1, startingRooms[i].Item1, DirectionOfConnection.east);
+                    if (startingRooms[i].Item2.name == s.Item2.west_Neighbour_name)
+                    {
+                        ConnectRooms(s.Item1, startingRooms[i].Item1, DirectionOfConnection.east);
                         //DebugRoomCreation(s.Item1, startingRooms[i].Item1);
                     }
                 }
             }
             // EAST
-            if (s.Item2.east_Neighbour_name!= "")
+            if (s.Item2.east_Neighbour_name != "")
             {
                 // Go through all the rooms and check what is named as the neighbour
                 for (int i = 0; i < n; i++)
                 {
                     if (startingRooms[i] == s) { continue; }
                     if (startingRooms[i].Item2.name == s.Item2.east_Neighbour_name)
-                    { ConnectRooms(s.Item1, startingRooms[i].Item1, DirectionOfConnection.west);
+                    {
+                        ConnectRooms(s.Item1, startingRooms[i].Item1, DirectionOfConnection.west);
                         //DebugRoomCreation(s.Item1, startingRooms[i].Item1);
                     }
                 }
             }
             // SOUTH
-                if (s.Item2.south_Neighbour_name != "")
+            if (s.Item2.south_Neighbour_name != "")
             {
                 // Go through all the rooms and check what is named as the neighbour
                 for (int i = 0; i < n; i++)
                 {
                     if (startingRooms[i] == s) { continue; }
                     if (startingRooms[i].Item2.name == s.Item2.south_Neighbour_name)
-                    { ConnectRooms(s.Item1, startingRooms[i].Item1, DirectionOfConnection.north);
+                    {
+                        ConnectRooms(s.Item1, startingRooms[i].Item1, DirectionOfConnection.north);
                         //DebugRoomCreation(s.Item1, startingRooms[i].Item1);
                     }
                 }
@@ -359,18 +363,18 @@ public class RoomGenerator : MonoBehaviour
         // Connect them
         ConnectRooms(saunaRoom, room, DirectionOfConnection.north);
     }
+    #endregion
 
     private void SetupItems(Room r, PreSet.Layout l)
     {
-        if (!l.hasItems) 
-        { 
+        if (!l.hasItems)
+        {
             //Debug.Log("Room " + l.name + " has no Items!"); 
             return;
         }
 
         ItemManager.Instance.DecorateRoom(r, l.items);
     }
-    #endregion
 
     #region New Room Generation
     private void GenerateNewRoom(DirectionOfConnection connectionFrom, Room fromRoom, CutShortMode deadMode = CutShortMode.allowed)
@@ -385,11 +389,17 @@ public class RoomGenerator : MonoBehaviour
         }
         else
         {
-            float deadEndChance = deadEnd_Chance;
-            float skipChance = skip_Chance;
+            float deadEndChance = deadEnd_Chance * CheckRuleBook(fromRoom, TypeRoom._1_deadEnd);
+            float skipChance = skip_Chance * CheckRuleBook(fromRoom, TypeRoom.skip);
+
             if (deadMode == CutShortMode.forbidden) { deadEndChance = 0f; skipChance = 0f; }
 
-            type = DecideRoomType(deadEndChance, corner_Chance, straight_Chance, threeway_Chance, fourway_Chance, skipChance);
+            type = DecideRoomType(deadEndChance,
+                                  corner_Chance * CheckRuleBook(fromRoom, TypeRoom._2_corner),
+                                  straight_Chance * CheckRuleBook(fromRoom, TypeRoom._2_straight),
+                                  threeway_Chance * CheckRuleBook(fromRoom, TypeRoom._3_threeway),
+                                  fourway_Chance * CheckRuleBook(fromRoom, TypeRoom._4_fourway),
+                                  skipChance);
         }
 
         // Check if the room should be SKIPPED
@@ -601,8 +611,30 @@ public class RoomGenerator : MonoBehaviour
         room.east.isWall = e;
         room.south.isWall = s;
     }
-    #endregion
 
+    private float CheckRuleBook(Room r, TypeRoom typeInQuestion)
+    {
+        // If no Rules, default to 1
+        if (preferences == null || !preferences.useRules || preferences.rules.Count == 0) { return 1f; }
+
+        // Check rules for TypeInQuestion
+        for (int i = 0; i < preferences.rules.Count; i++)
+        {
+            // Check if the FROM-ROOM type has rules
+            if (preferences.rules[i].fromType == r.type)
+            {
+                // Check that this is the correct type in question
+                if (preferences.rules[i].afterType == typeInQuestion)
+                {
+                    // The Rule states that this FromType has consequences for the TypeInQuestion
+                    return preferences.rules[i].chanceModifier;
+                }
+            }
+        }
+
+        // If no Rules regarding TypeInQuestion, default to 1
+        return 1;
+    }
     #endregion
 
     #region Connections

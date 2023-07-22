@@ -16,6 +16,20 @@ MonoBehaviour:
   cornerChance: 2
   straigthChance: 3
   threewayChance: 1
-  fourwayChance: 50
+  fourwayChance: 1
   skipChance: 1
-  forbidCuttingShort: 0
+  forbidCuttingShort: 1
+  useRules: 0
+  rules:
+  - fromType: 4
+    afterType: 2
+    chanceModifier: 10
+  - fromType: 2
+    afterType: 2
+    chanceModifier: 0
+  - fromType: 4
+    afterType: 2
+    chanceModifier: 10
+  - fromType: 4
+    afterType: 4
+    chanceModifier: 0

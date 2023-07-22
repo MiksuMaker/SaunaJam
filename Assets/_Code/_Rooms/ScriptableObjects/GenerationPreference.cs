@@ -18,5 +18,20 @@ public class GenerationPreference : ScriptableObject
 
     [Space(10)]
     // Can a RoomGeneration be cut short from an "unlucky" DeadEnd?
-    public bool forbidCuttingShort = true;   
+    public bool forbidCuttingShort = true;
+
+    [Header("Rule Settings")]
+    [SerializeField] public bool useRules = true;
+    [SerializeField] public List<Rule> rules;
+
+
+    [System.Serializable]
+    public class Rule
+    {
+        public TypeRoom fromType;   // Rule is activated if this is the type of room connecting from
+
+        public TypeRoom afterType;  // ChanceModifier alters chances for this type of room
+
+        public float chanceModifier; // 0 = disabled, 10 (etc. high number) = almost guaranteed
+    }
 }
