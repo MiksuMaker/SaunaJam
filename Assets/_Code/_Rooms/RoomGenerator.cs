@@ -403,7 +403,7 @@ public class RoomGenerator : MonoBehaviour
         }
 
         // Check if the room should be SKIPPED
-        if (type == TypeRoom.skip) { Debug.LogWarning("Skipped"); return; /* Skip it */}
+        if (type == TypeRoom.skip) { /*Debug.LogWarning("Skipped"); */ return; /* Skip it */}
 
 
         // THEN, Make new Room

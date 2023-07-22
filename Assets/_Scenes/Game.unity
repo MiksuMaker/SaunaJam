@@ -778,7 +778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f80963366a578de428519a44cd107265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amountOfRooms: 20
+  amountOfRooms: 50
   roomParent: {fileID: 2097705100}
   startingLayout: {fileID: 11400000, guid: 1f9c47770d4c11a48b979fc754ef4c25, type: 2}
   preferences: {fileID: 11400000, guid: 9f4477a395296dd4785e637ef5bde5b3, type: 2}
