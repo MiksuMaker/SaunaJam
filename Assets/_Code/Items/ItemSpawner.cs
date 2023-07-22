@@ -26,8 +26,7 @@ public class ItemSpawner : MonoBehaviour
 
         // First, spawn those items that MUST be spawned
         //MustPlaceItem(rooms, 1, 1, 1, 0, 1);
-        MustPlaceItem(rooms, 1, 1, 1, 0, 1);
-        //MustPlaceItem(rooms, 0, 0, 0, 0, 10);
+        MustPlaceItem(rooms, 10, 8, 6);
 
         // Start spawning items
         foreach (Room r in rooms)
@@ -107,7 +106,7 @@ public class ItemSpawner : MonoBehaviour
             }
 
             // Reshuffle rooms
-            //rooms = ShuffleRooms(rooms);
+            rooms = ShuffleRooms(rooms);
         }
     }
     #endregion
