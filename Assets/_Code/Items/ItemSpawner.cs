@@ -19,6 +19,7 @@ public class ItemSpawner : MonoBehaviour
         //rooms = rooms.OrderByDescending(x => x.depth).ToList();
         rooms = ShuffleRooms(rooms);
 
+
         int amountOfWater = 5;
 
         int itemsPlaced = 0;
@@ -95,7 +96,6 @@ public class ItemSpawner : MonoBehaviour
                     successes++;
                     if (successes >= musts[i]) { break; }
                 }
-                Debug.Log("Tried to find spot for typeof " + types[i]);
             }
 
             // Check that all items spawned
@@ -115,21 +115,25 @@ public class ItemSpawner : MonoBehaviour
     #region Room Shuffling
     private List<Room> ShuffleRooms(List<Room> rooms)
     {
-        DebugAllRooms(rooms);
         for (int i = 0; i < rooms.Count; i++)
         {
-            Room temp = rooms[0];
-            int randomIndex = Random.Range(0, rooms.Count);
-            rooms[randomIndex] = temp;
+            // Skip first one
+            if (i == 0) { continue; }
 
-            //Debug.Log("Placed room nro: " + i + " into slot nro: " + randomIndex);
+            Room temp1 = rooms[i];
+            int rand = Random.Range(1, rooms.Count);
+            Room temp2 = rooms[rand];
+
+            // Change places between the rooms
+            rooms[i] = temp2;
+            rooms[rand] = temp1;
         }
-        DebugAllRooms(rooms);
         return rooms;
     }
 
     private void DebugAllRooms(List<Room> rooms)
     {
+        //Debug.LogWarning("==== NEW DEBUG ROUND COMMENCING ====");
         foreach (var r in rooms)
         {
             Debug.Log(r.name);
