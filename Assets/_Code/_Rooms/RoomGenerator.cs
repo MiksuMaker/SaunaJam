@@ -48,6 +48,10 @@ public class RoomGenerator : MonoBehaviour
         start,
     }
 
+    enum DeadEndMode
+    {
+        allowed, forceDeadEnd, forbidden,
+    }
     #endregion
 
     #region Setup
@@ -130,7 +134,7 @@ public class RoomGenerator : MonoBehaviour
         int stubCount = roomsWithUnfinishedConnections.Count;
         for (int i = 0; i < stubCount; i++)
         {
-            CheckDirectionsAndGenerateIfNecessary(roomsWithUnfinishedConnections[0], true); // V1, just dead ends
+            CheckDirectionsAndGenerateIfNecessary(roomsWithUnfinishedConnections[0], DeadEndMode.forceDeadEnd); // V1, just dead ends
         }
     }
 
@@ -327,20 +331,34 @@ public class RoomGenerator : MonoBehaviour
     #endregion
 
     #region New Room Generation
-    private void GenerateNewRoom(DirectionOfConnection connectionFrom, Room fromRoom, bool forceDeadEnd = false)
+    private void GenerateNewRoom(DirectionOfConnection connectionFrom, Room fromRoom, DeadEndMode deadMode = DeadEndMode.allowed)
     {
         // Make new Room
         Room room = new Room(fromRoom.depth + 1);
 
         // DECIDE Room type
-        if (!forceDeadEnd) 
+        //if (deadMode == DeadEndMode.allowed)
+        //{
+        //    room.type = DecideRoomType(.5f, 2f, 30f, 1f, 1f);
+        //}
+        //else
+        //{
+        //    room.type = TypeRoom._1_deadEnd;
+        //}
+        Debug.LogError("FINISH THIS!!!!");
+
+
+        // THIS needs to take DeadEndMode into calculations, and handle it with grace
+        if (deadMode == DeadEndMode.forceDeadEnd)
         {
-            room.type = DecideRoomType(.5f, 2f, 3f, 1f, 1f);
+            room.type = TypeRoom._1_deadEnd;
         }
-        else 
+        else
         {
-            room.type = TypeRoom._1_deadEnd; 
+            float deadEndChance = .5f;
+            if (deadMode == DeadEndMode.forbidden) ;
         }
+
 
         // Orientation
         room.orientation = DecideOrientation(room.type, connectionFrom);
@@ -593,25 +611,25 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
-    private void CheckDirectionsAndGenerateIfNecessary(Room r, bool forceDeadEnd = false)
+    private void CheckDirectionsAndGenerateIfNecessary(Room r, DeadEndMode dMode = DeadEndMode.allowed)
     {
         // Check each connection and connect if needed
         if (CheckConnection(r.north))
         {
             // Create a room there
-            GenerateNewRoom(DirectionOfConnection.south, r, forceDeadEnd);
+            GenerateNewRoom(DirectionOfConnection.south, r, dMode);
         }
         if (CheckConnection(r.west))
         {
-            GenerateNewRoom(DirectionOfConnection.east, r, forceDeadEnd);
+            GenerateNewRoom(DirectionOfConnection.east, r, dMode);
         }
         if (CheckConnection(r.east))
         {
-            GenerateNewRoom(DirectionOfConnection.west, r, forceDeadEnd);
+            GenerateNewRoom(DirectionOfConnection.west, r, dMode);
         }
         if (CheckConnection(r.south))
         {
-            GenerateNewRoom(DirectionOfConnection.north, r, forceDeadEnd);
+            GenerateNewRoom(DirectionOfConnection.north, r, dMode);
         }
 
         // Remove from unifinished rooms
