@@ -107,6 +107,10 @@ public class Drinker : MonoBehaviour
     private void HandleDehydrationEffects()
     {
         // Do some heat up effect according to how severe the Thirst is
+        float warningEffectPercentage = 1 - (current_hydrationLevel / (warningPercentage * MAX_hydrationLevel));
+
+        // Effect up to that percentage the desired effect
+        UI_Controller.Instance.AdjustHeatEffect(warningEffectPercentage);
     }
     #endregion
 }
