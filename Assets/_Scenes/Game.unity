@@ -323,7 +323,7 @@ MonoBehaviour:
   current_hydrationLevel: 0
   warningPercentage: 0.25
   ticksPerHydrationDrop: 2
-  hydrationPerDrink: 4
+  hydrationPerDrink: 6
 --- !u!1 &602648878
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,7 +710,7 @@ MonoBehaviour:
   heatSlideTime: 2
   heatImage: {fileID: 1190044276}
   baseColor: {r: 0.98039216, g: 0.42352942, b: 0, a: 0}
-  MAX_Alpha: 200
+  MAX_Alpha: 100
 --- !u!1 &1384858516
 GameObject:
   m_ObjectHideFlags: 0
