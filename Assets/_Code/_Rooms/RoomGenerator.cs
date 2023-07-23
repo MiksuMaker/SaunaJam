@@ -88,6 +88,8 @@ public class RoomGenerator : MonoBehaviour
         if (preferences == null || !usePreferences) { return; }
 
         // Set settings according to Preferences
+        amountOfRooms = preferences.amountOfRooms;
+
         deadEnd_Chance = preferences.deadEndChance;
         corner_Chance = preferences.cornerChance;
         straight_Chance = preferences.straigthChance;

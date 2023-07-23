@@ -5,6 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "ScriptableObjects/RoomGenerationPreference")]
 public class GenerationPreference : ScriptableObject
 {
+    [Header("Amount of Rooms")]
+    public int amountOfRooms = 20;
+
     [Header("Chances for certain room type")]
 
     // What is spesific type of room's chance of spawning in

@@ -10,15 +10,33 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38b5e83a089f5a64694db0abeb8fd392, type: 3}
-  m_Name: Preference 1
+  m_Name: Long Tunnel
   m_EditorClassIdentifier: 
   amountOfRooms: 30
-  deadEndChance: 0.5
+  deadEndChance: 3
   cornerChance: 2
   straigthChance: 3
   threewayChance: 1
-  fourwayChance: 1
-  skipChance: 1
+  fourwayChance: 0.5
+  skipChance: 3
   forbidCuttingShort: 1
   useRules: 1
-  rules: []
+  rules:
+  - fromType: 2
+    afterType: 2
+    chanceModifier: 0.5
+  - fromType: 2
+    afterType: 0
+    chanceModifier: 0.5
+  - fromType: 2
+    afterType: 3
+    chanceModifier: 3
+  - fromType: 1
+    afterType: 2
+    chanceModifier: 2
+  - fromType: 3
+    afterType: 5
+    chanceModifier: 4
+  - fromType: 3
+    afterType: 0
+    chanceModifier: 3
