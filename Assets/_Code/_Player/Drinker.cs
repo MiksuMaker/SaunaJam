@@ -11,10 +11,13 @@ public class Drinker : MonoBehaviour
     [SerializeField] public int START_hydrationLevel = 10;
     [SerializeField] public int MAX_hydrationLevel = 20;
     [Space(10)]
-    [SerializeField] public int hydrationLevel;
+    [SerializeField] public int current_hydrationLevel;
+    [Header("DE-Hydration")]
+    [Range(0f, 1f)]
+    [SerializeField] float warningPercentage = 0.25f;
     [SerializeField] int ticksPerHydrationDrop = 4;
     int currentTicksLeft;
-    [Header("Hydration")]
+    [Header("RE-Hydration")]
     [SerializeField] int hydrationPerDrink = 4;
     #endregion
 
@@ -26,7 +29,7 @@ public class Drinker : MonoBehaviour
 
     private void SetupDrinker()
     {
-        hydrationLevel = START_hydrationLevel;
+        current_hydrationLevel = START_hydrationLevel;
         currentTicksLeft = ticksPerHydrationDrop;
 
         // Subscribe to delegates
@@ -54,8 +57,8 @@ public class Drinker : MonoBehaviour
     private void ReduceHydration()
     {
         // Reduce Hydration if over zero
-        if (hydrationLevel > 0)
-        { hydrationLevel--; }
+        if (current_hydrationLevel > 0)
+        { current_hydrationLevel--; }
 
         // Check for effects
         HandleDehydration();
@@ -63,9 +66,11 @@ public class Drinker : MonoBehaviour
 
     private void HandleDehydration()
     {
-        // Check if Hydration is below half
-        if (hydrationLevel < (MAX_hydrationLevel / 4))
+        // Check if Hydration is below warning percentage
+        if (warningPercentage >= ((float)current_hydrationLevel / (float)MAX_hydrationLevel))
         {
+            Debug.Log("Warning%: " + warningPercentage + ", value: " + ((float)current_hydrationLevel / (float)MAX_hydrationLevel));
+
             // Getting dehydrated!
             if (debugOn) { Debug.Log("Getting thirsty.."); }
 
@@ -75,7 +80,7 @@ public class Drinker : MonoBehaviour
 
 
             // Check if opposite of drowning has happened
-            if (hydrationLevel <= 0)
+            if (current_hydrationLevel <= 0)
             {
                 // You have died of thirst x_x
                 if (debugOn) { Debug.Log("You have died of thirst! x_x"); }
@@ -89,12 +94,12 @@ public class Drinker : MonoBehaviour
     #region HYDRATE
     public void IncreaseHydration()
     {
-        hydrationLevel += hydrationPerDrink;
+        current_hydrationLevel += hydrationPerDrink;
 
         // Check that hydration doesn't go too high
-        hydrationLevel = Mathf.Min(hydrationLevel, MAX_hydrationLevel);
+        current_hydrationLevel = Mathf.Min(current_hydrationLevel, MAX_hydrationLevel);
 
-        if (debugOn) { Debug.Log("Hydration is now at " + hydrationLevel); }
+        if (debugOn) { Debug.Log("Hydration is now at " + current_hydrationLevel); }
     }
     #endregion
 
