@@ -168,6 +168,7 @@ GameObject:
   - component: {fileID: 572642061}
   - component: {fileID: 572642062}
   - component: {fileID: 572642063}
+  - component: {fileID: 572642064}
   m_Layer: 0
   m_Name: PlayerController
   m_TagString: Untagged
@@ -254,6 +255,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad3c49631705512428a5e1662095dc0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &572642064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572642057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37386f357a067a84c884a36731c18ba2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  START_hydrationLevel: 1
+  MAX_hydrationLevel: 20
+  hydrationLevel: 0
+  ticksPerHydrationDrop: 1
+  hydrationPerDrink: 4
 --- !u!1 &602648878
 GameObject:
   m_ObjectHideFlags: 0

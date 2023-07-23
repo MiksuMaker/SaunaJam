@@ -5,7 +5,9 @@ using UnityEngine;
 public class RoomExplorer : MonoBehaviour
 {
     #region Properties
-    //public Direction currentFacingDirection = Direction.north;
+    public delegate void MovementTick();
+    public MovementTick moveTick;
+
     public Orientation currentOrientation = Orientation.north;
 
     [SerializeField]
@@ -78,6 +80,9 @@ public class RoomExplorer : MonoBehaviour
 
     private void MovePlayer(Vector3 moveVector)
     {
+        // Call delegate
+        moveTick();
+
         if (moveCoroutine != null)
         {
             StopCoroutine(moveCoroutine);

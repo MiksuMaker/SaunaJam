@@ -7,6 +7,13 @@ public class Collector : MonoBehaviour
     #region Properties
     static public Collector Instance;
 
+    public delegate void WaterCollectedDelegate();
+    public WaterCollectedDelegate waterCollected;
+    public delegate void WoodCollectedDelegate();
+    public WoodCollectedDelegate woodCollected;
+    public delegate void StoneCollectedDelegate();
+    public StoneCollectedDelegate stoneCollected;
+
     int waterAmountCollected = 0;
     int woodAmountCollected = 0;
     int stoneAmountCollected = 0;
@@ -44,7 +51,9 @@ public class Collector : MonoBehaviour
     {
         waterAmountCollected++;
 
-        Debug.Log("Water amount: " + waterAmountCollected);
+        //Debug.Log("Water amount: " + waterAmountCollected);
+
+        waterCollected();
     }
 
     private void CollectWood()

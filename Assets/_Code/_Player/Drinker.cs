@@ -5,6 +5,8 @@ using UnityEngine;
 public class Drinker : MonoBehaviour
 {
     #region Properties
+    [SerializeField] bool debugOn = false;
+
     [Header("Hydration Level")]
     [SerializeField] public int START_hydrationLevel = 10;
     [SerializeField] public int MAX_hydrationLevel = 20;
@@ -26,6 +28,10 @@ public class Drinker : MonoBehaviour
     {
         hydrationLevel = START_hydrationLevel;
         currentTicksLeft = ticksPerHydrationDrop;
+
+        // Subscribe to delegates
+        Collector.Instance.waterCollected += IncreaseHydration;
+        GetComponent<RoomExplorer>().moveTick += TickHydration;
     }
     #endregion
 
@@ -48,7 +54,7 @@ public class Drinker : MonoBehaviour
     private void ReduceHydration()
     {
         // Reduce Hydration if over zero
-        if (hydrationLevel < 0)
+        if (hydrationLevel > 0)
         { hydrationLevel--; }
 
         // Check for effects
@@ -61,7 +67,7 @@ public class Drinker : MonoBehaviour
         if (hydrationLevel <= 0)
         {
             // You have died of thirst x_x
-            Debug.Log("You have died of thirst!");
+            if (debugOn) { Debug.Log("You have died of thirst! x_x"); }
         }
     }
     #endregion
@@ -73,6 +79,8 @@ public class Drinker : MonoBehaviour
 
         // Check that hydration doesn't go too high
         hydrationLevel = Mathf.Min(hydrationLevel, MAX_hydrationLevel);
+
+        if (debugOn) { Debug.Log("Hydration is now at " + hydrationLevel); }
     }
     #endregion
 }
