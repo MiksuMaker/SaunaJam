@@ -318,7 +318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugOn: 1
-  START_hydrationLevel: 6
+  START_hydrationLevel: 10
   MAX_hydrationLevel: 20
   current_hydrationLevel: 0
   warningPercentage: 0.25
@@ -710,7 +710,7 @@ MonoBehaviour:
   heatSlideTime: 2
   heatImage: {fileID: 1190044276}
   baseColor: {r: 0.98039216, g: 0.42352942, b: 0, a: 0}
-  MAX_Alpha: 50
+  MAX_Alpha: 200
 --- !u!1 &1384858516
 GameObject:
   m_ObjectHideFlags: 0

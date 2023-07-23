@@ -61,15 +61,15 @@ public class Drinker : MonoBehaviour
         { current_hydrationLevel--; }
 
         // Check for effects
-        HandleDehydration();
+        CheckDehydration();
     }
 
-    private void HandleDehydration()
+    public void CheckDehydration()
     {
         // Check if Hydration is below warning percentage
         if (warningPercentage >= ((float)current_hydrationLevel / (float)MAX_hydrationLevel))
         {
-            Debug.Log("Warning%: " + warningPercentage + ", value: " + ((float)current_hydrationLevel / (float)MAX_hydrationLevel));
+            //Debug.Log("Warning%: " + warningPercentage + ", value: " + ((float)current_hydrationLevel / (float)MAX_hydrationLevel));
 
             // Getting dehydrated!
             if (debugOn) { Debug.Log("Getting thirsty.."); }
@@ -88,6 +88,11 @@ public class Drinker : MonoBehaviour
                 // Die();
             }
         }
+        else
+        {
+            // Reset Hydration values
+            HandleDehydrationEffects(true);
+        }
     }
     #endregion
 
@@ -100,12 +105,17 @@ public class Drinker : MonoBehaviour
         current_hydrationLevel = Mathf.Min(current_hydrationLevel, MAX_hydrationLevel);
 
         if (debugOn) { Debug.Log("Hydration is now at " + current_hydrationLevel); }
+
+        // Check Hydration level
+        CheckDehydration();
     }
     #endregion
 
     #region EFFECTS
-    private void HandleDehydrationEffects()
+    private void HandleDehydrationEffects(bool reset = false)
     {
+        if (reset) { UI_Controller.Instance.AdjustHeatEffect(0f); }
+
         // Do some heat up effect according to how severe the Thirst is
         float warningEffectPercentage = 1 - (current_hydrationLevel / (warningPercentage * MAX_hydrationLevel));
 

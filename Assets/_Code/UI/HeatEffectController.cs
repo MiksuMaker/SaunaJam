@@ -16,6 +16,7 @@ public class HeatEffectController : MonoBehaviour
     #endregion
 
     #region Setup
+    
     #endregion
 
     #region Functions
@@ -39,11 +40,13 @@ public class HeatEffectController : MonoBehaviour
 
         Color newColor = heatImage.color;
 
+        //float startAlpha = heatImage.color.a / 255;
         float startAlpha = heatImage.color.a;
-        float goalAlpha = startAlpha + difference;
+        //Debug.Log("Alpha Original: " + heatImage.color.a + ", Alpha Value: " + startAlpha);
+        float goalAlpha = (heatImage.color.a + difference) / 255;
         float nextAlpha;
 
-        Debug.Log("Start: " + startAlpha + ", Goal: " + goalAlpha + ", Difference: " + difference);
+        //Debug.Log("Start: " + startAlpha + ", Goal: " + goalAlpha + ", Difference: " + difference);
 
         while (passedTime < heatSlideTime)
         {
@@ -51,9 +54,11 @@ public class HeatEffectController : MonoBehaviour
 
             // Slide
             nextAlpha = Mathf.Lerp(startAlpha, goalAlpha, (passedTime / heatSlideTime));
-            Debug.Log("Next Alpha: " + nextAlpha);
-            //newColor = new Color(heatImage.color.r, heatImage.color.g, heatImage.color.b, nextAlpha);
-            newColor = new Color32((byte)heatImage.color.r, (byte)heatImage.color.g, (byte)heatImage.color.b, (byte)(nextAlpha / 100));
+
+
+            //Debug.Log("Next Alpha: " + nextAlpha);
+            newColor = new Color(heatImage.color.r, heatImage.color.g, heatImage.color.b, nextAlpha);
+            //newColor = new Color32((byte)heatImage.color.r, (byte)heatImage.color.g, (byte)heatImage.color.b, (byte)(nextAlpha / 100));
             heatImage.color = newColor;
 
             // Wait
