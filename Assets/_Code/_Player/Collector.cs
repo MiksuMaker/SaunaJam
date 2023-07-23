@@ -53,19 +53,23 @@ public class Collector : MonoBehaviour
 
         //Debug.Log("Water amount: " + waterAmountCollected);
 
-        waterCollected();
+        waterCollected?.Invoke();
     }
 
     private void CollectWood()
     {
         woodAmountCollected++;
-        Debug.Log("Wood amount: " + woodAmountCollected);
+        //Debug.Log("Wood amount: " + woodAmountCollected);
+
+        woodCollected?.Invoke();
     }
 
     private void CollectStone()
     {
         stoneAmountCollected++;
         Debug.Log("Stone amount: " + stoneAmountCollected);
+
+        stoneCollected?.Invoke();
     }
     #endregion
 }
