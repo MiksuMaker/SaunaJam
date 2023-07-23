@@ -268,10 +268,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugOn: 0
-  START_hydrationLevel: 10
+  START_hydrationLevel: 6
   MAX_hydrationLevel: 20
   hydrationLevel: 0
-  ticksPerHydrationDrop: 4
+  ticksPerHydrationDrop: 2
   hydrationPerDrink: 4
 --- !u!1 &602648878
 GameObject:

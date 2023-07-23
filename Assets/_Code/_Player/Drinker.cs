@@ -58,16 +58,30 @@ public class Drinker : MonoBehaviour
         { hydrationLevel--; }
 
         // Check for effects
-        HandleDehydrationEffects();
+        HandleDehydration();
     }
 
-    private void HandleDehydrationEffects()
+    private void HandleDehydration()
     {
-        // Check if opposite of drowning has happened
-        if (hydrationLevel <= 0)
+        // Check if Hydration is below half
+        if (hydrationLevel < (MAX_hydrationLevel / 4))
         {
-            // You have died of thirst x_x
-            if (debugOn) { Debug.Log("You have died of thirst! x_x"); }
+            // Getting dehydrated!
+            if (debugOn) { Debug.Log("Getting thirsty.."); }
+
+
+            // Do some UI depending on how dehydrated you are
+            HandleDehydrationEffects();
+
+
+            // Check if opposite of drowning has happened
+            if (hydrationLevel <= 0)
+            {
+                // You have died of thirst x_x
+                if (debugOn) { Debug.Log("You have died of thirst! x_x"); }
+
+                // Die();
+            }
         }
     }
     #endregion
@@ -81,6 +95,13 @@ public class Drinker : MonoBehaviour
         hydrationLevel = Mathf.Min(hydrationLevel, MAX_hydrationLevel);
 
         if (debugOn) { Debug.Log("Hydration is now at " + hydrationLevel); }
+    }
+    #endregion
+
+    #region EFFECTS
+    private void HandleDehydrationEffects()
+    {
+        // Do some heat up effect according to how severe the Thirst is
     }
     #endregion
 }
