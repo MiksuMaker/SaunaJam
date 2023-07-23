@@ -131,7 +131,7 @@ public class RoomGenerator : MonoBehaviour
             // Handle Settings
             CutShortMode dMode = CutShortMode.allowed;
             if (forbidCutttingShort && roomsWithUnfinishedConnections.Count <= 1)
-            { Debug.Log("DeadEnds forbidden as last piece!"); dMode = CutShortMode.forbidden; }
+            { /*Debug.Log("DeadEnds forbidden as last piece!");*/ dMode = CutShortMode.forbidden; }
 
             // Create rooms for each unconnected connection
             CheckDirectionsAndGenerateIfNecessary(nextToConnect, dMode);

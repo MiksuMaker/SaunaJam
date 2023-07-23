@@ -11,9 +11,8 @@ public class WaterManifest : ItemManifest
 
     public override void UseItem()
     {
-        //Debug.Log("Water was collected!");
-
         // Notify that water was collected
+        Collector.Instance.CollectItem(item.type);
 
         // Destroy item
         base.UseItem();

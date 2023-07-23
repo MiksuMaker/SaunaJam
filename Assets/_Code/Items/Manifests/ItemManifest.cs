@@ -29,7 +29,6 @@ public class ItemManifest : MonoBehaviour
     public virtual void UseItem()
     {
         // Do what you want the item to do here
-        Debug.Log("Item " + item.type + " in use!");
 
         // Destroy after use
         ItemManager.Instance.RemoveItemManifest(this);

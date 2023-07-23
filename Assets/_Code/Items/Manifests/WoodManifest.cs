@@ -12,9 +12,8 @@ public class WoodManifest : ItemManifest
 
     public override void UseItem()
     {
-        //Debug.Log("WOOD was collected!");
-
         // Notify that WOOD was collected
+        Collector.Instance.CollectItem(item.type);
 
         // Destroy item
         base.UseItem();

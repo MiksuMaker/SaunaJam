@@ -11,9 +11,8 @@ public class SaunaStoneManifest : ItemManifest
 
     public override void UseItem()
     {
-        Debug.Log("SaunaStone was collected!");
-
         // Notify that WOOD was collected
+        Collector.Instance.CollectItem(item.type);
 
         // Destroy item
         base.UseItem();
