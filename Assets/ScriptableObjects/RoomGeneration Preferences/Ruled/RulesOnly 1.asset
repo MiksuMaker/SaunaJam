@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38b5e83a089f5a64694db0abeb8fd392, type: 3}
+  m_Name: RulesOnly 1
+  m_EditorClassIdentifier: 
+  amountOfRooms: 40
+  deadEndChance: 1
+  cornerChance: 1
+  straigthChance: 1
+  threewayChance: 1
+  fourwayChance: 1
+  skipChance: 1
+  forbidCuttingShort: 1
+  useRules: 1
+  rules:
+  - fromType: 3
+    afterType: 2
+    chanceModifier: 4
+  - fromType: 4
+    afterType: 2
+    chanceModifier: 4
+  - fromType: 2
+    afterType: 1
+    chanceModifier: 4
+  - fromType: 1
+    afterType: 3
+    chanceModifier: 4
+  - fromType: 4
+    afterType: 4
+    chanceModifier: 0
+  - fromType: 4
+    afterType: 3
+    chanceModifier: 0
