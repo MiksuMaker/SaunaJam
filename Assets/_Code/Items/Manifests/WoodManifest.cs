@@ -10,12 +10,12 @@ public class WoodManifest : ItemManifest
        base.SetupManifest(item, worldPos);
     }
 
-    public override void UseItem()
+    public override void InteractWithItem()
     {
         // Notify that WOOD was collected
         Collector.Instance.CollectItem(item.type);
 
         // Destroy item
-        base.UseItem();
+        base.InteractWithItem();
     }
 }

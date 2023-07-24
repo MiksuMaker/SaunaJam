@@ -204,6 +204,53 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &270833738
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 270833739}
+  - component: {fileID: 270833740}
+  m_Layer: 0
+  m_Name: Sauna
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &270833739
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 270833738}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1762011181}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &270833740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 270833738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39bfa30c44878484c93f2f8c38eaada8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  givenWoodLogs: 0
+  givenSaunaStones: 0
+  neededWoodLogs: 1
 --- !u!1 &572642057
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,6 +352,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad3c49631705512428a5e1662095dc0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  woodAmountCollected: 0
+  stoneAmountCollected: 0
 --- !u!114 &572642064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1042,6 +1091,7 @@ Transform:
   m_Children:
   - {fileID: 602648879}
   - {fileID: 2010123003}
+  - {fileID: 270833739}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -23,7 +23,7 @@ public class ItemHandler : MonoBehaviour
         //}
 
         // Default to just use
-        itemManifest.UseItem();
+        itemManifest.InteractWithItem();
     }
     #endregion
 }

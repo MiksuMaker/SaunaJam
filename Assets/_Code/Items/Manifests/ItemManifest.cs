@@ -26,7 +26,7 @@ public class ItemManifest : MonoBehaviour
     #endregion
 
     #region Handling
-    public virtual void UseItem()
+    public virtual void InteractWithItem()
     {
         // Do what you want the item to do here
 

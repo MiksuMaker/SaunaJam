@@ -15,10 +15,10 @@ public class SaunaManifest : ItemManifest
     #endregion
 
     #region Handling
-    public override void UseItem()
+    public override void InteractWithItem()
     {
         // Do what you want the item to do here
-        Debug.Log("Item " + item.type + " in use!");
+        SaunaManager.Instance.TrySacrificeItems();
 
         // Destroy after use
         //ItemManager.Instance.RemoveItem(this);

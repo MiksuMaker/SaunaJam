@@ -15,8 +15,8 @@ public class Collector : MonoBehaviour
     public StoneCollectedDelegate stoneCollected;
 
     int waterAmountCollected = 0;
-    int woodAmountCollected = 0;
-    int stoneAmountCollected = 0;
+    public int woodAmountCollected = 0;
+    public int stoneAmountCollected = 0;
     #endregion
 
     #region Setup

@@ -20,7 +20,7 @@ public class WritingManifest : ItemManifest
     #endregion
 
     #region Functions
-    public override void UseItem()
+    public override void InteractWithItem()
     {
         // Do nothing
 
