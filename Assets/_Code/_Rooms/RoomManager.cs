@@ -20,6 +20,7 @@ public class RoomManager : MonoBehaviour
     RoomHusk huskCenter;
 
     RoomHusk[,] huskGrid = new RoomHusk[7, 7];
+    public RoomHusk currentRoomHusk {  get { return huskGrid[3, 3]; } }
 
     // String paths
     string deadEnd = "Room 1 DeadEnd";
@@ -283,7 +284,7 @@ public class RoomManager : MonoBehaviour
         ManifestRoom(room, husk);
 
         // Manifest Items too
-        ItemManager.Instance.ManifestRoomItems(room, new Vector3(X, 0f, Y));
+        ItemManager.Instance.ManifestRoomItems(room, new Vector3(X, 0f, Y), husk);
     }
 
 
@@ -295,6 +296,7 @@ public class RoomManager : MonoBehaviour
 
     }
 
+    #region HuskGrid Shifting
     private void ShiftHuskGrid(int xChange, int yChange)
     {
         //bool xPositive = (xChange >= 0) ? true : false;
@@ -351,8 +353,13 @@ public class RoomManager : MonoBehaviour
 
         // Move there
         huskGrid[xTo, yTo] = shifted;
-    }
 
+        // Null the old reference
+        huskGrid[xFrom, yFrom] = null;
+    }
+    #endregion
+
+    #region HuskGrid Debug
     private void PrintHuskGrid()
     {
         string log = "";
@@ -376,6 +383,7 @@ public class RoomManager : MonoBehaviour
         if (huskGrid[x, y] == null) { return "O "; }
         else { return "X "; }
     }
+    #endregion
     #endregion
 
     #region New Room Movement
@@ -449,8 +457,12 @@ public class RoomManager : MonoBehaviour
         // Update current room etc.
         currentRoom = newRoom;
 
-        ShiftHuskGrid((int)dir.x, -(int)dir.y);
+        Debug.Log("Before shifting:");
+        PrintHuskGrid();
+        ShiftHuskGrid((int)dir.x, (int)dir.y);
 
+        Debug.Log("After shifting:");
+        PrintHuskGrid();
         // Kill all children THAT ARE NO LONGER NEEDED
         //foreach (Transform child in transform)
         //{
@@ -458,16 +470,21 @@ public class RoomManager : MonoBehaviour
         //}
         DestroyManifestationsNotNeeded();
 
+
+        Debug.Log("After Destroying Unnecessary manifestations:");
+        PrintHuskGrid();
+
         // Demanifest all items
-        ItemManager.Instance.ClearManifestations();
+        //ItemManager.Instance.ClearManifestations();
 
         // Setup new husks
         FillUpRooms(currentRoom);
 
+        Debug.Log("After Filling up the rooms:");
         PrintHuskGrid();
 
 
-        DebugLogRoom(currentRoom);
+        //DebugLogRoom(currentRoom);
     }
 
     private void DestroyManifestationsNotNeeded()
@@ -476,8 +493,6 @@ public class RoomManager : MonoBehaviour
         int length = 7;
         int middle = 3;
 
-        int spared = 0;
-        int destroyed = 0;
         for (int X = 0; X < length; X++)
         {
             for (int Y = 0; Y < length; Y++)
@@ -487,18 +502,26 @@ public class RoomManager : MonoBehaviour
                 // Otherwise, destroy it
                 if (huskGrid[X, Y] != null)
                 {
+                    Debug.Log(X + "," + Y + ": " + (huskGrid[X, Y] != null) + " || ");
                     if (X == middle || Y == middle)
                     {
-                        spared++;
                         continue;
                     }
 
-                    Destroy(huskGrid[X, Y].gameObject);
-                    destroyed++;
+                    DiscardManifestation(X, Y);
                 }
             }
         }
-        Debug.Log("Destroyed " + destroyed + ", Spared " + spared);
+    }
+
+    private void DiscardManifestation(int X, int Y)
+    {
+        // Get rid of any item Manifestations
+        ItemManager.Instance.DemanifestItemsAt(huskGrid[X, Y]);
+
+        // Proceed to scuttle the Husk
+        Destroy(huskGrid[X, Y].gameObject);
+        huskGrid[X, Y] = null;
     }
 
     private Room GetNeighbourAt(Room original, Orientation orientation, int howFar)

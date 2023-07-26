@@ -49,17 +49,17 @@ public class ItemManager : MonoBehaviour
     #endregion
 
     #region MANIFEST ITEMS
-    public void ManifestRoomItems(Room r, Vector3 roomCoordinates)
+    public void ManifestRoomItems(Room r, Vector3 roomCoordinates, RoomHusk husk)
     {
         if (!r.hasItems) { return; }
 
         foreach (Item i in r.items)
         {
-            ManifestItem(i, r, roomCoordinates);
+            ManifestItem(i, r, roomCoordinates, husk);
         }
     }
 
-    public void ManifestItem(Item item, Room r, Vector3 roomCoordinates)
+    public void ManifestItem(Item item, Room r, Vector3 roomCoordinates, RoomHusk husk)
     {
         //GameObject itemGO = Instantiate(Resources.Load(manifestPath), itemParent) as GameObject;
         GameObject itemGO = Instantiate(Resources.Load(ItemTypeToPath(item)), itemParent) as GameObject;
@@ -67,13 +67,28 @@ public class ItemManager : MonoBehaviour
 
         manifestationsList.Add((manifest, r));
 
-        manifest.SetupManifest(item, roomCoordinates);
+        manifest.SetupManifest(item, roomCoordinates, husk);
     }
 
     public void DeManifestItem(ItemManifest manifest, Room r)
     {
         manifestationsList.Remove((manifest, r));
         Destroy(manifest.go);
+    }
+
+    public void DemanifestItemsAt(RoomHusk husk)
+    {
+        // Figure out which manifestation is it about
+        for (int i = 0; i < manifestationsList.Count; i++)
+        {
+            if (husk == manifestationsList[i].Item1.parentHusk)
+            {
+                // It's the same -> Demanifest
+                GameObject mGO = manifestationsList[i].Item1.gameObject;
+                manifestationsList.Remove(manifestationsList[i]);
+                Destroy(mGO);
+            }
+        }
     }
 
     public void ClearManifestations()
@@ -134,7 +149,7 @@ public class ItemManager : MonoBehaviour
 
         AddItem(item, r, wall);
 
-        if (RoomManager.Instance.currentRoom == r) { ManifestItem(item, r, RoomManager.Instance.desiredLocation); }
+        if (RoomManager.Instance.currentRoom == r) { ManifestItem(item, r, RoomManager.Instance.desiredLocation, RoomManager.Instance.currentRoomHusk); }
     }
     #endregion
 

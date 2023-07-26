@@ -7,12 +7,17 @@ public class ItemManifest : MonoBehaviour
     #region Properties
     public Item item;
     public GameObject go { get { return gameObject; } }
+
+    //public Vector3 worldPosition { get { return transform.position; } }
+    public RoomHusk parentHusk;
     #endregion
 
     #region Setup
-    public virtual void SetupManifest(Item item, Vector3 worldPos)
+    public virtual void SetupManifest(Item item, Vector3 worldPos, RoomHusk parent)
     {
         this.item = item;
+
+        parentHusk = parent;
 
         // Setup position and rotation
         transform.position = worldPos;

@@ -12,7 +12,6 @@ public class RoomHusk : MonoBehaviour
     public GameObject graphics;
     public bool hasGraphics { get { return (graphics != null); } }
 
-    IEnumerator roomMover;
     #endregion
 
     #region Setup
@@ -55,48 +54,4 @@ public class RoomHusk : MonoBehaviour
     }
     #endregion
 
-    #region Moving
-    
-
-    private void MoveRoomGraphics(Vector3 fromPos)
-    {
-        if (roomMover != null)
-        {
-            StopCoroutine(roomMover);
-        }
-        roomMover = RoomMover(1f, fromPos);
-        StartCoroutine(roomMover);
-    }
-
-    IEnumerator RoomMover(float desiredTime, Vector3 fromPos)
-    {
-        //Debug.Log("Began moving");
-        float increment = 0.1f;
-
-        WaitForSeconds wait = new WaitForSeconds(increment);
-
-
-        // Move graphics to FromPos
-        graphics.transform.position = fromPos;
-
-        float waitedTime = 0f;
-        while (waitedTime < desiredTime)
-        {
-            yield return wait;
-
-            waitedTime += increment;
-
-            // Move
-            graphics.transform.position = Vector3.Lerp(fromPos, transform.position, (waitedTime / desiredTime));
-        }
-
-        // Finish moving
-        graphics.transform.position = transform.position;
-
-    }
-    #endregion
-
-    #region Husk Moving
-    
-    #endregion
 }

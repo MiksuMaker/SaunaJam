@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class SaunaStoneManifest : ItemManifest
 {
-    public override void SetupManifest(Item item, Vector3 worldPos)
+    public override void SetupManifest(Item item, Vector3 worldPos, RoomHusk husk)
     {
-        base.SetupManifest(item, worldPos);
+        base.SetupManifest(item, worldPos, husk);
     }
 
     public override void InteractWithItem()
