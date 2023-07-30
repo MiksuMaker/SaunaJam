@@ -11,6 +11,7 @@ public class Room
 
     public TypeRoom type;
     public Orientation orientation;
+    public RoomAttribute attribute;
 
     public Connection north;
     public Connection west;

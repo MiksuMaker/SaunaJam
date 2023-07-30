@@ -25,8 +25,8 @@ public class RoomManager : MonoBehaviour
     string straight = "Room 2 Straight";
     string threeway = "Room 3 Threeway";
     string fourway = "Room 4 Fourway";
-    string wide_deadEnd = "Wide Room 1 DeadEnd";
 
+    string wideModifier = "Wide ";
     string mockupModifier = " Mockup";
 
     [SerializeField]
@@ -76,29 +76,29 @@ public class RoomManager : MonoBehaviour
 
         string path = "";
 
+        if (r.attribute == RoomAttribute.wide) { path += wideModifier; }
+
         // Get correct graphics
         switch (r.type)
         {
             case TypeRoom._1_deadEnd:
-                path = deadEnd;
+                path += deadEnd;
                 break;
             case TypeRoom._2_corner:
-                path = corner;
+                path += corner;
                 break;
             case TypeRoom._2_straight:
-                path = straight;
+                path += straight;
                 break;
             case TypeRoom._3_threeway:
-                path = threeway;
+                path += threeway;
                 break;
             case TypeRoom._4_fourway:
-                path = fourway;
-                break;
-            // WIDES
-            case TypeRoom.wide_1_deadEnd:
-                path = wide_deadEnd;
+                path += fourway;
                 break;
         }
+
+        Debug.Log(path);
 
         // Instantiate graphics
         GameObject graphics = Instantiate(Resources.Load(path + mockupModifier), husk.transform) as GameObject;

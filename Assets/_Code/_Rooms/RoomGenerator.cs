@@ -11,7 +11,12 @@ public enum TypeRoom
 
     skip,
 
-    wide_1_deadEnd,
+    //wide_1_deadEnd,
+}
+
+public enum RoomAttribute
+{
+    thin, wide,
 }
 
 public enum Orientation
@@ -243,6 +248,10 @@ public class RoomGenerator : MonoBehaviour
             r.name = i.name;
             r.type = i.type;
             r.orientation = i.orientation;
+
+            // Check if Sauna
+            if (r.name == "Sauna") { r.attribute = RoomAttribute.wide; }
+
             SetupRoomWalls(r, r.type, r.orientation);
             RoomManager.Instance.AddRoomToList(r);
             //SetupSauna(r);
@@ -600,20 +609,6 @@ public class RoomGenerator : MonoBehaviour
             // FOURWAYS
             case (TypeRoom._4_fourway, _):
                 // No walls!
-                break;
-
-            // WIDE DEAD END
-            case (TypeRoom.wide_1_deadEnd, Orientation.north):
-                w = true; e = true; s = true;
-                break;
-            case (TypeRoom.wide_1_deadEnd, Orientation.west):
-                n = true; e = true; s = true;
-                break;
-            case (TypeRoom.wide_1_deadEnd, Orientation.east):
-                w = true; n = true; s = true;
-                break;
-            case (TypeRoom.wide_1_deadEnd, Orientation.south):
-                w = true; e = true; n = true;
                 break;
 
             // DEFAULT
