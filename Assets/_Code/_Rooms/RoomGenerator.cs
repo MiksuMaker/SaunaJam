@@ -10,6 +10,8 @@ public enum TypeRoom
     _4_fourway,
 
     skip,
+
+    wide_1_deadEnd,
 }
 
 public enum Orientation
@@ -598,6 +600,20 @@ public class RoomGenerator : MonoBehaviour
             // FOURWAYS
             case (TypeRoom._4_fourway, _):
                 // No walls!
+                break;
+
+            // WIDE DEAD END
+            case (TypeRoom.wide_1_deadEnd, Orientation.north):
+                w = true; e = true; s = true;
+                break;
+            case (TypeRoom.wide_1_deadEnd, Orientation.west):
+                n = true; e = true; s = true;
+                break;
+            case (TypeRoom.wide_1_deadEnd, Orientation.east):
+                w = true; n = true; s = true;
+                break;
+            case (TypeRoom.wide_1_deadEnd, Orientation.south):
+                w = true; e = true; n = true;
                 break;
 
             // DEFAULT

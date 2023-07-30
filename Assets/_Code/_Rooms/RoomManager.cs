@@ -25,6 +25,7 @@ public class RoomManager : MonoBehaviour
     string straight = "Room 2 Straight";
     string threeway = "Room 3 Threeway";
     string fourway = "Room 4 Fourway";
+    string wide_deadEnd = "Wide Room 1 DeadEnd";
 
     string mockupModifier = " Mockup";
 
@@ -92,6 +93,10 @@ public class RoomManager : MonoBehaviour
                 break;
             case TypeRoom._4_fourway:
                 path = fourway;
+                break;
+            // WIDES
+            case TypeRoom.wide_1_deadEnd:
+                path = wide_deadEnd;
                 break;
         }
 

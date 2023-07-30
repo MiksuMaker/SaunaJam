@@ -22,7 +22,7 @@ MonoBehaviour:
     south_Neighbour_name: 
     items: []
   - name: Sauna
-    type: 0
+    type: 6
     orientation: 3
     north_Neighbour_name: 
     west_Neighbour_name: 
