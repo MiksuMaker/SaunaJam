@@ -10,9 +10,9 @@ public class WritingManifest : ItemManifest
     #endregion
 
     #region Setup
-    public override void SetupManifest(Item item, Vector3 worldPos)
+    public override void SetupManifest(Item item, Vector3 worldPos, RoomAttribute attribute)
     {
-        base.SetupManifest(item, worldPos);
+        base.SetupManifest(item, worldPos, attribute);
 
         // Setup the text
         text.text = item.description;

@@ -67,7 +67,7 @@ public class ItemManager : MonoBehaviour
 
         manifestationsList.Add((manifest, r));
 
-        manifest.SetupManifest(item, roomCoordinates);
+        manifest.SetupManifest(item, roomCoordinates, r.attribute);
     }
 
     public void DeManifestItem(ItemManifest manifest, Room r)

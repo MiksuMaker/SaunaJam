@@ -49,6 +49,7 @@ MonoBehaviour:
     type: 1
     wallOrientation: 0
     description: 
+  graphicsGO: {fileID: 8198199781201046289}
   text: {fileID: 8198199781201046291}
 --- !u!1 &8198199781201046289
 GameObject:

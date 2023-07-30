@@ -49,6 +49,7 @@ MonoBehaviour:
     type: 0
     wallOrientation: 0
     description: 
+  graphicsGO: {fileID: 2384306669975821343}
 --- !u!1001 &6238622592232069511
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -118,6 +119,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3030f4df8ff6b08439d006c649d9d5c8, type: 3}
+--- !u!1 &2384306669975821343 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8611665859673900440, guid: 3030f4df8ff6b08439d006c649d9d5c8, type: 3}
+  m_PrefabInstance: {fileID: 6238622592232069511}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5761175387627589230 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1830647604749015017, guid: 3030f4df8ff6b08439d006c649d9d5c8, type: 3}

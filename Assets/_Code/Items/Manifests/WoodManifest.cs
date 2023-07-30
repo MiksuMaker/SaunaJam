@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class WoodManifest : ItemManifest
 {
-    public override void SetupManifest(Item item, Vector3 worldPos)
+    public override void SetupManifest(Item item, Vector3 worldPos, RoomAttribute attribute)
     {
         //Debug.Log("Wood is manifested!");
-       base.SetupManifest(item, worldPos);
+       base.SetupManifest(item, worldPos, attribute);
     }
 
     public override void InteractWithItem()

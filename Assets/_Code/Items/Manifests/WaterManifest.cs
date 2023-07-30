@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class WaterManifest : ItemManifest
 {
-    public override void SetupManifest(Item item, Vector3 worldPos)
+    public override void SetupManifest(Item item, Vector3 worldPos, RoomAttribute attribute)
     {
-        base.SetupManifest(item, worldPos);
+        base.SetupManifest(item, worldPos, attribute);
     }
 
     public override void InteractWithItem()
