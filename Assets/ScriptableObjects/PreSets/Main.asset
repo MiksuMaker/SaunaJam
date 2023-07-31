@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56e5e138b472ba84e84d941c65a3483e, type: 3}
-  m_Name: Trippy
+  m_Name: Main
   m_EditorClassIdentifier: 
   instructions:
   - name: Intersection
@@ -30,7 +30,7 @@ MonoBehaviour:
     south_Neighbour_name: Inbetween
     items:
     - type: 0
-      wallOrientation: 0
+      wallOrientation: 2
       description: 
     - type: 1
       wallOrientation: 1
