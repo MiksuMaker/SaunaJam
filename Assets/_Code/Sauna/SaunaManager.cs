@@ -109,6 +109,8 @@ public class SaunaManager : MonoBehaviour
         // Wait for long as that animation takes
         yield return new WaitForSeconds(wait);
 
+        float multiLogBonus = 0f;
+
         // Next, play animation for every sacrificed log
         for (int i = 0; i < amount; i++)
         {
@@ -116,15 +118,17 @@ public class SaunaManager : MonoBehaviour
             if (i % 2 == 0)
             {
                 saunaGraphics.ThrowLog(2);
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(0.2f - (Mathf.Min(0.2f, multiLogBonus)));
                 saunaGraphics.DoAnimation(SaunaGraphicsController.SaunaAnimationState.feed_1, out wait);   
             }
             else
             {
                 saunaGraphics.ThrowLog(1);
-                yield return new WaitForSeconds(0.3f);
+                yield return new WaitForSeconds(0.3f - (Mathf.Min(0.3f, multiLogBonus)));
                 saunaGraphics.DoAnimation(SaunaGraphicsController.SaunaAnimationState.feed_2, out wait);   
             }
+
+            multiLogBonus += 0.05f;
 
             // Wait
             yield return new WaitForSeconds(wait);

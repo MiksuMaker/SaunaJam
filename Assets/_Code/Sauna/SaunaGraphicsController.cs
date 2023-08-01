@@ -77,8 +77,6 @@ public class SaunaGraphicsController : MonoBehaviour
 
     public void SetUpLogThrower(Vector3 pos, Vector3 lookAtPos)
     {
-        Debug.Log("Setupping logthrower!");
-
         throwLog = (Instantiate(Resources.Load("Item Interactions/ThrowLog") as GameObject)).GetComponent<ThrowLog>();
 
         // Orient the log

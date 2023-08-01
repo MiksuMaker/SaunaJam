@@ -17,7 +17,6 @@ public class ThrowLog : MonoBehaviour
     #region Functions
     public void DoThrowLogAnimation(int num)
     {
-        Debug.Log("Starting animation!");
         StartCoroutine(Throw(num));
     }
 
