@@ -214,6 +214,7 @@ GameObject:
   m_Component:
   - component: {fileID: 270833739}
   - component: {fileID: 270833740}
+  - component: {fileID: 270833741}
   m_Layer: 0
   m_Name: Sauna
   m_TagString: Untagged
@@ -248,9 +249,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39bfa30c44878484c93f2f8c38eaada8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  saunaGraphics: {fileID: 0}
   givenWoodLogs: 0
   givenSaunaStones: 0
   neededWoodLogs: 1
+--- !u!114 &270833741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 270833738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 965cdbce85cf0224fbfa4c69c745d3a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &572642057
 GameObject:
   m_ObjectHideFlags: 0

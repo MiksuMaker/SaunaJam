@@ -5,12 +5,16 @@ using UnityEngine;
 public class SaunaManifest : ItemManifest
 {
     #region Properties
+    public Animator animator {  get { return graphicsGO.GetComponent<Animator>(); } }
     #endregion
 
     #region Setup
     public override void SetupManifest(Item item, Vector3 worldPos, RoomAttribute attribute)
     {
         base.SetupManifest(item, worldPos, attribute);
+
+        // Hook up with Sauna Graphics
+        SaunaManager.Instance.ConnectSaunaGraphics(this);
     }
     #endregion
 

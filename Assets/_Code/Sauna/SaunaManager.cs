@@ -6,6 +6,7 @@ public class SaunaManager : MonoBehaviour
 {
     #region Properties
     static public SaunaManager Instance;
+    public SaunaGraphicsController saunaGraphics;
 
     [Header("Sacrificed Resources")]
     [SerializeField] int givenWoodLogs = 0;
@@ -29,6 +30,8 @@ public class SaunaManager : MonoBehaviour
         {
             Destroy(this);
         }
+
+        saunaGraphics = GetComponent<SaunaGraphicsController>();
     }
     #endregion
 
@@ -43,6 +46,10 @@ public class SaunaManager : MonoBehaviour
         if (c.woodAmountCollected != 0)
         {
             SacrificeWood(c.woodAmountCollected);
+
+            // ANIMATE
+            StartCoroutine(SacrificeAnimator(c.woodAmountCollected));
+
             // Use all
             c.woodAmountCollected = 0;
             sacrificeSuccess = true;
@@ -74,6 +81,47 @@ public class SaunaManager : MonoBehaviour
         givenSaunaStones += amount;
 
         Debug.Log("Sacrificed " + amount + " sauna stones!");
+    }
+    #endregion
+
+    #region ANIMATIONS
+    public void ConnectSaunaGraphics(SaunaManifest saunaManifest)
+    {
+        saunaGraphics.ConnectSaunaGraphics(saunaManifest);
+    }
+
+    private IEnumerator SacrificeAnimator(int amount)
+    {
+        // Initiate the animationWaitTime
+        float wait = 1f;
+
+        // First, open up the Sauna
+        saunaGraphics.DoAnimation(SaunaGraphicsController.SaunaAnimationState.open, out wait);
+
+        // Wait for long as that animation takes
+        yield return new WaitForSeconds(wait);
+
+        // Next, play animation for every sacrificed log
+        for (int i = 0; i < amount; i++)
+        {
+            // Vary the animation
+            if (i % 2 == 0)
+            {
+                saunaGraphics.DoAnimation(SaunaGraphicsController.SaunaAnimationState.feed_1, out wait);   
+            }
+            else
+            {
+                saunaGraphics.DoAnimation(SaunaGraphicsController.SaunaAnimationState.feed_2, out wait);   
+            }
+
+            // Wait
+            yield return new WaitForSeconds(wait);
+        }
+
+        // Close the Sauna
+        saunaGraphics.DoAnimation(SaunaGraphicsController.SaunaAnimationState.close, out wait);
+
+        yield return new WaitForSeconds(wait);
     }
     #endregion
 }

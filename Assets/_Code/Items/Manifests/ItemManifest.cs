@@ -9,7 +9,7 @@ public class ItemManifest : MonoBehaviour
     public GameObject go { get { return gameObject; } }
 
     [Header("Graphics")]
-    [SerializeField] GameObject graphicsGO;
+    [SerializeField] public GameObject graphicsGO;
     #endregion
 
     #region Setup
