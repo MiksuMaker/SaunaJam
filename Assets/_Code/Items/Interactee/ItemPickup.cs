@@ -34,7 +34,6 @@ public class ItemPickup : MonoBehaviour
         // Move the graphics towards the Player point
         Vector3 origin = graphics.transform.position;
 
-        //Vector3 offset = Vector3.up * 0.2f;
         Vector3 offset = Vector3.up * 0.2f;
         //Vector3 behindPos = (origin - transform.position).normalized;
         Vector3 behindPos = (transform.position - origin).normalized * 0.5f;
