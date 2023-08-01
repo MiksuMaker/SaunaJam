@@ -30,4 +30,9 @@ static public class Easing
           // Second half is from Expo
           : (2 - Mathf.Pow(2, -20 * x + 10)) / 2;
     }
+
+    static public float EaseInExpo(float x)
+    {
+        return x == 0 ? 0 : Mathf.Pow(2, 10 * x - 10);
+    }
 }

@@ -48,6 +48,9 @@ public class ItemPickup : MonoBehaviour
                                                 ogRot.y + Random.Range(-90f, 90f),
                                                 ogRot.z + Random.Range(-90f, 90f));
 
+        // Scale
+        Vector3 ogScale = graphics.transform.localScale;
+
         float timeSpent = 0f;
         float pickupTime = 0.4f;
 
@@ -61,6 +64,9 @@ public class ItemPickup : MonoBehaviour
             // Rotate
             //graphics.transform.rotation = Quaternion.Lerp(ogRot, desiredRot, Easing.EaseInOutExpo(progress));
             graphics.transform.rotation = Quaternion.Lerp(ogRot, desiredRot, Easing.EaseInOutBackExpoHybrid(progress));
+
+            // Scale
+            graphics.transform.localScale = Vector3.Lerp(ogScale, Vector3.zero, Easing.EaseInExpo(progress));
 
             // Increase time
             timeSpent += Time.deltaTime;
