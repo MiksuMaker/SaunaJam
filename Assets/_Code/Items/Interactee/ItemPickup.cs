@@ -73,7 +73,6 @@ public class ItemPickup : MonoBehaviour
             // Wait
             yield return new WaitForSeconds(Time.deltaTime);
         }
-        Debug.Log("Time spent: " + timeSpent);
         // Destroy item
         Destroy(gameObject);
     }
