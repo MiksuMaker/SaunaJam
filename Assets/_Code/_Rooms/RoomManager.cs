@@ -98,7 +98,7 @@ public class RoomManager : MonoBehaviour
                 break;
         }
 
-        Debug.Log(path);
+        //Debug.Log(path);
 
         // Instantiate graphics
         GameObject graphics = Instantiate(Resources.Load(path + mockupModifier), husk.transform) as GameObject;

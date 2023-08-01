@@ -34,9 +34,11 @@ public class ItemPickup : MonoBehaviour
         // Move the graphics towards the Player point
         Vector3 origin = graphics.transform.position;
 
+        //Vector3 offset = Vector3.up * 0.2f;
         Vector3 offset = Vector3.up * 0.2f;
         //Vector3 behindPos = (origin - transform.position).normalized;
-        Vector3 behindPos = (transform.position - origin).normalized;
+        Vector3 behindPos = (transform.position - origin).normalized * 0.5f;
+        //Vector3 behindPos = Vector3.zero;
         Vector3 destination = transform.position + offset + behindPos;
         Vector3 path = (destination - origin);
 
@@ -57,7 +59,8 @@ public class ItemPickup : MonoBehaviour
             graphics.transform.position = origin + (path * Easing.EaseInOutBack(progress));
 
             // Rotate
-            graphics.transform.rotation = Quaternion.Lerp(ogRot, desiredRot, Easing.EaseInOutExpo(progress));
+            //graphics.transform.rotation = Quaternion.Lerp(ogRot, desiredRot, Easing.EaseInOutExpo(progress));
+            graphics.transform.rotation = Quaternion.Lerp(ogRot, desiredRot, Easing.EaseInOutBackExpoHybrid(progress));
 
             // Increase time
             timeSpent += Time.deltaTime;
