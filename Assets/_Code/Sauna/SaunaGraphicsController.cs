@@ -6,7 +6,12 @@ public class SaunaGraphicsController : MonoBehaviour
 {
     #region Properties
     Animator saunaAnimator;
-    Vector3 particlePos;
+
+    [HideInInspector] public Vector3 saunaRoomPos;
+    [HideInInspector] public Vector3 saunaManifestPos;
+    [HideInInspector] public Vector3 particlePos;
+
+    ThrowLog throwLog;
 
     public enum SaunaAnimationState
     {
@@ -68,6 +73,25 @@ public class SaunaGraphicsController : MonoBehaviour
         //Debug.Log(saunaAnimator.GetCurrentAnimatorStateInfo(0).IsName(animation));
         //Debug.Log(animation + " Time: " + saunaAnimator.GetCurrentAnimatorStateInfo(0).length);
         animationTime = saunaAnimator.GetCurrentAnimatorStateInfo(0).length;
+    }
+
+    public void SetUpLogThrower(Vector3 pos, Vector3 lookAtPos)
+    {
+        Debug.Log("Setupping logthrower!");
+
+        throwLog = (Instantiate(Resources.Load("Item Interactions/ThrowLog") as GameObject)).GetComponent<ThrowLog>();
+
+        // Orient the log
+        throwLog.gameObject.transform.position = pos;
+        throwLog.gameObject.transform.LookAt(lookAtPos);
+    }
+
+    public void ThrowLog(int num)
+    {
+        SetUpLogThrower(saunaRoomPos, saunaManifestPos);
+
+        // Throw the log
+        throwLog.DoThrowLogAnimation(num);
     }
     #endregion
 }

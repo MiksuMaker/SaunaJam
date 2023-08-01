@@ -265,6 +265,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 965cdbce85cf0224fbfa4c69c745d3a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  saunaRoomPos: {x: 0, y: 0, z: 0}
+  saunaManifestPos: {x: 0, y: 0, z: 0}
+  particlePos: {x: 0, y: 0, z: 0}
 --- !u!1 &572642057
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,7 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad3c49631705512428a5e1662095dc0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  woodAmountCollected: 0
+  woodAmountCollected: 9
   stoneAmountCollected: 0
 --- !u!114 &572642064
 MonoBehaviour:

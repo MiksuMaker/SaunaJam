@@ -47,7 +47,7 @@ public class ItemManifest : MonoBehaviour
         if (item.type == Item.Type.sauna || item.type == Item.Type.writing) { return; }
 
         // Spawn ItemPickup
-        ItemPickup pickup = (Instantiate(Resources.Load("Items/Item Pickup"), null) as GameObject).GetComponent<ItemPickup>();
+        ItemPickup pickup = (Instantiate(Resources.Load("Item Interactions/Item Pickup"), null) as GameObject).GetComponent<ItemPickup>();
         pickup.SetupItemPickUp(this);
     }
     #endregion

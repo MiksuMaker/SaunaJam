@@ -21,7 +21,8 @@ public class ItemSpawner : MonoBehaviour
 
         // First, spawn those items that MUST be spawned
         //MustPlaceItem(rooms, 1, 1, 1, 0, 1);
-        MustPlaceItem(rooms, 10, 8, 6);
+        //MustPlaceItem(rooms, 10, 8, 6);
+        MustPlaceItem(rooms, 10, 80, 6);
 
 
         int amountOfRandomItems = 5;

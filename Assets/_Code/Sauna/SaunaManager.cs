@@ -85,9 +85,17 @@ public class SaunaManager : MonoBehaviour
     #endregion
 
     #region ANIMATIONS
+    public void UpdateSaunaManifestPosition(Vector3 roomPos, Vector3 saunaPos)
+    {
+        saunaGraphics.saunaRoomPos = roomPos;
+        saunaGraphics.saunaManifestPos = saunaPos;
+    }
+
     public void ConnectSaunaGraphics(SaunaManifest saunaManifest)
     {
         saunaGraphics.ConnectSaunaGraphics(saunaManifest);
+
+        UpdateSaunaManifestPosition(saunaManifest.transform.position, saunaManifest.graphicsGO.transform.position);
     }
 
     private IEnumerator SacrificeAnimator(int amount)
@@ -107,10 +115,14 @@ public class SaunaManager : MonoBehaviour
             // Vary the animation
             if (i % 2 == 0)
             {
+                saunaGraphics.ThrowLog(2);
+                yield return new WaitForSeconds(0.2f);
                 saunaGraphics.DoAnimation(SaunaGraphicsController.SaunaAnimationState.feed_1, out wait);   
             }
             else
             {
+                saunaGraphics.ThrowLog(1);
+                yield return new WaitForSeconds(0.3f);
                 saunaGraphics.DoAnimation(SaunaGraphicsController.SaunaAnimationState.feed_2, out wait);   
             }
 
