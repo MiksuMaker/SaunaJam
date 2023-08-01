@@ -12,6 +12,9 @@ public class WoodManifest : ItemManifest
 
     public override void InteractWithItem()
     {
+        // Spawn the animation thingy
+
+
         // Notify that WOOD was collected
         Collector.Instance.CollectItem(item.type);
 

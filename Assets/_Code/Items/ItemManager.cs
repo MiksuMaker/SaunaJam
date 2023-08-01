@@ -170,8 +170,7 @@ public class ItemManager : MonoBehaviour
 
     public void RemoveItemManifest(ItemManifest manifest)
     {
-        // Remove from room
-
+        // Go through all the manifestations, Remove from room
         int pairAmount = manifestationsList.Count;
         for (int i = 0; i < pairAmount; i++)
         {

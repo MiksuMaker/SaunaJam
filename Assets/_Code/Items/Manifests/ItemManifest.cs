@@ -34,9 +34,21 @@ public class ItemManifest : MonoBehaviour
     public virtual void InteractWithItem()
     {
         // Do what you want the item to do here
+        SpawnItemPickup();
+
 
         // Destroy after use
         ItemManager.Instance.RemoveItemManifest(this);
+    }
+
+    protected void SpawnItemPickup()
+    {
+        // Don't spawn if it is a sauna or writing
+        if (item.type == Item.Type.sauna || item.type == Item.Type.writing) { return; }
+
+        // Spawn ItemPickup
+        ItemPickup pickup = (Instantiate(Resources.Load("Items/Item Pickup"), null) as GameObject).GetComponent<ItemPickup>();
+        pickup.SetupItemPickUp(this);
     }
     #endregion
 

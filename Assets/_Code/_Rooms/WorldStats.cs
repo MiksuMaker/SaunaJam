@@ -6,6 +6,7 @@ public class WorldStats : MonoBehaviour
 {
     static public WorldStats Instance;
 
+    public GameObject Player { get; set; }
     private void Awake()
     {
         if (Instance == null && Instance != this)
@@ -15,6 +16,11 @@ public class WorldStats : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+
+        if (Player == null)
+        {
+            Player = FindObjectOfType<RoomExplorer>().gameObject;
         }
     }
 
