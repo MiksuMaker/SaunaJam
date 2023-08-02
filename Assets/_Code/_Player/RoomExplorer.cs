@@ -94,8 +94,6 @@ public class RoomExplorer : MonoBehaviour
     IEnumerator MovingCoroutine(float timeToMove, Vector3 wantedDir)
     {
         #region New Version
-        float increment = 1 / (timeToMove * 100f);
-        WaitForSeconds wait = new WaitForSeconds(increment);
 
         Vector3 beginPos = Player.transform.position;
         Vector3 wantedPos = GetRoundedPos(beginPos + (wantedDir * WorldStats.Instance.Scale));
@@ -103,14 +101,14 @@ public class RoomExplorer : MonoBehaviour
         float progress = 0f;
         while (progress < timeToMove)
         {
-            progress += increment;
+            progress += Time.deltaTime;
 
             //Player.transform.position = Vector3.Lerp(beginPos, wantedPos, (timeElapsed / timeToMove));
             //Player.transform.position = Vector3.Lerp(beginPos, wantedPos, progress);
             //Player.transform.position = Vector3.Lerp(Player.transform.position, wantedPos, progress);
             Player.transform.position = Vector3.Lerp(Player.transform.position, wantedPos, (progress / timeToMove));
 
-            yield return wait;
+            yield return new WaitForSeconds(Time.deltaTime);
         }
         Player.transform.position = wantedPos;
         #endregion
@@ -164,21 +162,19 @@ public class RoomExplorer : MonoBehaviour
 
     IEnumerator TurningCoroutine(float timeToTurn, Vector3 wantedDir)
     {
-        float increment = 1 / (timeToTurn * 100f);
-        WaitForSeconds wait = new WaitForSeconds(increment);
         float progress = 0f;
 
         Vector3 lookDir = Player.transform.forward;
 
-        while (progress < 1f)
+        while (progress < timeToTurn)
         {
-            progress += increment;
+            progress += Time.deltaTime;
 
-            lookDir = Vector3.Lerp(lookDir, wantedDir, progress);
+            lookDir = Vector3.Lerp(lookDir, wantedDir, (progress / timeToTurn));
 
             Player.transform.LookAt(lookDir.normalized + Player.transform.position);
 
-            yield return wait;
+            yield return new WaitForSeconds(Time.deltaTime);
         }
 
     }
