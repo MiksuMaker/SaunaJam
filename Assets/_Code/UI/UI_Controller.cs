@@ -55,9 +55,9 @@ public class UI_Controller : MonoBehaviour
         // Empty it
         textMesh.text = "";
 
-        UIText[] texts = new UIText[] { new UIText("Hello", 2f, 1f, 1f), 
-                                        new UIText("Remember to <b><color=\"blue\">quench</b><color=\"white\"> your thirst") };
-        FlashTextOnScreen(texts);
+        //UIText[] texts = new UIText[] { new UIText("Hello", 2f, 1f, 1f), 
+        //                                new UIText("Remember to <b><color=\"blue\">quench</b><color=\"white\"> your thirst") };
+        //FlashTextOnScreen(texts);
     }
 
     public void FlashTextOnScreen(UIText[] texts)
@@ -67,18 +67,7 @@ public class UI_Controller : MonoBehaviour
         StartCoroutine(textFader);
     }
 
-    public class UIText
-    {
-        public string text;
-        public float fadeInTime = 1f;
-        public float stayOnTime = 2f;
-        public float fadeOutTime = 3f;
-
-        public UIText(string text, float fadeIn = 1f, float stayOn = 2f, float fadeOut = 3f)
-        {
-            this.text = text; fadeInTime = fadeIn; stayOnTime = stayOn; fadeOutTime = fadeOut;
-        }
-    }
+    
 
     IEnumerator TextFader(UIText[] texts)
     {
@@ -129,4 +118,17 @@ public class UI_Controller : MonoBehaviour
         }
     }
     #endregion
+}
+
+public class UIText
+{
+    public string text;
+    public float fadeInTime = 1f;
+    public float stayOnTime = 2f;
+    public float fadeOutTime = 3f;
+
+    public UIText(string text, float fadeIn = 1f, float stayOn = 2f, float fadeOut = 3f)
+    {
+        this.text = text; fadeInTime = fadeIn; stayOnTime = stayOn; fadeOutTime = fadeOut;
+    }
 }

@@ -138,6 +138,33 @@ public class SaunaManager : MonoBehaviour
         saunaGraphics.DoAnimation(SaunaGraphicsController.SaunaAnimationState.close, out wait);
 
         yield return new WaitForSeconds(wait);
+
+        SaunaTextUI();
+    }
+    #endregion
+
+    #region UI
+    private void SaunaTextUI()
+    {
+        // Check if requirements are met
+        if (givenWoodLogs >= neededWoodLogs)
+        {
+            // Congratulate the Player
+            UIText[] texts = new UIText[] { new UIText("Very Good", 0.5f, 1f, 1f),
+                                            new UIText("You have pleased the Sauna", 0.2f, 1f, 0.2f)};
+            
+            UI_Controller.Instance.FlashTextOnScreen(texts);
+        }
+        else
+        {
+            // Inform how much the Sauna still needs
+            UIText[] texts = new UIText[] { new UIText("Good", 0.5f, 0.5f, 0.5f),
+                                            new UIText("But Sauna is not yet satisfied", 0.5f, 2f, 0.5f),
+                                            new UIText("Bring more wood to the Sauna", 0.2f, 1f, 0.2f),
+                                            new UIText("And you shall be rewarded", 0.2f, 2f, 1f)};
+
+            UI_Controller.Instance.FlashTextOnScreen(texts);
+        }
     }
     #endregion
 }
