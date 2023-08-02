@@ -401,9 +401,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 602648879}
+  - component: {fileID: 602648881}
   - component: {fileID: 602648880}
   m_Layer: 0
-  m_Name: WorldStats
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -440,6 +441,18 @@ MonoBehaviour:
   Z: 6
   Scale: 6
   numberOfRooms: 0
+--- !u!114 &602648881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602648878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea882d8b5fac7c4fbcaf414fd882a9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -797,7 +810,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1319035940
 RectTransform:
   m_ObjectHideFlags: 0

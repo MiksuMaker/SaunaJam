@@ -13,6 +13,8 @@ public class UI_Controller : MonoBehaviour
 
     TextMeshProUGUI textMesh;
     IEnumerator textFader;
+    [HideInInspector]
+    public bool textInProcess = false;
     #endregion
 
     #region Setup
@@ -62,7 +64,7 @@ public class UI_Controller : MonoBehaviour
 
     public void FlashTextOnScreen(UIText[] texts)
     {
-        if (textFader != null) { StopCoroutine(textFader); }
+        if (textFader != null) { StopCoroutine(textFader); textInProcess = false; }
         textFader = TextFader(texts);
         StartCoroutine(textFader);
     }
@@ -73,6 +75,8 @@ public class UI_Controller : MonoBehaviour
     {
         float passedTime;
         float nextAlpha;
+
+        textInProcess = true;
 
         Color blank = new Color(1f, 1f, 1f, 0f);
 
@@ -116,6 +120,8 @@ public class UI_Controller : MonoBehaviour
             // Finalize
             textMesh.color = new Color(1f, 1f, 1f, 0f);
         }
+
+        textInProcess = false;
     }
     #endregion
 }

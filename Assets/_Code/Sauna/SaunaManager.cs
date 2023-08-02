@@ -151,9 +151,12 @@ public class SaunaManager : MonoBehaviour
         {
             // Congratulate the Player
             UIText[] texts = new UIText[] { new UIText("Very Good", 0.5f, 1f, 1f),
-                                            new UIText("You have pleased the Sauna", 0.2f, 1f, 0.2f)};
+                                            new UIText("You have pleased the Sauna", 0.2f, 1f, 2f)};
             
             UI_Controller.Instance.FlashTextOnScreen(texts);
+
+            // End the Game
+            GameManager.Instance.EndGame(3f);
         }
         else
         {

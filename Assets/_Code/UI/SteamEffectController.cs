@@ -72,9 +72,6 @@ public class SteamEffectController : MonoBehaviour
             // Slide
             //nextAlpha = Mathf.Lerp(startAlpha, goalAlpha, (passedTime / steamSlideTime));
             nextAlpha = Mathf.Lerp(startAlpha, goalAlpha, Easing.EaseOutQuart(passedTime / steamSlideTime));
-
-            Debug.Log("DeltaTime: " + Time.deltaTime + "PassedTime: " + passedTime + " || SlideTime: " + steamSlideTime);
-            Debug.Log("Percentage: " + (passedTime / steamSlideTime));
             //nextAlpha = Mathf.Lerp(startAlpha, goalAlpha, Easing.EaseOutQuart(passedTime / heatSlideTime));
 
 
