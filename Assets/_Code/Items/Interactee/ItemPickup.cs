@@ -68,10 +68,16 @@ public class ItemPickup : MonoBehaviour
             graphics.transform.localScale = Vector3.Lerp(ogScale, Vector3.zero, Easing.EaseInExpo(progress));
 
             // Increase time
-            timeSpent += Time.deltaTime;
-
             // Wait
-            yield return new WaitForSeconds(Time.deltaTime);
+
+            //timeSpent += Time.deltaTime;
+            //yield return new WaitForSeconds(Time.deltaTime);
+
+            //timeSpent += Time.fixedDeltaTime;
+            //yield return new WaitForSeconds(Time.fixedDeltaTime);
+
+            timeSpent += 0.01f;
+            yield return new WaitForSeconds(0.01f);
         }
         // Destroy item
         Destroy(gameObject);
