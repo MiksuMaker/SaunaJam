@@ -80,6 +80,7 @@ public class RoomExplorer : MonoBehaviour
         }
     }
 
+    #region Moving
     private void MovePlayer(Vector3 moveVector)
     {
         // Call delegate
@@ -116,7 +117,9 @@ public class RoomExplorer : MonoBehaviour
         Player.transform.position = wantedPos;
         #endregion
     }
+    #endregion
 
+    #region Turning
     public void TurnFacingDirection(Vector3 turnVector)
     {
         bool rightwise = true;
@@ -183,6 +186,7 @@ public class RoomExplorer : MonoBehaviour
         }
 
     }
+    #endregion
 
     void OrientCamera(bool turning)
     {
