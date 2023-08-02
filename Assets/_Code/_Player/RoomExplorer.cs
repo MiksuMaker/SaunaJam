@@ -12,6 +12,8 @@ public class RoomExplorer : MonoBehaviour
 
     [SerializeField]
     float timeToMoveBetweenRooms = 2f;
+    [SerializeField]
+    float turningTime = 2f;
 
     [SerializeField]
     GameObject Player;
@@ -99,16 +101,17 @@ public class RoomExplorer : MonoBehaviour
         Vector3 wantedPos = GetRoundedPos(beginPos + (wantedDir * WorldStats.Instance.Scale));
 
         float progress = 0f;
+        float increment = 0.01f;
         while (progress < timeToMove)
         {
-            progress += Time.deltaTime;
+            progress += increment;
 
             //Player.transform.position = Vector3.Lerp(beginPos, wantedPos, (timeElapsed / timeToMove));
             //Player.transform.position = Vector3.Lerp(beginPos, wantedPos, progress);
             //Player.transform.position = Vector3.Lerp(Player.transform.position, wantedPos, progress);
             Player.transform.position = Vector3.Lerp(Player.transform.position, wantedPos, (progress / timeToMove));
 
-            yield return new WaitForSeconds(Time.deltaTime);
+            yield return new WaitForSeconds(increment);
         }
         Player.transform.position = wantedPos;
         #endregion
@@ -156,25 +159,27 @@ public class RoomExplorer : MonoBehaviour
         {
             StopCoroutine(turnCoroutine);
         }
-        turnCoroutine = TurningCoroutine(3f, facingVector);
+        turnCoroutine = TurningCoroutine(turningTime, facingVector);
         StartCoroutine(turnCoroutine);
     }
 
     IEnumerator TurningCoroutine(float timeToTurn, Vector3 wantedDir)
     {
         float progress = 0f;
+        float increment = 0.01f;
 
         Vector3 lookDir = Player.transform.forward;
 
         while (progress < timeToTurn)
         {
-            progress += Time.deltaTime;
+            //progress += Time.deltaTime;
+            progress += increment;
 
             lookDir = Vector3.Lerp(lookDir, wantedDir, (progress / timeToTurn));
 
             Player.transform.LookAt(lookDir.normalized + Player.transform.position);
 
-            yield return new WaitForSeconds(Time.deltaTime);
+            yield return new WaitForSeconds(increment);
         }
 
     }

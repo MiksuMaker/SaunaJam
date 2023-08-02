@@ -81,24 +81,32 @@ public class CameraHandler : MonoBehaviour
         // Check first if the current rotation is the ToRotation
         if (startRot == Quaternion.Euler(toRot)) { yield break; }
 
+        //float increment = 1 / (timeToTilt * 100f);
+        //WaitForSeconds wait = new WaitForSeconds(increment);
+        float increment = 0.01f;
+
         //Quaternion currentRot = Quaternion.Euler(startRot);
         Vector3 r = transform.localRotation.eulerAngles;
 
         Quaternion finalRot = Quaternion.Euler(toRot.x, r.y, r.z);
 
-        float timeWaited = 0f;
-        while (timeWaited < timeToTilt)
+        float progress = 0f;
+        //while (progress < 1f)
+        while (progress < timeToTilt)
         {
             // Desired Rotation
             //cameraGO.transform.rotation.Set(0f, 0f, 0f, 1f);
 
             // Turn the camera a bit towards the goal rotation
-            cameraGO.transform.localRotation = Quaternion.Lerp(cameraGO.transform.localRotation, finalRot, (timeWaited / timeToTilt));
-            //cameraGO.transform.rotation = Quaternion.Lerp(cameraGO.transform.rotation, finalRot, (timeWaited / rotationTime));
+            cameraGO.transform.localRotation = Quaternion.Lerp(cameraGO.transform.localRotation, finalRot, (progress / timeToTilt));
+            //cameraGO.transform.localRotation = Quaternion.Lerp(cameraGO.transform.localRotation, finalRot, progress);
 
             // Wait
-            timeWaited += Time.deltaTime;
-            yield return new WaitForSeconds(Time.deltaTime);
+            //progress += Time.deltaTime;
+            //yield return new WaitForSeconds(Time.deltaTime);
+
+            progress += increment;
+            yield return new WaitForSeconds(increment);
         }
 
         // Finish

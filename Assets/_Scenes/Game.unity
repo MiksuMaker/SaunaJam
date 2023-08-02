@@ -318,7 +318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentOrientation: 0
-  timeToMoveBetweenRooms: 10
+  timeToMoveBetweenRooms: 5
   Player: {fileID: 1755068054}
 --- !u!4 &572642060
 Transform:
@@ -1530,7 +1530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationTime: 1
-  longerRotationTime: 10
+  longerRotationTime: 5
   normalRot: {x: 0, y: 0, z: 0}
   downTiltedRot: {x: 30, y: 0, z: 0}
   lesserTiltedRot: {x: 20, y: 0, z: 0}
