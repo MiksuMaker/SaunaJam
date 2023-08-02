@@ -120,6 +120,9 @@ public class RoomGenerator : MonoBehaviour
         // Generate Items
         ItemManager.Instance.SpawnItems();
 
+        // Generate Enemies
+        EnemyManager.Instance.SpawnEnemies();
+
         // Manifest it
         RoomManager.Instance.LoadInitialRooms();
     }

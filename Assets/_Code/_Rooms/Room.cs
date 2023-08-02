@@ -18,6 +18,8 @@ public class Room
     public Connection east;
     public Connection south;
 
+    public Enemy monster;
+
     public List<Item> items = new List<Item>();
     public bool hasItems { get { return (items.Count != 0); } }
 

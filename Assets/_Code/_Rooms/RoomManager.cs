@@ -235,6 +235,7 @@ public class RoomManager : MonoBehaviour
                 { CreateHuskAt(2, -1, cr.south.neighbour.south.neighbour.south.neighbour); }
             }
         }
+
     }
 
     private void CreateHuskAt(int x, int y, Room room)
@@ -255,6 +256,9 @@ public class RoomManager : MonoBehaviour
 
         // Manifest Items too
         ItemManager.Instance.ManifestRoomItems(room, new Vector3(X, 0f, Y));
+
+        // Manifest Enemies too
+        EnemyManager.Instance.ManifestEnemy(room, new Vector3(X, 0f, Y));
     }
 
     private float HuskToRoomPosition(int value)
@@ -345,6 +349,9 @@ public class RoomManager : MonoBehaviour
         }
         // Demanifest all items
         ItemManager.Instance.ClearManifestations();
+
+        // Demanifest all Enemies too
+        EnemyManager.Instance.ClearManifestations();
 
         // Setup new husks
         FillUpRooms(currentRoom);
