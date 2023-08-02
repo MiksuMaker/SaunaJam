@@ -22,14 +22,19 @@ public class UI_Controller : MonoBehaviour
             Destroy(this);
         }
 
+        // Get references
         heatEffectController = GetComponentInChildren<HeatEffectController>();
     }
     #endregion
 
-    #region Functions
+    #region Heat
     public void AdjustHeatEffect(float percentage)
     {
         heatEffectController.AdjustHeatImage(percentage);
     }
+    #endregion
+
+    #region UI
+
     #endregion
 }

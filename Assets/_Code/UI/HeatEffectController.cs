@@ -16,7 +16,16 @@ public class HeatEffectController : MonoBehaviour
     #endregion
 
     #region Setup
-    
+    [ContextMenu("Heat ON")]
+    private void HeatOn()
+    {
+        AdjustHeatImage(1f);
+    }
+    [ContextMenu("Heat OFF")]
+    private void HeatOff()
+    {
+        AdjustHeatImage(0f);
+    }
     #endregion
 
     #region Functions
@@ -50,10 +59,10 @@ public class HeatEffectController : MonoBehaviour
 
         while (passedTime < heatSlideTime)
         {
-            passedTime += Time.deltaTime;
 
             // Slide
             nextAlpha = Mathf.Lerp(startAlpha, goalAlpha, (passedTime / heatSlideTime));
+            //nextAlpha = Mathf.Lerp(startAlpha, goalAlpha, Easing.EaseInOutExpo(passedTime / heatSlideTime));
 
 
             //Debug.Log("Next Alpha: " + nextAlpha);
@@ -63,6 +72,7 @@ public class HeatEffectController : MonoBehaviour
 
             // Wait
             yield return new WaitForSeconds(Time.deltaTime);
+            passedTime += Time.deltaTime;
         }
 
         // Finish
