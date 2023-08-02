@@ -16,7 +16,7 @@ public class ItemSpawner : MonoBehaviour
         List<Room> rooms = RoomManager.Instance.roomsList;
 
         // Arrange according to Depth
-        rooms = ShuffleRooms(rooms);
+        rooms = RoomShuffler.ShuffleRooms(rooms);
 
 
         // First, spawn those items that MUST be spawned
@@ -98,21 +98,35 @@ public class ItemSpawner : MonoBehaviour
             }
 
             // Check that all items spawned
-            if (successes < musts[i]) 
-            { 
+            if (successes < musts[i])
+            {
                 Debug.LogWarning("Not all items of type " + types[i] + " spawned!");
 
                 Debug.LogWarning("Successes: " + successes + ", Musts: " + musts[i]);
             }
 
             // Reshuffle rooms
-            rooms = ShuffleRooms(rooms);
+            rooms = RoomShuffler.ShuffleRooms(rooms);
         }
     }
     #endregion
 
     #region Room Shuffling
-    private List<Room> ShuffleRooms(List<Room> rooms)
+
+    private void DebugAllRooms(List<Room> rooms)
+    {
+        //Debug.LogWarning("==== NEW DEBUG ROUND COMMENCING ====");
+        foreach (var r in rooms)
+        {
+            Debug.Log(r.name);
+        }
+    }
+    #endregion
+}
+
+static public class RoomShuffler
+{
+    static public List<Room> ShuffleRooms(List<Room> rooms)
     {
         for (int i = 0; i < rooms.Count; i++)
         {
@@ -129,14 +143,4 @@ public class ItemSpawner : MonoBehaviour
         }
         return rooms;
     }
-
-    private void DebugAllRooms(List<Room> rooms)
-    {
-        //Debug.LogWarning("==== NEW DEBUG ROUND COMMENCING ====");
-        foreach (var r in rooms)
-        {
-            Debug.Log(r.name);
-        }
-    }
-    #endregion
 }

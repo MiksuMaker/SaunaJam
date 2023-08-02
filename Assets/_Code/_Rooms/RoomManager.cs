@@ -157,7 +157,7 @@ public class RoomManager : MonoBehaviour
 
         //log += " || Items: " + r.hasItems;
 
-        Debug.Log(log);
+        //Debug.Log(log);
     }
     #endregion
 
@@ -350,8 +350,9 @@ public class RoomManager : MonoBehaviour
         // Demanifest all items
         ItemManager.Instance.ClearManifestations();
 
-        // Demanifest all Enemies too
+        // Handle Enemies
         EnemyManager.Instance.ClearManifestations();
+        EnemyManager.Instance.MoveEnemies();
 
         // Setup new husks
         FillUpRooms(currentRoom);

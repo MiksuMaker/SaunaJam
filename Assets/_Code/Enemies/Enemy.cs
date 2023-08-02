@@ -17,6 +17,9 @@ public class Enemy
     }
     public Mode mode;
 
+    public Room currentRoom;
+    public Room lastRoom;
+
     public Enemy(Type type)
     {
         this.type = type;

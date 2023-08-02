@@ -6,6 +6,7 @@ public class EnemyManager : MonoBehaviour
 {
     #region Properties
     static public EnemyManager Instance;
+    EnemyMover mover;
 
     int steamAmount = 1;
 
@@ -27,19 +28,23 @@ public class EnemyManager : MonoBehaviour
         {
             Destroy(this);
         }
+
+        mover = GetComponent<EnemyMover>();
     }
     #endregion
 
     #region SPAWNING
     public void SpawnEnemies()
     {
-        Debug.Log("Spawning Enemy!");
         List<Room> rooms = RoomManager.Instance.roomsList;
 
         Enemy steam = new Enemy(Enemy.Type.steam);
+        enemies.Add(steam);
 
         // Assign to room
-        rooms[1].monster = steam;
+        rooms[0].monster = steam;
+        steam.currentRoom = rooms[0];
+        steam.lastRoom = rooms[0];
     }
 
     #endregion
@@ -52,6 +57,7 @@ public class EnemyManager : MonoBehaviour
         // Spawn Enemy Manifest
         EnemyManifest manifest = (Instantiate(Resources.Load(enemyPath)) as GameObject).GetComponent<EnemyManifest>();
         PlaceManifestation(manifest, worldPos);
+        manifest.gameObject.transform.parent = transform;
         manifestations.Add(manifest);
     }
 
@@ -63,18 +69,24 @@ public class EnemyManager : MonoBehaviour
     public void ClearManifestations()
     {
         int amount = manifestations.Count;
-        Debug.Log("Destroying " + amount + " of Enemy Manifestations");
+        //int amount = transform.childCount;
+        Debug.Log("Manifestations amount: " + amount);
         for (int i = 0; i < amount; i++)
         {
             // Destroy for now
             Destroy(manifestations[0].gameObject);
+            manifestations.RemoveAt(0);
+            //Destroy(transform.GetChild(0).gameObject);
         }
-        manifestations.Clear();
+        //manifestations.Clear();
     }
     #endregion
 
     #region MOVING
-
+    public void MoveEnemies()
+    {
+        mover.MoveEnemies(enemies);
+    }
     #endregion
 }
 

@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56e5e138b472ba84e84d941c65a3483e, type: 3}
+  m_Name: LoopTest
+  m_EditorClassIdentifier: 
+  instructions:
+  - name: Intersection
+    type: 4
+    orientation: 0
+    north_Neighbour_name: Inbetween
+    west_Neighbour_name: 
+    east_Neighbour_name: 
+    south_Neighbour_name: 
+    items: []
+  - name: Sauna
+    type: 0
+    orientation: 3
+    north_Neighbour_name: 
+    west_Neighbour_name: 
+    east_Neighbour_name: 
+    south_Neighbour_name: Inbetween
+    items:
+    - type: 0
+      wallOrientation: 2
+      description: 
+    - type: 1
+      wallOrientation: 1
+      description: Sacrifice to Sauna
+  - name: Inbetween
+    type: 3
+    orientation: 0
+    north_Neighbour_name: Sauna
+    west_Neighbour_name: 
+    east_Neighbour_name: 
+    south_Neighbour_name: Intersection
+    items:
+    - type: 4
+      wallOrientation: 1
+      description: 
+  - name: LeftToUp
+    type: 1
+    orientation: 1
+    north_Neighbour_name: 
+    west_Neighbour_name: Intersection
+    east_Neighbour_name: 
+    south_Neighbour_name: 
+    items:
+    - type: 3
+      wallOrientation: 2
+      description: 
+  - name: UpToRight
+    type: 1
+    orientation: 2
+    north_Neighbour_name: 
+    west_Neighbour_name: 
+    east_Neighbour_name: Intersection
+    south_Neighbour_name: LeftToUp
+    items: []
+  - name: Connector
+    type: 1
+    orientation: 1
+    north_Neighbour_name: Intersection
+    west_Neighbour_name: Inbetween
+    east_Neighbour_name: 
+    south_Neighbour_name: 
+    items: []
