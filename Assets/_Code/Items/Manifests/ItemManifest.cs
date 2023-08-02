@@ -81,8 +81,18 @@ public class ItemManifest : MonoBehaviour
         }
     }
 
-    protected void PlaceGraphics(Vector3 pos)
+    protected virtual void PlaceGraphics(Vector3 pos)
     {
+        if (item.type == Item.Type.writing)
+        {
+            // Offset for writing
+            pos += Vector3.up;
+        }
+        else if (item.type == Item.Type.woodLog)
+        {
+            pos += Vector3.up * 0.261f;
+        }
+
         graphicsGO.transform.localPosition = pos;
     }
     #endregion
