@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   amountOfRooms: 10
   deadEndChance: 0.5
-  cornerChance: 2
-  straigthChance: 3
+  cornerChance: 1
+  straigthChance: 1
   threewayChance: 1
-  fourwayChance: 1
+  fourwayChance: 4
   skipChance: 5
   forbidCuttingShort: 1
   useRules: 1

@@ -81,6 +81,8 @@ public class ParticleManager : MonoBehaviour
             {
                 // Use them
                 particleList[i].UseAt(worldPos);
+                //Debug.Log("Particle nro " + i + " in use at " + worldPos.ToString());
+                break;
             }
         }
     }
