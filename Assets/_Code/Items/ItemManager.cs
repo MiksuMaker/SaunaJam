@@ -186,6 +186,9 @@ public class ItemManager : MonoBehaviour
                 pairAmount--;
             }
         }
+
+        // Update
+        RoomManager.Instance.UpdateRooms();
     }
 
     public Item GetItem(Room r, Orientation facing)

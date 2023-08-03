@@ -70,16 +70,12 @@ public class EnemyManager : MonoBehaviour
     public void ClearManifestations()
     {
         int amount = manifestations.Count;
-        //int amount = transform.childCount;
-        Debug.Log("Manifestations amount: " + amount);
         for (int i = 0; i < amount; i++)
         {
             // Destroy for now
             Destroy(manifestations[0].gameObject);
             manifestations.RemoveAt(0);
-            //Destroy(transform.GetChild(0).gameObject);
         }
-        //manifestations.Clear();
     }
     #endregion
 

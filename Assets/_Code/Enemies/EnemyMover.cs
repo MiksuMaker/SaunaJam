@@ -41,7 +41,7 @@ public class EnemyMover : MonoBehaviour
         if (neighbours.Count == 1)
         {
             // Move to only option
-            Debug.Log("Choosing the only neighbour!");
+            //Debug.Log("Choosing the only neighbour!");
             MoveToRoom(e, e.currentRoom, neighbours[0]);
             return;
         }
@@ -55,7 +55,7 @@ public class EnemyMover : MonoBehaviour
             if (neighbours[i] != e.lastRoom)
             {
                 // Move there
-                Debug.Log("LastRoom: " + e.lastRoom.type + " || CurrentRoom: " + e.currentRoom.type);
+                //Debug.Log("LastRoom: " + e.lastRoom.type + " || CurrentRoom: " + e.currentRoom.type);
                 MoveToRoom(e, e.currentRoom, neighbours[i]);
                 return;
             }
@@ -142,7 +142,6 @@ public class EnemyMover : MonoBehaviour
     #region Detection
     private bool CheckRoomForPlayer(Enemy e, Room toRoom)
     {
-        Debug.Log("Enemy mode: " + e.mode);
         if (RoomManager.Instance.currentRoom == toRoom)
         {
 
