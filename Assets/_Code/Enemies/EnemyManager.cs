@@ -113,5 +113,28 @@ public class EnemyManager : MonoBehaviour
         mover.StumbleIntoEnemy(e);
     }
     #endregion
+
+    #region INTERACTION
+    public void GetRidOfSteam()
+    {
+        bool needToUpdateEnemies = false;
+        foreach (var e in enemies)
+        {
+            // Check if they're hunting and of type steam
+            if (e.mode == Enemy.Mode.hunt && e.type == Enemy.Type.steam)
+            {
+                // Move them away from Player
+                mover.RelocateEnemy(e);
+                needToUpdateEnemies = true;
+            }
+        }
+
+        // Update Enemies
+        if (needToUpdateEnemies)
+        {
+            RoomManager.Instance.UpdateRooms(false);
+        }
+    }
+    #endregion
 }
 

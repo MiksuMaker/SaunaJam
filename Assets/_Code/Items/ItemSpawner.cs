@@ -128,6 +128,9 @@ static public class RoomShuffler
 {
     static public List<Room> ShuffleRooms(List<Room> rooms)
     {
+        // First check that the list isn't empty
+        if (rooms.Count == 0) { return rooms; }
+
         for (int i = 0; i < rooms.Count; i++)
         {
             // Skip first one

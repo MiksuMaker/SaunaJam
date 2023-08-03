@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class EnemyMover : MonoBehaviour
 {
@@ -69,6 +70,20 @@ public class EnemyMover : MonoBehaviour
         if (r.east.neighbour != null) { neighbours.Add(r.east.neighbour); }
         if (r.south.neighbour != null) { neighbours.Add(r.south.neighbour); }
         if (r.west.neighbour != null) { neighbours.Add(r.west.neighbour); }
+
+        // Shuffle
+        neighbours = RoomShuffler.ShuffleRooms(neighbours);
+        return neighbours;
+    }
+
+    private List<Room> ListNeighbours(Room r, Room previous)
+    {
+        List<Room> neighbours = new List<Room>();
+
+        if (r.north.neighbour != null && r.north.neighbour != previous) { neighbours.Add(r.north.neighbour); }
+        if (r.east.neighbour != null && r.east.neighbour != previous) { neighbours.Add(r.east.neighbour); }
+        if (r.south.neighbour != null && r.south.neighbour != previous) { neighbours.Add(r.south.neighbour); }
+        if (r.west.neighbour != null && r.west.neighbour != previous) { neighbours.Add(r.west.neighbour); }
 
         // Shuffle
         neighbours = RoomShuffler.ShuffleRooms(neighbours);
@@ -225,6 +240,64 @@ public class EnemyMover : MonoBehaviour
     private void AttackPlayer(Enemy e)
     {
         Debug.Log("ATTACKING PLAYER");
+    }
+    #endregion
+
+    #region RELOCATION
+    public void RelocateEnemy(Enemy e)
+    {
+        // First calm them
+        CalmEnemy(e);
+
+        // Remove reference from the room
+        e.currentRoom.monster = null;
+
+        // Then teleport them
+        int teleportDistance = 2;
+        e.currentRoom = GetRandomRoomAt(e.currentRoom, teleportDistance);
+    }
+
+    public Room GetRandomRoomAt(Room original, int howFar)
+    {
+        List<List<Room>> roomLists = new List<List<Room>>();
+        List<Room> tempList;
+        Room temp = original;
+
+        // Sample (tries) amount of different paths
+        int tries = 3;
+        // How many TRIES
+        for (int i = 0; i < tries; i++)
+        {
+
+            // Reset temp
+            temp = original;
+            roomLists.Add(new List<Room>());
+            roomLists[i].Add(temp);
+
+            // How FAR it tries to go
+            for (int c = 0; c < howFar; c++)
+            {
+                // Get a neighbour
+                tempList = ListNeighbours(temp, temp);
+
+                // Check that they're not empty
+                if (tempList.Count == 0) { break; }
+
+                // Update temp
+                temp = tempList[0];
+
+                // Add it to the list
+                roomLists[i].Add(temp);
+            }
+            // Flip the list, so that last one is first
+            roomLists[i].Reverse();
+        }
+
+        // Order Lists by which goes the longest
+        roomLists.OrderByDescending(x => x.Count);
+
+        // Return that room
+        return roomLists[0][0];
     }
     #endregion
 }

@@ -36,7 +36,6 @@ public class ItemManifest : MonoBehaviour
         // Do what you want the item to do here
         SpawnItemPickup();
 
-
         // Destroy after use
         ItemManager.Instance.RemoveItemManifest(this);
     }

@@ -11,10 +11,11 @@ public class WaterManifest : ItemManifest
 
     public override void InteractWithItem()
     {
+        // Destroy item
+        base.InteractWithItem();
+
         // Notify that water was collected
         Collector.Instance.CollectItem(item.type);
 
-        // Destroy item
-        base.InteractWithItem();
     }
 }

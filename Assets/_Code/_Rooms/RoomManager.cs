@@ -440,7 +440,6 @@ public class RoomManager : MonoBehaviour
     }
 
 
-
     private bool Success(int distance)
     {
         //Debug.Log("Success within " + distance);
@@ -636,7 +635,7 @@ public class RoomManager : MonoBehaviour
         UpdateRooms();
     }
 
-    public void UpdateRooms()
+    public void UpdateRooms(bool andMoveEnemies = true)
     {
         // Kill all children
         foreach (Transform child in transform)
@@ -648,7 +647,7 @@ public class RoomManager : MonoBehaviour
 
         // Handle Enemies
         EnemyManager.Instance.ClearManifestations();
-        EnemyManager.Instance.MoveEnemies();
+        if (andMoveEnemies) { EnemyManager.Instance.MoveEnemies(); }
 
         // Setup new husks
         FillUpRooms(currentRoom);

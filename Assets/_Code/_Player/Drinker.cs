@@ -99,6 +99,9 @@ public class Drinker : MonoBehaviour
     #region HYDRATE
     public void IncreaseHydration()
     {
+        // Get rid of steam
+        EnemyManager.Instance.GetRidOfSteam();
+
         current_hydrationLevel += hydrationPerDrink;
 
         // Check that hydration doesn't go too high
