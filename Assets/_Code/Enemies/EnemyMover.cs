@@ -93,7 +93,12 @@ public class EnemyMover : MonoBehaviour
     private void MoveToRoom(Enemy e, Room fromRoom, Room toRoom, bool passPlayerCheck = false)
     {
         // First check that Player isn't on the way
-        //if (CheckRoomForPlayer(e, toRoom)) { return; }
+        if (e.mode == Enemy.Mode.patrol)
+        {
+            // Check if patrolling
+            if (CheckRoomForPlayer(e, toRoom))
+            { return; }
+        }
 
         // If not, proceed to Move enemy
         toRoom.monster = e;
