@@ -46,7 +46,7 @@ public class RoomExplorer : MonoBehaviour
             case (Orientation.south): actualMoveVector += Vector3.back * value; break;
         }
 
-        RoomManager.Instance.TryChangeRoom2(actualMoveVector);
+        RoomManager.Instance.TryChangeRoom(actualMoveVector);
     }
 
     public void Explore2(Vector3 moveVector)
@@ -61,7 +61,7 @@ public class RoomExplorer : MonoBehaviour
             case (Orientation.south): actualMoveVector += Vector3.back * value; break;
         }
 
-        if (RoomManager.Instance.TryChangeRoom2(actualMoveVector))
+        if (RoomManager.Instance.TryChangeRoom(actualMoveVector))
         {
             MovePlayer(actualMoveVector);
             OrientCamera(false);

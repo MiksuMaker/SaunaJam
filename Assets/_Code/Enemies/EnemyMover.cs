@@ -94,6 +94,9 @@ public class EnemyMover : MonoBehaviour
     {
         RoomManager rm = RoomManager.Instance;
 
+        if (IsPlayerWithinSight(e))
+        { e.targetRoom = rm.currentRoom; }
+
         // Choose the Room that is closest to Player
         //List<(Orientation, int)> results = rm.ClosestOrientationToOtherRoom(e.currentRoom, rm.currentRoom, 3);
         List<(Orientation, int)> results = rm.ClosestOrientationToOtherRoom(e.currentRoom, e.targetRoom, 3);
@@ -101,7 +104,7 @@ public class EnemyMover : MonoBehaviour
         // Check that it is not null
         if (results.Count == 0)
         {
-            Debug.Log("Didn't find a path to Target");
+            CalmEnemy(e);
             return;
         }
 
@@ -124,23 +127,27 @@ public class EnemyMover : MonoBehaviour
     #region Detection
     private bool CheckRoomForPlayer(Enemy e, Room toRoom)
     {
-        if (RoomManager.Instance.currentRoom != toRoom) { return false; }
-
-        // If not Aggroed already
-        // --> Alert this enemy to the presence of Player
-        if (e.mode == Enemy.Mode.patrol)
+        Debug.Log("Enemy mode: " + e.mode);
+        if (RoomManager.Instance.currentRoom == toRoom)
         {
-            AggroEnemy(e);
-        }
-        else
-        {
-            AttackPlayer(e);
+
+            // If not Aggroed already
+            // --> Alert this enemy to the presence of Player
+            if (e.mode == Enemy.Mode.patrol)
+            {
+                AggroEnemy(e);
+            }
+            else
+            {
+                // If ALREADY Aggroed --> Kill Player
+                AttackPlayer(e);
+            }
+
+            return true;
         }
 
-        // If ALREADY Aggroed --> Kill Player
-
-        // Don't move
-        return true;
+        // No Player, free to Move
+        return false;
     }
 
     private void DetectPlayer(Enemy e)
@@ -180,7 +187,22 @@ public class EnemyMover : MonoBehaviour
     #endregion
 
     #region Aggression
-    private void AggroEnemy(Enemy e)
+    public void StumbleIntoEnemy(Enemy e)
+    {
+        // Check if that Enemy is Aggroed
+        if (e.mode == Enemy.Mode.hunt)
+        {
+            // Attack Player!
+            AttackPlayer(e);
+        }
+        else
+        {
+            // just Aggro the Enemy
+            AggroEnemy(e);
+        }
+    }
+
+    public void AggroEnemy(Enemy e)
     {
         Debug.Log("Going AFTER the Player");
 

@@ -91,11 +91,11 @@ public class EnemyManager : MonoBehaviour
     #endregion
 
     #region Detection
-    public bool CheckIfRoomIsFreeOfEnemies(Room r)
+    public bool CheckIfRoomHasEnemies(Room r)
     {
         if (r.monster == null)
         {
-            return true;
+            return false;
         }
         else
         {
@@ -110,7 +110,7 @@ public class EnemyManager : MonoBehaviour
     public void InformMonsterOfPlayer(Enemy e)
     {
         // Do what you want to do here
-        e.mode = Enemy.Mode.hunt;
+        mover.StumbleIntoEnemy(e);
     }
     #endregion
 }

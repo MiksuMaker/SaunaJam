@@ -130,7 +130,7 @@ public class RoomManager : MonoBehaviour
     }
     #endregion
 
-    #region Room Moving
+    #region Debugs
 
     public void DebugAllRooms()
     {
@@ -162,82 +162,6 @@ public class RoomManager : MonoBehaviour
     }
     #endregion
 
-    #region New Husk Generation
-    public void LoadInitialRooms()
-    {
-        var firstHusk = Instantiate(Resources.Load("RoomHusk"), transform) as GameObject;
-        huskCenter = firstHusk.GetComponent<RoomHusk>();
-
-        currentRoom = roomsList[0];
-
-        // Fill up the rest of the husks
-        currentRoom = roomsList[0];
-        FillUpRooms(currentRoom);
-    }
-
-    private void FillUpRooms(Room cr)
-    {
-        // CENTER
-        CreateHuskAt(2, 2, cr);
-
-        // NORTH
-        if (cr.north.neighbour != null)
-        {
-            // Create a husk there
-            CreateHuskAt(2, 3, cr.north.neighbour);
-            if (cr.north.neighbour.north.neighbour != null)
-            {
-                CreateHuskAt(2, 4, cr.north.neighbour.north.neighbour);
-
-                if (cr.north.neighbour.north.neighbour.north.neighbour != null)
-                { CreateHuskAt(2, 5, cr.north.neighbour.north.neighbour.north.neighbour); }
-            }
-        }
-
-        // WEST
-        //if (cr.west.neighbour != null && husks[1, 2] == null)
-        if (cr.west.neighbour != null)
-        {
-            CreateHuskAt(1, 2, cr.west.neighbour);
-
-            //if (cr.west.neighbour.west.neighbour != null && husks[0, 2] == null)
-            if (cr.west.neighbour.west.neighbour != null)
-            {
-                CreateHuskAt(0, 2, cr.west.neighbour.west.neighbour);
-                if (cr.west.neighbour.west.neighbour.west.neighbour != null)
-                { CreateHuskAt(-1, 2, cr.west.neighbour.west.neighbour.west.neighbour); }
-            }
-        }
-
-        // EAST
-        //if (cr.east.neighbour != null && husks[3, 2] == null)
-        if (cr.east.neighbour != null)
-        {
-            CreateHuskAt(3, 2, cr.east.neighbour);
-            //if (cr.east.neighbour.east.neighbour != null && husks[4, 2] == null)
-            if (cr.east.neighbour.east.neighbour != null)
-            {
-                CreateHuskAt(4, 2, cr.east.neighbour.east.neighbour);
-                if (cr.east.neighbour.east.neighbour.east.neighbour != null)
-                { CreateHuskAt(5, 2, cr.east.neighbour.east.neighbour.east.neighbour); }
-            }
-        }
-
-        // SOUTH
-        //if (cr.south.neighbour != null && husks[2, 1] == null)
-        if (cr.south.neighbour != null)
-        {
-            CreateHuskAt(2, 1, cr.south.neighbour);
-            //if (cr.south.neighbour.south.neighbour != null && husks[2, 0] == null)
-            if (cr.south.neighbour.south.neighbour != null)
-            {
-                CreateHuskAt(2, 0, cr.south.neighbour.south.neighbour);
-                if (cr.south.neighbour.south.neighbour.south.neighbour != null)
-                { CreateHuskAt(2, -1, cr.south.neighbour.south.neighbour.south.neighbour); }
-            }
-        }
-
-    }
 
     #region Neighbour Testing & Getting
     private bool TestForNeighbourAt(Room original, Orientation orientation, int howFar)
@@ -393,8 +317,8 @@ public class RoomManager : MonoBehaviour
 
                         if (temp.east.neighbour != null)
                         {
-                            if (other == temp.east.neighbour) { return Success(i); } 
-                            temp = temp.east.neighbour; 
+                            if (other == temp.east.neighbour) { return Success(i); }
+                            temp = temp.east.neighbour;
                         }
                         else { succesfull = false; }
 
@@ -432,6 +356,7 @@ public class RoomManager : MonoBehaviour
 
         // Create the list
         List<(Orientation, int)> list = new List<(Orientation, int)>();
+
 
         // Keep going through the neighbours as far as needed
         for (int j = 0; j < orientations.Length; j++)
@@ -492,7 +417,7 @@ public class RoomManager : MonoBehaviour
                         else { succesfull = false; }
                         break;
                 }
-                if (foundRoom == true) 
+                if (foundRoom == true)
                 {
                     // Add it to the list
                     list.Add((orientations[j], i));
@@ -522,6 +447,84 @@ public class RoomManager : MonoBehaviour
         return true;
     }
     #endregion
+
+    #region New Husk Generation
+    public void LoadInitialRooms()
+    {
+        var firstHusk = Instantiate(Resources.Load("RoomHusk"), transform) as GameObject;
+        huskCenter = firstHusk.GetComponent<RoomHusk>();
+
+        currentRoom = roomsList[0];
+
+        // Fill up the rest of the husks
+        currentRoom = roomsList[0];
+        FillUpRooms(currentRoom);
+    }
+
+    private void FillUpRooms(Room cr)
+    {
+        // CENTER
+        CreateHuskAt(2, 2, cr);
+
+        // NORTH
+        if (cr.north.neighbour != null)
+        {
+            // Create a husk there
+            CreateHuskAt(2, 3, cr.north.neighbour);
+            if (cr.north.neighbour.north.neighbour != null)
+            {
+                CreateHuskAt(2, 4, cr.north.neighbour.north.neighbour);
+
+                if (cr.north.neighbour.north.neighbour.north.neighbour != null)
+                { CreateHuskAt(2, 5, cr.north.neighbour.north.neighbour.north.neighbour); }
+            }
+        }
+
+        // WEST
+        //if (cr.west.neighbour != null && husks[1, 2] == null)
+        if (cr.west.neighbour != null)
+        {
+            CreateHuskAt(1, 2, cr.west.neighbour);
+
+            //if (cr.west.neighbour.west.neighbour != null && husks[0, 2] == null)
+            if (cr.west.neighbour.west.neighbour != null)
+            {
+                CreateHuskAt(0, 2, cr.west.neighbour.west.neighbour);
+                if (cr.west.neighbour.west.neighbour.west.neighbour != null)
+                { CreateHuskAt(-1, 2, cr.west.neighbour.west.neighbour.west.neighbour); }
+            }
+        }
+
+        // EAST
+        //if (cr.east.neighbour != null && husks[3, 2] == null)
+        if (cr.east.neighbour != null)
+        {
+            CreateHuskAt(3, 2, cr.east.neighbour);
+            //if (cr.east.neighbour.east.neighbour != null && husks[4, 2] == null)
+            if (cr.east.neighbour.east.neighbour != null)
+            {
+                CreateHuskAt(4, 2, cr.east.neighbour.east.neighbour);
+                if (cr.east.neighbour.east.neighbour.east.neighbour != null)
+                { CreateHuskAt(5, 2, cr.east.neighbour.east.neighbour.east.neighbour); }
+            }
+        }
+
+        // SOUTH
+        //if (cr.south.neighbour != null && husks[2, 1] == null)
+        if (cr.south.neighbour != null)
+        {
+            CreateHuskAt(2, 1, cr.south.neighbour);
+            //if (cr.south.neighbour.south.neighbour != null && husks[2, 0] == null)
+            if (cr.south.neighbour.south.neighbour != null)
+            {
+                CreateHuskAt(2, 0, cr.south.neighbour.south.neighbour);
+                if (cr.south.neighbour.south.neighbour.south.neighbour != null)
+                { CreateHuskAt(2, -1, cr.south.neighbour.south.neighbour.south.neighbour); }
+            }
+        }
+
+    }
+
 
     private void CreateHuskAt(int x, int y, Room room)
     {
@@ -557,16 +560,19 @@ public class RoomManager : MonoBehaviour
     #endregion
 
     #region New Room Movement
-    public bool TryChangeRoom2(Vector3 moveVector)
+    public bool TryChangeRoom(Vector3 moveVector)
     {
         if (currentRoom == null) { Debug.Log("Current Room is null"); }
+
+        // Prep EnemyManager
+        EnemyManager em = EnemyManager.Instance;
 
         if (moveVector == Vector3.forward)
         {
             // Try go north
             if (currentRoom.north.neighbour != null)
             {
-                //MoveAllRooms(Direction.north, currentRoom.north.neighbour);
+                if (em.CheckIfRoomHasEnemies(currentRoom.north.neighbour)) { return false; }
                 UpdateCurrentDesiredPosition(Vector3.forward);
                 MoveAndUpdate(currentRoom.north.neighbour);
                 return true;
@@ -577,7 +583,7 @@ public class RoomManager : MonoBehaviour
         {
             if (currentRoom.west.neighbour != null)
             {
-                //MoveAllRooms(Direction.west, currentRoom.west.neighbour);
+                if (em.CheckIfRoomHasEnemies(currentRoom.west.neighbour)) { return false; }
                 UpdateCurrentDesiredPosition(Vector3.left);
                 MoveAndUpdate(currentRoom.west.neighbour);
 
@@ -589,7 +595,7 @@ public class RoomManager : MonoBehaviour
         {
             if (currentRoom.east.neighbour != null)
             {
-                //MoveAllRooms(Direction.east, currentRoom.east.neighbour);
+                if (em.CheckIfRoomHasEnemies(currentRoom.east.neighbour)) { return false; }
                 UpdateCurrentDesiredPosition(Vector3.right);
                 MoveAndUpdate(currentRoom.east.neighbour);
                 return true;
@@ -600,7 +606,7 @@ public class RoomManager : MonoBehaviour
         {
             if (currentRoom.south.neighbour != null)
             {
-                //MoveAllRooms(Direction.south, currentRoom.south.neighbour);
+                if (em.CheckIfRoomHasEnemies(currentRoom.south.neighbour)) { return false; }
                 UpdateCurrentDesiredPosition(Vector3.back);
                 MoveAndUpdate(currentRoom.south.neighbour);
                 return true;
