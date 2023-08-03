@@ -101,6 +101,19 @@ public class EnemyMover : MonoBehaviour
 
         e.currentRoom = toRoom;
         e.lastRoom = fromRoom;
+
+        PrintEnemyStatus(e, fromRoom, toRoom);
+    }
+
+    private void PrintEnemyStatus(Enemy e, Room fromRoom, Room toRoom)
+    {
+        string data = "";
+
+        data += "From: " + fromRoom;
+        data += "|| To: " + toRoom;
+        data += "|| Mode: " + e.mode;
+
+        Debug.Log(data);
     }
     #endregion
 
@@ -236,7 +249,11 @@ public class EnemyMover : MonoBehaviour
 
     private void CalmEnemy(Enemy e)
     {
-        e.mode = Enemy.Mode.patrol;
+        if (e.mode == Enemy.Mode.hunt)
+        {
+            Debug.Log("ENEMY IS CALMED");
+            e.mode = Enemy.Mode.patrol;
+        }
     }
 
     private void AttackPlayer(Enemy e)

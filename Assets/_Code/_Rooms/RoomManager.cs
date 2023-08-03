@@ -274,8 +274,8 @@ public class RoomManager : MonoBehaviour
         Orientation[] orientations = new Orientation[] { Orientation.north, Orientation.west, Orientation.east, Orientation.south };
 
         // First check if it is the same room
-        //if (original == other)
-        //{ return true; }
+        if (original == other)
+        { return true; }
 
         // Keep going through the neighbours as far as needed
         for (int j = 0; j < orientations.Length; j++)

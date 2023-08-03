@@ -392,7 +392,7 @@ MonoBehaviour:
   MAX_hydrationLevel: 20
   current_hydrationLevel: 0
   warningPercentage: 0.4
-  ticksPerHydrationDrop: 1
+  ticksPerHydrationDrop: 10
   hydrationPerDrink: 6
 --- !u!1 &601714105
 GameObject:
