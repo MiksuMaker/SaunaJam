@@ -132,7 +132,7 @@ public class EnemyMover : MonoBehaviour
             case Orientation.east: neighbour = e.currentRoom.east.neighbour; break;
             case Orientation.south: neighbour = e.currentRoom.south.neighbour; break;
         }
-        Debug.Log("Trying to move to " + results[0].Item1 + " || Neighbour null: " + (neighbour == null));
+        //Debug.Log("Trying to move to " + results[0].Item1 + " || Neighbour null: " + (neighbour == null));
 
         // Move
         MoveToRoom(e, e.currentRoom, neighbour);
