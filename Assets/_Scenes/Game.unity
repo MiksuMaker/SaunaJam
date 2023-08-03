@@ -1445,7 +1445,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2010123002
 GameObject:
@@ -1497,7 +1497,7 @@ MonoBehaviour:
   amountOfRooms: 50
   roomParent: {fileID: 2097705100}
   startingLayout: {fileID: 11400000, guid: 1f9c47770d4c11a48b979fc754ef4c25, type: 2}
-  preferences: {fileID: 11400000, guid: 9f4477a395296dd4785e637ef5bde5b3, type: 2}
+  preferences: {fileID: 11400000, guid: 8fda77d4b87587c45b1a98522c9f71bb, type: 2}
   usePreferences: 1
   deadEnd_Chance: 10
   corner_Chance: 1
@@ -1594,6 +1594,51 @@ MonoBehaviour:
   normalRot: {x: 0, y: 0, z: 0}
   downTiltedRot: {x: 30, y: 0, z: 0}
   lesserTiltedRot: {x: 20, y: 0, z: 0}
+--- !u!1 &2080566499
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2080566500}
+  - component: {fileID: 2080566501}
+  m_Layer: 0
+  m_Name: ParticleParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2080566500
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2080566499}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2080566501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2080566499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3676db5b2d63bb4dbdd376677bd7948, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pooledSteamMonsterParticles: []
 --- !u!1 &2097705099
 GameObject:
   m_ObjectHideFlags: 0

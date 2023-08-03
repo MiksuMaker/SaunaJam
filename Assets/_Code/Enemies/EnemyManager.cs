@@ -58,6 +58,11 @@ public class EnemyManager : MonoBehaviour
         // Spawn Enemy Manifest
         EnemyManifest manifest = (Instantiate(Resources.Load(enemyPath)) as GameObject).GetComponent<EnemyManifest>();
         PlaceManifestation(manifest, worldPos);
+
+        // Add particles to that location
+        if (r.monster.type == Enemy.Type.steam)
+        { ParticleManager.Instance.GetParticles(worldPos, Particle.Type.steamMonster); }
+        
         manifest.gameObject.transform.parent = transform;
         manifestations.Add(manifest);
     }

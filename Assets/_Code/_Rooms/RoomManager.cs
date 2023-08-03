@@ -642,6 +642,9 @@ public class RoomManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+        // Handle Particles
+        ParticleManager.Instance.HideAllParticles();
+
         // Demanifest all items
         ItemManager.Instance.ClearManifestations();
 
