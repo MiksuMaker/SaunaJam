@@ -90,10 +90,10 @@ public class EnemyMover : MonoBehaviour
         return neighbours;
     }
 
-    private void MoveToRoom(Enemy e, Room fromRoom, Room toRoom)
+    private void MoveToRoom(Enemy e, Room fromRoom, Room toRoom, bool passPlayerCheck = false)
     {
         // First check that Player isn't on the way
-        if (CheckRoomForPlayer(e, toRoom)) { return; }
+        //if (CheckRoomForPlayer(e, toRoom)) { return; }
 
         // If not, proceed to Move enemy
         toRoom.monster = e;
@@ -108,6 +108,9 @@ public class EnemyMover : MonoBehaviour
     private void MoveAfterTarget(Enemy e)
     {
         RoomManager rm = RoomManager.Instance;
+
+        // Check if Player is within same Room
+        if (rm.currentRoom == e.currentRoom) { AttackPlayer(e); return; }
 
         if (IsPlayerWithinSight(e))
         { e.targetRoom = rm.currentRoom; }
@@ -239,6 +242,7 @@ public class EnemyMover : MonoBehaviour
     private void AttackPlayer(Enemy e)
     {
         Debug.Log("ATTACKING PLAYER");
+        //MoveToRoom(e, e.currentRoom, RoomManager.Instance.currentRoom, true);
     }
     #endregion
 

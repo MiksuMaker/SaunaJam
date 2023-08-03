@@ -571,7 +571,8 @@ public class RoomManager : MonoBehaviour
             // Try go north
             if (currentRoom.north.neighbour != null)
             {
-                if (em.CheckIfRoomHasEnemies(currentRoom.north.neighbour)) { return false; }
+                em.CheckIfRoomHasEnemies(currentRoom.north.neighbour);
+                //if (em.CheckIfRoomHasEnemies(currentRoom.north.neighbour)) { return false; }
                 UpdateCurrentDesiredPosition(Vector3.forward);
                 MoveAndUpdate(currentRoom.north.neighbour);
                 return true;
@@ -582,7 +583,8 @@ public class RoomManager : MonoBehaviour
         {
             if (currentRoom.west.neighbour != null)
             {
-                if (em.CheckIfRoomHasEnemies(currentRoom.west.neighbour)) { return false; }
+                em.CheckIfRoomHasEnemies(currentRoom.west.neighbour);
+                //if (em.CheckIfRoomHasEnemies(currentRoom.west.neighbour)) { return false; }
                 UpdateCurrentDesiredPosition(Vector3.left);
                 MoveAndUpdate(currentRoom.west.neighbour);
 
@@ -594,7 +596,8 @@ public class RoomManager : MonoBehaviour
         {
             if (currentRoom.east.neighbour != null)
             {
-                if (em.CheckIfRoomHasEnemies(currentRoom.east.neighbour)) { return false; }
+                em.CheckIfRoomHasEnemies(currentRoom.east.neighbour);
+                //if (em.CheckIfRoomHasEnemies(currentRoom.east.neighbour)) { return false; }
                 UpdateCurrentDesiredPosition(Vector3.right);
                 MoveAndUpdate(currentRoom.east.neighbour);
                 return true;
@@ -605,7 +608,8 @@ public class RoomManager : MonoBehaviour
         {
             if (currentRoom.south.neighbour != null)
             {
-                if (em.CheckIfRoomHasEnemies(currentRoom.south.neighbour)) { return false; }
+                em.CheckIfRoomHasEnemies(currentRoom.south.neighbour);
+                //if (em.CheckIfRoomHasEnemies(currentRoom.south.neighbour)) { return false; }
                 UpdateCurrentDesiredPosition(Vector3.back);
                 MoveAndUpdate(currentRoom.south.neighbour);
                 return true;
