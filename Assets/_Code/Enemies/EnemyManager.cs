@@ -85,7 +85,7 @@ public class EnemyManager : MonoBehaviour
     #region MOVING
     public void MoveEnemies()
     {
-        mover.MoveEnemies(enemies);
+        mover.UpdateEnemies(enemies);
     }
     #endregion
 }

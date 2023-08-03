@@ -238,6 +238,196 @@ public class RoomManager : MonoBehaviour
 
     }
 
+    #region Neighbour Testing & Getting
+    private bool TestForNeighbourAt(Room original, Orientation orientation, int howFar)
+    {
+        Room temp = original;
+
+        bool succesfull = true;
+
+        // Keep going through the neighbours as far as needed
+        for (int i = 0; i < howFar; i++)
+        {
+
+            switch (orientation)
+            {
+                case (Orientation.north):
+                    if (temp.north.neighbour != null)
+                    { temp = temp.north.neighbour; }
+                    else { succesfull = false; }
+                    break;
+                case (Orientation.west):
+                    if (temp.west.neighbour != null)
+                    { temp = temp.west.neighbour; }
+                    else { succesfull = false; }
+                    break;
+                case (Orientation.east):
+                    if (temp.east.neighbour != null)
+                    { temp = temp.east.neighbour; }
+                    else { succesfull = false; }
+                    break;
+                case (Orientation.south):
+                    if (temp.south.neighbour != null)
+                    { temp = temp.south.neighbour; }
+                    else { succesfull = false; }
+                    break;
+            }
+            if (succesfull == false) { break; }
+
+        }
+
+        // Return the desired neighbour or null, if that neighbour wasn't available
+        if (succesfull)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
+    // ===============================
+
+    private Room GetNeighbourAt(Room original, Orientation orientation, int howFar)
+    {
+        Room temp = original;
+
+        bool succesfull = true;
+
+        // Keep going through the neighbours as far as needed
+        for (int i = 0; i < howFar; i++)
+        {
+
+            switch (orientation)
+            {
+                case (Orientation.north):
+                    if (temp.north.neighbour != null)
+                    { temp = temp.north.neighbour; }
+                    else { succesfull = false; }
+                    break;
+                case (Orientation.west):
+                    if (temp.west.neighbour != null)
+                    { temp = temp.west.neighbour; }
+                    else { succesfull = false; }
+                    break;
+                case (Orientation.east):
+                    if (temp.east.neighbour != null)
+                    { temp = temp.east.neighbour; }
+                    else { succesfull = false; }
+                    break;
+                case (Orientation.south):
+                    if (temp.south.neighbour != null)
+                    { temp = temp.south.neighbour; }
+                    else { succesfull = false; }
+                    break;
+            }
+            if (succesfull == false) { break; }
+
+        }
+
+        // Return the desired neighbour or null, if that neighbour wasn't available
+        if (succesfull)
+        {
+            return temp;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    // ===============================
+
+    public bool IsOtherRoomNear(Room original, Room other, int howFar)
+    {
+        Room temp = original;
+
+        bool succesfull = true;
+
+        Orientation[] orientations = new Orientation[] { Orientation.north, Orientation.west, Orientation.east, Orientation.south };
+
+        // First check if it is the same room
+        //if (original == other)
+        //{ return true; }
+
+        // Keep going through the neighbours as far as needed
+        for (int j = 0; j < orientations.Length; j++)
+        {
+            // Reset temp
+            temp = original;
+            // Reset succesfull
+            succesfull = true;
+
+            Debug.Log("Checking " + orientations[j]);
+
+            for (int i = 1; i < howFar + 1; i++)
+            {
+
+                switch (orientations[j])
+                {
+                    case (Orientation.north):
+                        if (temp.north.neighbour != null)
+                        {
+                            // Test if it is the room
+                            if (other == temp.north.neighbour) { return Success(i); } // <-- Is in sight
+                            temp = temp.north.neighbour;    // Otherwise, continue the operation
+                        }
+                        else
+                        { succesfull = false; }
+
+                        break;
+                    case (Orientation.west):
+                        if (temp.west.neighbour != null)
+                        {
+                            if (other == temp.west.neighbour) { return Success(i); }
+                            temp = temp.west.neighbour;
+                        }
+                        else { succesfull = false; }
+
+                        break;
+
+                    case (Orientation.east):
+
+                        if (temp.east.neighbour != null)
+                        {
+                            if (other == temp.east.neighbour) { return Success(i); } 
+                            temp = temp.east.neighbour; 
+                        }
+                        else { succesfull = false; }
+
+                        break;
+
+                    case (Orientation.south):
+
+                        if (temp.south.neighbour != null)
+                        {
+                            if (other == temp.south.neighbour) { return Success(i); }
+                            temp = temp.south.neighbour;
+                        }
+                        else { succesfull = false; }
+                        break;
+                }
+                if (succesfull == false) { break; }
+            }
+
+            // Change Orientation
+
+        }
+
+        // If the other room wasn't found, return false
+        Debug.Log("Player not found in " + howFar + " distance");
+        return false;
+    }
+
+    private bool Success(int distance)
+    {
+        Debug.Log("Success within " + distance);
+        return true;
+    }
+    #endregion
+
     private void CreateHuskAt(int x, int y, Room room)
     {
         var newHusk = Instantiate(Resources.Load("RoomHusk")) as GameObject;
@@ -283,7 +473,7 @@ public class RoomManager : MonoBehaviour
             {
                 //MoveAllRooms(Direction.north, currentRoom.north.neighbour);
                 UpdateCurrentDesiredPosition(Vector3.forward);
-                MoveToRoom(currentRoom.north.neighbour);
+                MoveAndUpdate(currentRoom.north.neighbour);
                 return true;
             }
             else { return false; }
@@ -294,7 +484,7 @@ public class RoomManager : MonoBehaviour
             {
                 //MoveAllRooms(Direction.west, currentRoom.west.neighbour);
                 UpdateCurrentDesiredPosition(Vector3.left);
-                MoveToRoom(currentRoom.west.neighbour);
+                MoveAndUpdate(currentRoom.west.neighbour);
 
                 return true;
             }
@@ -306,7 +496,7 @@ public class RoomManager : MonoBehaviour
             {
                 //MoveAllRooms(Direction.east, currentRoom.east.neighbour);
                 UpdateCurrentDesiredPosition(Vector3.right);
-                MoveToRoom(currentRoom.east.neighbour);
+                MoveAndUpdate(currentRoom.east.neighbour);
                 return true;
             }
             else { return false; }
@@ -317,7 +507,7 @@ public class RoomManager : MonoBehaviour
             {
                 //MoveAllRooms(Direction.south, currentRoom.south.neighbour);
                 UpdateCurrentDesiredPosition(Vector3.back);
-                MoveToRoom(currentRoom.south.neighbour);
+                MoveAndUpdate(currentRoom.south.neighbour);
                 return true;
             }
             else { return false; }
@@ -337,11 +527,16 @@ public class RoomManager : MonoBehaviour
         desiredLocation += moveDir * WorldStats.Instance.Scale;
     }
 
-    private void MoveToRoom(Room newRoom)
+    private void MoveAndUpdate(Room newRoom)
     {
         // Update current room etc.
         currentRoom = newRoom;
 
+        UpdateRooms();
+    }
+
+    public void UpdateRooms()
+    {
         // Kill all children
         foreach (Transform child in transform)
         {

@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class EnemyMover : MonoBehaviour
 {
-    public void MoveEnemies(List<Enemy> enemies)
+    #region Movement
+    public void UpdateEnemies(List<Enemy> enemies)
     {
         foreach (var e in enemies)
         {
+            // Move
             MoveEnemy(e);
+
+            // Try to detect Player
+            DetectPlayer(e);
         }
     }
 
@@ -78,4 +83,42 @@ public class EnemyMover : MonoBehaviour
         e.currentRoom = toRoom;
         e.lastRoom = fromRoom;
     }
+    #endregion
+
+    #region Detection
+    private void DetectPlayer(Enemy e)
+    {
+        // Check if Current Room (Player Pos) is within sight
+        if (IsPlayerWithinSight(e))
+        {
+            // If yes, go after them!
+
+        }
+        else
+        {
+            // If not, check out the last position
+            // --> Continue patrolling
+
+        }
+
+
+    }
+
+    private bool IsPlayerWithinSight(Enemy e)
+    {
+        // Check if Player is within sight
+        RoomManager rm = RoomManager.Instance;
+
+        int dist = 3;
+        if (rm.IsOtherRoomNear(e.currentRoom, rm.currentRoom, dist))
+        {
+            //Debug.Log("Player is within " + dist + " rooms");
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    #endregion
 }
