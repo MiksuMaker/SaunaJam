@@ -42,9 +42,10 @@ public class EnemyManager : MonoBehaviour
         enemies.Add(steam);
 
         // Assign to room
-        rooms[0].monster = steam;
-        steam.currentRoom = rooms[0];
-        steam.lastRoom = rooms[0];
+        int num = 1;
+        rooms[num].monster = steam;
+        steam.currentRoom = rooms[num];
+        steam.lastRoom = rooms[num];
     }
 
     #endregion
@@ -86,6 +87,30 @@ public class EnemyManager : MonoBehaviour
     public void MoveEnemies()
     {
         mover.UpdateEnemies(enemies);
+    }
+    #endregion
+
+    #region Detection
+    public bool CheckIfRoomIsFreeOfEnemies(Room r)
+    {
+        if (r.monster == null)
+        {
+            return true;
+        }
+        else
+        {
+            // Inform the Monster /etc.
+            InformMonsterOfPlayer(r.monster);
+
+            // Return true
+            return true;
+        }
+    }
+
+    public void InformMonsterOfPlayer(Enemy e)
+    {
+        // Do what you want to do here
+        e.mode = Enemy.Mode.hunt;
     }
     #endregion
 }

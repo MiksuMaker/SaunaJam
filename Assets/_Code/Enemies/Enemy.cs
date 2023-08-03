@@ -20,6 +20,8 @@ public class Enemy
     public Room currentRoom;
     public Room lastRoom;
 
+    public Room targetRoom;
+
     public Enemy(Type type)
     {
         this.type = type;

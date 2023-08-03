@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class RoomManager : MonoBehaviour
 {
@@ -360,7 +361,7 @@ public class RoomManager : MonoBehaviour
             // Reset succesfull
             succesfull = true;
 
-            Debug.Log("Checking " + orientations[j]);
+            //Debug.Log("Checking " + orientations[j]);
 
             for (int i = 1; i < howFar + 1; i++)
             {
@@ -417,13 +418,107 @@ public class RoomManager : MonoBehaviour
         }
 
         // If the other room wasn't found, return false
-        Debug.Log("Player not found in " + howFar + " distance");
+        //Debug.Log("Player not found in " + howFar + " distance");
         return false;
     }
 
+    public List<(Orientation, int)> ClosestOrientationToOtherRoom(Room original, Room other, int howFar)
+    {
+        Room temp = original;
+
+        bool succesfull = true;
+
+        Orientation[] orientations = new Orientation[] { Orientation.north, Orientation.west, Orientation.east, Orientation.south };
+
+        // Create the list
+        List<(Orientation, int)> list = new List<(Orientation, int)>();
+
+        // Keep going through the neighbours as far as needed
+        for (int j = 0; j < orientations.Length; j++)
+        {
+            // Reset temp
+            temp = original;
+            // Reset succesfull
+            succesfull = true;
+
+            // Reset foundRoom --> Add all orientations to a list
+            bool foundRoom = false;
+
+            for (int i = 1; i < howFar + 1; i++)
+            {
+
+                switch (orientations[j])
+                {
+                    case (Orientation.north):
+                        if (temp.north.neighbour != null)
+                        {
+                            // Test if it is the room
+                            if (other == temp.north.neighbour)
+                            { foundRoom = true; } // <-- Is in sight --> CONTINUE
+                            temp = temp.north.neighbour;    // Otherwise, continue the operation
+                        }
+                        else
+                        { succesfull = false; }
+
+                        break;
+                    case (Orientation.west):
+                        if (temp.west.neighbour != null)
+                        {
+                            if (other == temp.west.neighbour) { foundRoom = true; }
+                            temp = temp.west.neighbour;
+                        }
+                        else { succesfull = false; }
+
+                        break;
+
+                    case (Orientation.east):
+
+                        if (temp.east.neighbour != null)
+                        {
+                            if (other == temp.east.neighbour) { foundRoom = true; }
+                            temp = temp.east.neighbour;
+                        }
+                        else { succesfull = false; }
+
+                        break;
+
+                    case (Orientation.south):
+
+                        if (temp.south.neighbour != null)
+                        {
+                            if (other == temp.south.neighbour) { foundRoom = true; }
+                            temp = temp.south.neighbour;
+                        }
+                        else { succesfull = false; }
+                        break;
+                }
+                if (foundRoom == true) 
+                {
+                    // Add it to the list
+                    list.Add((orientations[j], i));
+                    // Exit the loop for this orientation
+                    break;
+                }
+                else if (succesfull == false) { break; }
+            }
+        }
+
+        // Next after succesful orientations have been found, get the one with the shortest distance
+
+        // (Unless there are no or only one member on the list
+        if (list.Count <= 1) { return list; }
+
+        // But after that, get the one with shortest distance (ties don't need to be randomized)
+        list = list.OrderBy(x => x.Item2).ToList();
+
+        return list;
+    }
+
+
+
     private bool Success(int distance)
     {
-        Debug.Log("Success within " + distance);
+        //Debug.Log("Success within " + distance);
         return true;
     }
     #endregion

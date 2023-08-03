@@ -26,7 +26,7 @@ public class EnemyMover : MonoBehaviour
                 break;
             // =======================
             case Enemy.Mode.hunt:
-
+                MoveAfterTarget(e);
                 break;
         }
     }
@@ -89,14 +89,55 @@ public class EnemyMover : MonoBehaviour
     }
     #endregion
 
+    #region Hunting
+    private void MoveAfterTarget(Enemy e)
+    {
+        RoomManager rm = RoomManager.Instance;
+
+        // Choose the Room that is closest to Player
+        //List<(Orientation, int)> results = rm.ClosestOrientationToOtherRoom(e.currentRoom, rm.currentRoom, 3);
+        List<(Orientation, int)> results = rm.ClosestOrientationToOtherRoom(e.currentRoom, e.targetRoom, 3);
+
+        // Check that it is not null
+        if (results.Count == 0)
+        {
+            Debug.Log("Didn't find a path to Target");
+            return;
+        }
+
+        // Try to move there
+        Room neighbour = e.currentRoom; // Default
+        switch (results[0].Item1)
+        {
+            case Orientation.north: neighbour = e.currentRoom.north.neighbour; break;
+            case Orientation.west: neighbour = e.currentRoom.west.neighbour; break;
+            case Orientation.east: neighbour = e.currentRoom.east.neighbour; break;
+            case Orientation.south: neighbour = e.currentRoom.south.neighbour; break;
+        }
+        Debug.Log("Trying to move to " + results[0].Item1 + " || Neighbour null: " + (neighbour == null));
+
+        // Move
+        MoveToRoom(e, e.currentRoom, neighbour);
+    }
+    #endregion
+
     #region Detection
     private bool CheckRoomForPlayer(Enemy e, Room toRoom)
     {
         if (RoomManager.Instance.currentRoom != toRoom) { return false; }
 
-        // Alert this enemy to the presence of Player
-        Debug.Log("PLAYER ON THE WAY!");
+        // If not Aggroed already
+        // --> Alert this enemy to the presence of Player
+        if (e.mode == Enemy.Mode.patrol)
+        {
+            AggroEnemy(e);
+        }
+        else
+        {
+            AttackPlayer(e);
+        }
 
+        // If ALREADY Aggroed --> Kill Player
 
         // Don't move
         return true;
@@ -108,13 +149,13 @@ public class EnemyMover : MonoBehaviour
         if (IsPlayerWithinSight(e))
         {
             // If yes, go after them!
-
+            AggroEnemy(e);
         }
         else
         {
             // If not, check out the last position
             // --> Continue patrolling
-
+            CalmEnemy(e);
         }
 
 
@@ -135,6 +176,33 @@ public class EnemyMover : MonoBehaviour
         {
             return false;
         }
+    }
+    #endregion
+
+    #region Aggression
+    private void AggroEnemy(Enemy e)
+    {
+        Debug.Log("Going AFTER the Player");
+
+        UpdateTargetPos(e);
+
+        // If not, just start hunting them
+        e.mode = Enemy.Mode.hunt;
+    }
+
+    private void UpdateTargetPos(Enemy e)
+    {
+        e.targetRoom = RoomManager.Instance.currentRoom;
+    }
+
+    private void CalmEnemy(Enemy e)
+    {
+        e.mode = Enemy.Mode.patrol;
+    }
+
+    private void AttackPlayer(Enemy e)
+    {
+        Debug.Log("ATTACKING PLAYER");
     }
     #endregion
 }
