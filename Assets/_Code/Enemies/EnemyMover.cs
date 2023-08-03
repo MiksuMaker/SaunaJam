@@ -77,6 +77,10 @@ public class EnemyMover : MonoBehaviour
 
     private void MoveToRoom(Enemy e, Room fromRoom, Room toRoom)
     {
+        // First check that Player isn't on the way
+        if (CheckRoomForPlayer(e, toRoom)) { return; }
+
+        // If not, proceed to Move enemy
         toRoom.monster = e;
         fromRoom.monster = null;
 
@@ -86,6 +90,18 @@ public class EnemyMover : MonoBehaviour
     #endregion
 
     #region Detection
+    private bool CheckRoomForPlayer(Enemy e, Room toRoom)
+    {
+        if (RoomManager.Instance.currentRoom != toRoom) { return false; }
+
+        // Alert this enemy to the presence of Player
+        Debug.Log("PLAYER ON THE WAY!");
+
+
+        // Don't move
+        return true;
+    }
+
     private void DetectPlayer(Enemy e)
     {
         // Check if Current Room (Player Pos) is within sight
