@@ -162,7 +162,6 @@ public class EnemyMover : MonoBehaviour
         // If you're gnome, check that Player doesn't have sight on you
         if (e.type == Enemy.Type.gnome && DoesPlayerSeeEnemy(e.currentRoom))
         {
-            Debug.Log("Gnome DOESN'T MOVE");
             return;
         }
 
@@ -365,7 +364,7 @@ public class EnemyMover : MonoBehaviour
         e.currentRoom.monster = null;
 
         // Then teleport them
-        int teleportDistance = 2;
+        int teleportDistance = 6;
         e.currentRoom = GetRandomRoomAt(e.currentRoom, teleportDistance);
     }
 

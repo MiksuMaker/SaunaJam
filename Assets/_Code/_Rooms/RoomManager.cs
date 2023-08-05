@@ -164,6 +164,85 @@ public class RoomManager : MonoBehaviour
 
 
     #region Neighbour Testing & Getting
+    private void TryRenderAtDirectionFor(Room original, Orientation orientation, int howFar)
+    {
+        // Test for a room
+
+        // Get the room
+
+        Room temp = original;
+        int X = 2; int Y = 2;
+
+        bool succesfull = true;
+
+        for (int i = 1; i < howFar + 1; i++)
+        {
+
+            switch (orientation)
+            {
+                case (Orientation.north):
+                    Y += 1;
+                    if (temp.north.neighbour != null)
+                    {
+                        // Move the temp forward
+                        temp = temp.north.neighbour;
+
+                        // Create
+                        CreateHuskAt(X, Y, temp);
+                    }
+                    else
+                    { succesfull = false; }
+
+                    break;
+                case (Orientation.south):
+                    Y -= 1;
+                    if (temp.south.neighbour != null)
+                    {
+                        // Move the temp forward
+                        temp = temp.south.neighbour;
+
+                        // Create
+                        CreateHuskAt(X, Y, temp);
+                    }
+                    else
+                    { succesfull = false; }
+
+                    break;
+                case (Orientation.west):
+                    X -= 1;
+                    if (temp.west.neighbour != null)
+                    {
+                        // Move the temp forward
+                        temp = temp.west.neighbour;
+
+                        // Create
+                        CreateHuskAt(X, Y, temp);
+                    }
+                    else
+                    { succesfull = false; }
+
+                    break;
+                case (Orientation.east):
+                    X += 1;
+                    if (temp.east.neighbour != null)
+                    {
+                        // Move the temp forward
+                        temp = temp.east.neighbour;
+
+                        // Create
+                        CreateHuskAt(X, Y, temp);
+                    }
+                    else
+                    { succesfull = false; }
+
+                    break;
+            }
+            // If not succesfull, stop
+            if (succesfull == false) { break; }
+        }
+
+    }
+
     private bool TestForNeighbourAt(Room original, Orientation orientation, int howFar)
     {
         Room temp = original;
@@ -527,61 +606,66 @@ public class RoomManager : MonoBehaviour
         CreateHuskAt(2, 2, cr);
 
         // NORTH
-        if (cr.north.neighbour != null)
-        {
-            // Create a husk there
-            CreateHuskAt(2, 3, cr.north.neighbour);
-            if (cr.north.neighbour.north.neighbour != null)
-            {
-                CreateHuskAt(2, 4, cr.north.neighbour.north.neighbour);
+        //if (cr.north.neighbour != null)
+        //{
+        //    // Create a husk there
+        //    CreateHuskAt(2, 3, cr.north.neighbour);
+        //    if (cr.north.neighbour.north.neighbour != null)
+        //    {
+        //        CreateHuskAt(2, 4, cr.north.neighbour.north.neighbour);
 
-                if (cr.north.neighbour.north.neighbour.north.neighbour != null)
-                { CreateHuskAt(2, 5, cr.north.neighbour.north.neighbour.north.neighbour); }
-            }
-        }
+        //        if (cr.north.neighbour.north.neighbour.north.neighbour != null)
+        //        { CreateHuskAt(2, 5, cr.north.neighbour.north.neighbour.north.neighbour); }
+        //    }
+        //}
+        int renderDistance = 10;
+        TryRenderAtDirectionFor(cr, Orientation.north, renderDistance);
+        TryRenderAtDirectionFor(cr, Orientation.east, renderDistance);
+        TryRenderAtDirectionFor(cr, Orientation.south, renderDistance);
+        TryRenderAtDirectionFor(cr, Orientation.west, renderDistance);
 
-        // WEST
-        //if (cr.west.neighbour != null && husks[1, 2] == null)
-        if (cr.west.neighbour != null)
-        {
-            CreateHuskAt(1, 2, cr.west.neighbour);
+        //// WEST
+        ////if (cr.west.neighbour != null && husks[1, 2] == null)
+        //if (cr.west.neighbour != null)
+        //{
+        //    CreateHuskAt(1, 2, cr.west.neighbour);
 
-            //if (cr.west.neighbour.west.neighbour != null && husks[0, 2] == null)
-            if (cr.west.neighbour.west.neighbour != null)
-            {
-                CreateHuskAt(0, 2, cr.west.neighbour.west.neighbour);
-                if (cr.west.neighbour.west.neighbour.west.neighbour != null)
-                { CreateHuskAt(-1, 2, cr.west.neighbour.west.neighbour.west.neighbour); }
-            }
-        }
+        //    //if (cr.west.neighbour.west.neighbour != null && husks[0, 2] == null)
+        //    if (cr.west.neighbour.west.neighbour != null)
+        //    {
+        //        CreateHuskAt(0, 2, cr.west.neighbour.west.neighbour);
+        //        if (cr.west.neighbour.west.neighbour.west.neighbour != null)
+        //        { CreateHuskAt(-1, 2, cr.west.neighbour.west.neighbour.west.neighbour); }
+        //    }
+        //}
 
-        // EAST
-        //if (cr.east.neighbour != null && husks[3, 2] == null)
-        if (cr.east.neighbour != null)
-        {
-            CreateHuskAt(3, 2, cr.east.neighbour);
-            //if (cr.east.neighbour.east.neighbour != null && husks[4, 2] == null)
-            if (cr.east.neighbour.east.neighbour != null)
-            {
-                CreateHuskAt(4, 2, cr.east.neighbour.east.neighbour);
-                if (cr.east.neighbour.east.neighbour.east.neighbour != null)
-                { CreateHuskAt(5, 2, cr.east.neighbour.east.neighbour.east.neighbour); }
-            }
-        }
+        //// EAST
+        ////if (cr.east.neighbour != null && husks[3, 2] == null)
+        //if (cr.east.neighbour != null)
+        //{
+        //    CreateHuskAt(3, 2, cr.east.neighbour);
+        //    //if (cr.east.neighbour.east.neighbour != null && husks[4, 2] == null)
+        //    if (cr.east.neighbour.east.neighbour != null)
+        //    {
+        //        CreateHuskAt(4, 2, cr.east.neighbour.east.neighbour);
+        //        if (cr.east.neighbour.east.neighbour.east.neighbour != null)
+        //        { CreateHuskAt(5, 2, cr.east.neighbour.east.neighbour.east.neighbour); }
+        //    }
+        //}
 
-        // SOUTH
-        //if (cr.south.neighbour != null && husks[2, 1] == null)
-        if (cr.south.neighbour != null)
-        {
-            CreateHuskAt(2, 1, cr.south.neighbour);
-            //if (cr.south.neighbour.south.neighbour != null && husks[2, 0] == null)
-            if (cr.south.neighbour.south.neighbour != null)
-            {
-                CreateHuskAt(2, 0, cr.south.neighbour.south.neighbour);
-                if (cr.south.neighbour.south.neighbour.south.neighbour != null)
-                { CreateHuskAt(2, -1, cr.south.neighbour.south.neighbour.south.neighbour); }
-            }
-        }
+        //// SOUTH
+        ////if (cr.south.neighbour != null && husks[2, 1] == null)
+        //if (cr.south.neighbour != null)
+        //{
+        //    CreateHuskAt(2, 1, cr.south.neighbour);
+        //    //if (cr.south.neighbour.south.neighbour != null && husks[2, 0] == null)
+        //    if (cr.south.neighbour.south.neighbour != null)
+        //    {
+        //        CreateHuskAt(2, 0, cr.south.neighbour.south.neighbour);
+        //        if (cr.south.neighbour.south.neighbour.south.neighbour != null)
+        //        { CreateHuskAt(2, -1, cr.south.neighbour.south.neighbour.south.neighbour); }
+        //    }
+        //}
 
     }
 
