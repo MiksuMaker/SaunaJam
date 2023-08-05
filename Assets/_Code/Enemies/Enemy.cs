@@ -17,6 +17,8 @@ public class Enemy
     }
     public Mode mode;
 
+    public Orientation orientation;
+
     public Room currentRoom;
     public Room lastRoom;
 

@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class EnemyManifest : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] public GameObject gnomeGraphics;
+
+    public void AlterGnomeGraphics(bool onOff)
     {
-        
+        gnomeGraphics.SetActive(onOff);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TurnManifest(Orientation turnOrientation)
     {
-        
+        Vector3 eulers = Vector3.zero;
+        switch (turnOrientation)
+        {
+            case Orientation.north: break;
+            case Orientation.west: eulers = new Vector3(0f, -90f, 0f); break;
+            case Orientation.east: eulers = new Vector3(0f, 90f, 0f); break;
+            case Orientation.south: eulers = new Vector3(0f, 180f, 0f); break;
+        }
+
+        // Rotate
+        gnomeGraphics.transform.rotation = Quaternion.Euler(eulers);
     }
 }

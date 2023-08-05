@@ -38,16 +38,23 @@ public class EnemyManager : MonoBehaviour
     {
         List<Room> rooms = RoomManager.Instance.roomsList;
 
-        Enemy steam = new Enemy(Enemy.Type.steam);
-        enemies.Add(steam);
-
-        // Assign to room
-        int num = 1;
-        rooms[num].monster = steam;
-        steam.currentRoom = rooms[num];
-        steam.lastRoom = rooms[num];
+        // Spawn
+        //SpawnEnemy(Enemy.Type.steam, 1, rooms[1]);
+        SpawnEnemy(Enemy.Type.gnome, 1, rooms[2]);
     }
 
+    private void SpawnEnemy(Enemy.Type type, int howMany, Room spawnRoom)
+    {
+        // Create
+        Enemy monster = new Enemy(type);
+        monster.orientation = Orientation.north;
+        enemies.Add(monster);
+
+        // Assign to room
+        spawnRoom.monster = monster;
+        monster.currentRoom = spawnRoom;
+        monster.lastRoom = spawnRoom;
+    }
     #endregion
 
     #region MANIFESTATION
@@ -59,10 +66,15 @@ public class EnemyManager : MonoBehaviour
         EnemyManifest manifest = (Instantiate(Resources.Load(enemyPath)) as GameObject).GetComponent<EnemyManifest>();
         PlaceManifestation(manifest, worldPos);
 
-        // Add particles to that location
+        // Graphics
+        manifest.AlterGnomeGraphics((r.monster.type == Enemy.Type.gnome));
+
+        // Do type specific move
         if (r.monster.type == Enemy.Type.steam)
         { ParticleManager.Instance.GetParticles(worldPos, Particle.Type.steamMonster); }
-        
+        else
+        { manifest.TurnManifest(r.monster.orientation); }
+
         manifest.gameObject.transform.parent = transform;
         manifestations.Add(manifest);
     }

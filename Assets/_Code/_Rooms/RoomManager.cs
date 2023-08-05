@@ -346,6 +346,67 @@ public class RoomManager : MonoBehaviour
         return false;
     }
 
+    public bool IsOtherRoomInDirection(Room original, Room other, Orientation orientation, int howFar)
+    {
+        // Setup
+        Room temp = original;
+        bool succesfull = true;
+
+        for (int i = 1; i < howFar + 1; i++)
+        {
+
+            switch (orientation)
+            {
+                case (Orientation.north):
+                    if (temp.north.neighbour != null)
+                    {
+                        // Test if it is the room
+                        if (other == temp.north.neighbour) { return Success(i); } // <-- Is in sight
+                        temp = temp.north.neighbour;    // Otherwise, continue the operation
+                    }
+                    else
+                    { succesfull = false; }
+
+                    break;
+                case (Orientation.west):
+                    if (temp.west.neighbour != null)
+                    {
+                        if (other == temp.west.neighbour) { return Success(i); }
+                        temp = temp.west.neighbour;
+                    }
+                    else { succesfull = false; }
+
+                    break;
+
+                case (Orientation.east):
+
+                    if (temp.east.neighbour != null)
+                    {
+                        if (other == temp.east.neighbour) { return Success(i); }
+                        temp = temp.east.neighbour;
+                    }
+                    else { succesfull = false; }
+
+                    break;
+
+                case (Orientation.south):
+
+                    if (temp.south.neighbour != null)
+                    {
+                        if (other == temp.south.neighbour) { return Success(i); }
+                        temp = temp.south.neighbour;
+                    }
+                    else { succesfull = false; }
+                    break;
+            }
+            if (succesfull == false) { break; }
+        }
+
+        // Return false if not found
+        return false;
+    }
+
+
     public List<(Orientation, int)> ClosestOrientationToOtherRoom(Room original, Room other, int howFar)
     {
         Room temp = original;

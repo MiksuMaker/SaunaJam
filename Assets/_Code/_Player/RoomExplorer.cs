@@ -5,6 +5,8 @@ using UnityEngine;
 public class RoomExplorer : MonoBehaviour
 {
     #region Properties
+    public static RoomExplorer Instance;
+
     public delegate void MovementTick();
     public MovementTick moveTick;
 
@@ -28,6 +30,9 @@ public class RoomExplorer : MonoBehaviour
     #region Setup
     private void Awake()
     {
+        if (Instance == null && Instance != this) { Instance = this; }
+        else { Destroy(gameObject); }
+
         itemHandler = FindObjectOfType<ItemHandler>();
         cameraHandler = Player.GetComponentInChildren<CameraHandler>();
     }

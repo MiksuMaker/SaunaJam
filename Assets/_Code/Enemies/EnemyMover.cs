@@ -92,6 +92,9 @@ public class EnemyMover : MonoBehaviour
 
     private void MoveToRoom(Enemy e, Room fromRoom, Room toRoom, bool passPlayerCheck = false)
     {
+        // Check that no other Enemy is occupying the room
+        if (toRoom.monster != null) { return; }
+
         // First check that Player isn't on the way
         if (e.mode == Enemy.Mode.patrol)
         {
@@ -104,10 +107,22 @@ public class EnemyMover : MonoBehaviour
         toRoom.monster = e;
         fromRoom.monster = null;
 
+        e.orientation = CalculateOrientation(fromRoom, toRoom);
+
         e.currentRoom = toRoom;
         e.lastRoom = fromRoom;
 
         PrintEnemyStatus(e, fromRoom, toRoom);
+    }
+
+    private Orientation CalculateOrientation(Room previous, Room next)
+    {
+        if (previous.north.neighbour != null && previous.north.neighbour == next) { return Orientation.north; }
+        else if (previous.west.neighbour != null && previous.west.neighbour == next) { return Orientation.west; }
+        else if (previous.east.neighbour != null && previous.east.neighbour == next) { return Orientation.east; }
+        else if (previous.south.neighbour != null && previous.south.neighbour == next) { return Orientation.south; }
+        // Default
+        return Orientation.north;
     }
 
     private void PrintEnemyStatus(Enemy e, Room fromRoom, Room toRoom)
@@ -127,6 +142,13 @@ public class EnemyMover : MonoBehaviour
     {
         RoomManager rm = RoomManager.Instance;
 
+        // If you're gnome, check that Player doesn't have sight on you
+        if (e.type == Enemy.Type.gnome && DoesPlayerSeeEnemy(e))
+        {
+            Debug.Log("Gnome DOESN'T MOVE");
+            return;
+        }
+
         // Check if Player is within same Room
         if (rm.currentRoom == e.currentRoom) { AttackPlayer(e); return; }
 
@@ -134,7 +156,6 @@ public class EnemyMover : MonoBehaviour
         { e.targetRoom = rm.currentRoom; }
 
         // Choose the Room that is closest to Player
-        //List<(Orientation, int)> results = rm.ClosestOrientationToOtherRoom(e.currentRoom, rm.currentRoom, 3);
         List<(Orientation, int)> results = rm.ClosestOrientationToOtherRoom(e.currentRoom, e.targetRoom, 3);
 
         // Check that it is not null
@@ -153,10 +174,57 @@ public class EnemyMover : MonoBehaviour
             case Orientation.east: neighbour = e.currentRoom.east.neighbour; break;
             case Orientation.south: neighbour = e.currentRoom.south.neighbour; break;
         }
-        //Debug.Log("Trying to move to " + results[0].Item1 + " || Neighbour null: " + (neighbour == null));
 
-        // Move
-        MoveToRoom(e, e.currentRoom, neighbour);
+
+        // Either TURN or MOVE towards that room
+
+        // If facing already to correct orientation, move
+
+        // If not, turn to face that orientation
+
+        if (CanEnemyMove(e, results[0].Item1))
+        {
+            // Move
+            MoveToRoom(e, e.currentRoom, neighbour);
+        }
+        else
+        {
+            // Turn
+            e.orientation = results[0].Item1;
+        }
+
+    }
+
+    private bool CanEnemyMove(Enemy e, Orientation ori)
+    {
+        // If they're Steam, they get a free pass
+        if (e.type == Enemy.Type.steam) { return true; }
+
+        // Otherwise, their orientation must match the way they're supposed to be going
+        if (e.orientation == ori)
+        {
+            return true;
+        }
+        else { return false; }
+    }
+
+    private bool DoesPlayerSeeEnemy(Enemy e)
+    {
+        // Get Player orientation
+        Orientation pOrientation = RoomExplorer.Instance.currentOrientation;
+
+        // Get X amount of rooms in that direction
+        int playerSeeDistance = 4;
+        if (RoomManager.Instance.IsOtherRoomInDirection(RoomManager.Instance.currentRoom, e.currentRoom, pOrientation, playerSeeDistance))
+        {
+            // If Gnome is in any of those, Player sees them
+            return true;
+        }
+        else
+        {
+            // If not, return false
+            return false;
+        }
     }
     #endregion
 
@@ -256,14 +324,14 @@ public class EnemyMover : MonoBehaviour
     {
         if (e.mode == Enemy.Mode.hunt)
         {
-            Debug.Log("ENEMY IS CALMED");
+            Debug.Log(e.type + " is calmed...");
             e.mode = Enemy.Mode.patrol;
         }
     }
 
     private void AttackPlayer(Enemy e)
     {
-        Debug.Log("ATTACKING PLAYER");
+        Debug.Log(e.type + " attacks Player!");
         //MoveToRoom(e, e.currentRoom, RoomManager.Instance.currentRoom, true);
     }
     #endregion
