@@ -24,6 +24,8 @@ public class RoomExplorer : MonoBehaviour
 
     IEnumerator turnCoroutine;
     IEnumerator moveCoroutine;
+    IEnumerator idleCoroutine;
+    float idleCount = 20f; float currentIdleCount = 0f;
 
     #endregion
 
@@ -35,6 +37,8 @@ public class RoomExplorer : MonoBehaviour
 
         itemHandler = FindObjectOfType<ItemHandler>();
         cameraHandler = Player.GetComponentInChildren<CameraHandler>();
+
+        //idleCoroutine = IdleRoutine(); StartCoroutine(idleCoroutine);
     }
     #endregion
 
@@ -169,6 +173,17 @@ public class RoomExplorer : MonoBehaviour
         }
         turnCoroutine = TurningCoroutine(turningTime, facingVector);
         StartCoroutine(turnCoroutine);
+
+        UpdateGameOnRandom(0.2f);
+    }
+
+    private void UpdateGameOnRandom(float chance)
+    {
+        float rand = Random.Range(0f, 1f);
+        if (rand <= chance)
+        {
+            RoomManager.Instance.UpdateRooms();
+        }
     }
 
     IEnumerator TurningCoroutine(float timeToTurn, Vector3 wantedDir)
@@ -238,6 +253,31 @@ public class RoomExplorer : MonoBehaviour
             case Orientation.south: return Vector3.back;
             default: return Vector3.zero;
         }
+    }
+    #endregion
+
+    #region Idling
+    IEnumerator IdleRoutine()
+    {
+        int increment = 1;
+
+        while (true)
+        {
+            yield return new WaitForSeconds(increment);
+
+            currentIdleCount += increment;
+
+            if (currentIdleCount >= idleCount)
+            {
+                // Update game
+                RoomManager.Instance.UpdateRooms();
+            }
+        }
+    }
+
+    private void NotIdle()
+    {
+        currentIdleCount = 0f;
     }
     #endregion
 }

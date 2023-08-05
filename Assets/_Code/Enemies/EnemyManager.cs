@@ -39,7 +39,7 @@ public class EnemyManager : MonoBehaviour
         List<Room> rooms = RoomManager.Instance.roomsList;
 
         // Spawn
-        //SpawnEnemy(Enemy.Type.steam, 1, rooms[1]);
+        SpawnEnemy(Enemy.Type.steam, 1, rooms[1]);
         SpawnEnemy(Enemy.Type.gnome, 1, rooms[2]);
     }
 

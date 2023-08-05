@@ -54,6 +54,9 @@ public class EnemyMover : MonoBehaviour
             // Check it's not the previous room
             if (neighbours[i] != e.lastRoom)
             {
+                // If you're gnome, check that Player isn't there
+                if (e.type == Enemy.Type.gnome && RoomManager.Instance.currentRoom == neighbours[i]) { return; }
+
                 // Move there
                 //Debug.Log("LastRoom: " + e.lastRoom.type + " || CurrentRoom: " + e.currentRoom.type);
                 MoveToRoom(e, e.currentRoom, neighbours[i]);
@@ -90,7 +93,7 @@ public class EnemyMover : MonoBehaviour
         return neighbours;
     }
 
-    private void MoveToRoom(Enemy e, Room fromRoom, Room toRoom, bool passPlayerCheck = false)
+    private void MoveToRoom(Enemy e, Room fromRoom, Room toRoom)
     {
         // Check that no other Enemy is occupying the room
         if (toRoom.monster != null) { return; }
@@ -101,6 +104,13 @@ public class EnemyMover : MonoBehaviour
             // Check if patrolling
             if (CheckRoomForPlayer(e, toRoom))
             { return; }
+        }
+
+        // If you're a gnome, check that Player doesn't see the room you're going to
+        if (e.type == Enemy.Type.gnome && DoesPlayerSeeEnemy(toRoom))
+        {
+            Debug.Log("Gnome MOVING TO PLAYER ROOM PREVENTED");
+            return;
         }
 
         // If not, proceed to Move enemy
@@ -142,18 +152,27 @@ public class EnemyMover : MonoBehaviour
     {
         RoomManager rm = RoomManager.Instance;
 
-        // If you're gnome, check that Player doesn't have sight on you
-        if (e.type == Enemy.Type.gnome && DoesPlayerSeeEnemy(e))
-        {
-            Debug.Log("Gnome DOESN'T MOVE");
-            return;
-        }
-
         // Check if Player is within same Room
         if (rm.currentRoom == e.currentRoom) { AttackPlayer(e); return; }
 
         if (IsPlayerWithinSight(e))
         { e.targetRoom = rm.currentRoom; }
+
+        #region Enemy Type Specific behaviours
+        // If you're gnome, check that Player doesn't have sight on you
+        if (e.type == Enemy.Type.gnome && DoesPlayerSeeEnemy(e.currentRoom))
+        {
+            Debug.Log("Gnome DOESN'T MOVE");
+            return;
+        }
+
+        // If you're steam, add chance that you will not move
+        if (e.type == Enemy.Type.steam)
+        {
+            float chance = 0.4f;
+            if (Random.Range(0f, 1f) <= chance) { return; }
+        }
+        #endregion
 
         // Choose the Room that is closest to Player
         List<(Orientation, int)> results = rm.ClosestOrientationToOtherRoom(e.currentRoom, e.targetRoom, 3);
@@ -208,14 +227,14 @@ public class EnemyMover : MonoBehaviour
         else { return false; }
     }
 
-    private bool DoesPlayerSeeEnemy(Enemy e)
+    private bool DoesPlayerSeeEnemy(Room enemyRoom)
     {
         // Get Player orientation
         Orientation pOrientation = RoomExplorer.Instance.currentOrientation;
 
         // Get X amount of rooms in that direction
         int playerSeeDistance = 4;
-        if (RoomManager.Instance.IsOtherRoomInDirection(RoomManager.Instance.currentRoom, e.currentRoom, pOrientation, playerSeeDistance))
+        if (RoomManager.Instance.IsOtherRoomInDirection(RoomManager.Instance.currentRoom, enemyRoom, pOrientation, playerSeeDistance))
         {
             // If Gnome is in any of those, Player sees them
             return true;
