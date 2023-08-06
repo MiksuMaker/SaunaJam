@@ -40,9 +40,9 @@ public class EnemyManager : MonoBehaviour
 
         // Spawn
         SpawnEnemy(Enemy.Type.steam, rooms[1]);
-        SpawnEnemy(Enemy.Type.steam, rooms[2]);
-        SpawnEnemy(Enemy.Type.steam, rooms[3]);
-        //SpawnEnemy(Enemy.Type.gnome, 1, rooms[2]);
+        //SpawnEnemy(Enemy.Type.steam, rooms[2]);
+        //SpawnEnemy(Enemy.Type.steam, rooms[3]);
+        SpawnEnemy(Enemy.Type.gnome, rooms[2]);
     }
 
     private void SpawnEnemy(Enemy.Type type, Room spawnRoom)

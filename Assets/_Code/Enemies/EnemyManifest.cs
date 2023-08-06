@@ -9,7 +9,6 @@ public class EnemyManifest : MonoBehaviour
     public void AlterGnomeGraphics(bool onOff)
     {
         gnomeGraphics.SetActive(onOff);
-
     }
 
     public void TurnManifest(Orientation turnOrientation)

@@ -156,18 +156,41 @@ public class SaunaManager : MonoBehaviour
             UI_Controller.Instance.FlashTextOnScreen(texts);
 
             // End the Game
-            GameManager.Instance.EndGame(3f);
+            GameManager.Instance.EndGame(1f);
         }
         else
         {
             // Inform how much the Sauna still needs
             UIText[] texts = new UIText[] { new UIText("Good", 0.5f, 0.5f, 0.5f),
                                             new UIText("But Sauna is not yet satisfied", 0.5f, 2f, 0.5f),
-                                            new UIText("Bring more wood to the Sauna", 0.2f, 1f, 0.2f),
+                                            new UIText("Bring " + GiveCorrectAmount() + " to the Sauna", 0.2f, 1f, 0.2f),
                                             new UIText("And you shall be rewarded", 0.2f, 2f, 1f)};
 
             UI_Controller.Instance.FlashTextOnScreen(texts);
         }
+    }
+
+    private string GiveCorrectAmount()
+    {
+        string result = "";
+        int remaining = (neededWoodLogs - givenWoodLogs);
+        if (remaining == 1)
+        {
+            result += "just one more log";
+        }
+        else if (remaining < 4)
+        {
+            result += "couple more logs";
+        }
+        else if (remaining < 7)
+        {
+            result += "a few more logs";
+        }
+        else
+        {
+            result += "a lot more logs";
+        }
+        return result;
     }
     #endregion
 }
