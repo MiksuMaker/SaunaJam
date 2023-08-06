@@ -39,11 +39,13 @@ public class EnemyManager : MonoBehaviour
         List<Room> rooms = RoomManager.Instance.roomsList;
 
         // Spawn
-        SpawnEnemy(Enemy.Type.steam, 1, rooms[1]);
-        SpawnEnemy(Enemy.Type.gnome, 1, rooms[2]);
+        SpawnEnemy(Enemy.Type.steam, rooms[1]);
+        SpawnEnemy(Enemy.Type.steam, rooms[2]);
+        SpawnEnemy(Enemy.Type.steam, rooms[3]);
+        //SpawnEnemy(Enemy.Type.gnome, 1, rooms[2]);
     }
 
-    private void SpawnEnemy(Enemy.Type type, int howMany, Room spawnRoom)
+    private void SpawnEnemy(Enemy.Type type, Room spawnRoom)
     {
         // Create
         Enemy monster = new Enemy(type);

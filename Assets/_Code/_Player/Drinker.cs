@@ -5,6 +5,8 @@ using UnityEngine;
 public class Drinker : MonoBehaviour
 {
     #region Properties
+    static public Drinker Instance;
+
     [SerializeField] bool debugOn = false;
 
     [Header("Hydration Level")]
@@ -22,6 +24,17 @@ public class Drinker : MonoBehaviour
     #endregion
 
     #region Setup
+    private void Awake()
+    {
+        if (Instance == null && Instance != this)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
     private void Start()
     {
         SetupDrinker();
@@ -54,11 +67,29 @@ public class Drinker : MonoBehaviour
         }
     }
 
-    private void ReduceHydration()
+
+    public void ReduceHydration(bool attacked = false)
     {
         // Reduce Hydration if over zero
         if (current_hydrationLevel > 0)
-        { current_hydrationLevel--; }
+        {
+            if (attacked)
+            {
+                // Reduce Hydration to half first
+                float half = (MAX_hydrationLevel / 2);
+                if (current_hydrationLevel > half)
+                {
+                    current_hydrationLevel = Mathf.FloorToInt(half);
+                }
+                // Reduce it too
+                current_hydrationLevel -= 2;
+            }
+            else
+            {
+                // Reduce it by only one
+                current_hydrationLevel--;
+            }
+        }
 
         // Check for effects
         CheckDehydration();
@@ -86,6 +117,7 @@ public class Drinker : MonoBehaviour
                 if (debugOn) { Debug.Log("You have died of thirst! x_x"); }
 
                 // Die();
+                DieOfDehydration();
             }
         }
         else
@@ -93,6 +125,17 @@ public class Drinker : MonoBehaviour
             // Reset Hydration values
             HandleDehydrationEffects(true);
         }
+    }
+
+    private void DieOfDehydration()
+    {
+        // Lock Player Controls
+
+        // Execute Animation
+        CameraHandler.Instance.DoDehydrateAnimation();
+
+        // Restart the level
+        GameManager.Instance.RestartLevel(5f, GameManager.Reason.dehydration);
     }
     #endregion
 

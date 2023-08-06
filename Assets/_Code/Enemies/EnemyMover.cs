@@ -350,7 +350,19 @@ public class EnemyMover : MonoBehaviour
     private void AttackPlayer(Enemy e)
     {
         Debug.Log(e.type + " attacks Player!");
-        //MoveToRoom(e, e.currentRoom, RoomManager.Instance.currentRoom, true);
+
+        if (e.type == Enemy.Type.steam)
+        {
+            // Dehydrate
+            Drinker.Instance.ReduceHydration(true);
+        }
+        else
+        {
+            // Trigger the "gnome is behind you" animation
+
+
+            // Kill the Player
+        }
     }
     #endregion
 

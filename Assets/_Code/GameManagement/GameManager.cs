@@ -30,9 +30,35 @@ public class GameManager : MonoBehaviour
         StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex, endTime));
     }
 
-    public void RestartGame(float time)
+    public void RestartLevel(float time)
     {
         SceneManager.LoadScene(0);
+    }
+
+    public void RestartLevel(float time, Reason reason)
+    {
+        // Comment on how the Player died
+        switch (reason)
+        {
+            case Reason.dehydration:
+                UIText[] texts = new UIText[] { new UIText("", 0.5f, 1f, 1f),
+                                            new UIText("Another one succumbs to the heat", 0.5f, 1f, 1f),
+                                            new UIText("How disappointing", 0.2f, 1f, 1f),};
+
+                UI_Controller.Instance.FlashTextOnScreen(texts);
+                break;
+
+            case Reason.gnomeAttack:
+
+                break;
+        }
+
+        StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex, 1f));
+    }
+
+    public enum Reason // For restarting
+    {
+        dehydration, steamAttack, gnomeAttack,
     }
 
     IEnumerator LoadScene(int sceneNum, float loadTime)
