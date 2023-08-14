@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
     #region Properties
     static public GameManager Instance;
 
-    public List<Level> levels = new List<Level>();
     #endregion
 
     #region Setup
@@ -23,9 +22,23 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         }
     }
+
+    private void Start()
+    {
+        StartLevel();
+    }
     #endregion
 
     #region Functions
+    public void StartLevel()
+    {
+        // Fetch current level
+        Level current = LevelManager.Instance.GetCurrentLevel();
+
+        // Start Generation
+        RoomGenerator.Instance.StartRoomGeneration(current.preset, current.preference);
+    }
+
     public void EndGame(float endTime)
     {
         // Load the Next Scene?

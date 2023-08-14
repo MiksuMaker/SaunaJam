@@ -27,6 +27,8 @@ public enum Orientation
 public class RoomGenerator : MonoBehaviour
 {
     #region Properties
+    static public RoomGenerator Instance;
+
     [Header("Amount of Room tiles to create")]
     [SerializeField]
     int amountOfRooms = 4;
@@ -81,16 +83,28 @@ public class RoomGenerator : MonoBehaviour
     #endregion
 
     #region Setup
-    private void Start()
+    private void Awake()
     {
-        // Set Preferences
-        SetPreferences();
-
-        // Mockup start
-        GenerateRooms();
+        if (Instance == null && Instance != this)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
     }
 
-    private void SetPreferences()
+    public void StartRoomGeneration(PreSet startSet, GenerationPreference preference)
+    {
+        // Set Preferences
+        SetPreferences(preference);
+
+        // Mockup start
+        GenerateRooms(startSet);
+    }
+
+    private void SetPreferences(GenerationPreference preferences)
     {
         if (preferences == null || !usePreferences) { return; }
 
@@ -109,10 +123,10 @@ public class RoomGenerator : MonoBehaviour
     #endregion
 
     #region ROOM GENERATION PROTOCOL
-    public void GenerateRooms()
+    public void GenerateRooms(PreSet startSet)
     {
         // Generate first room
-        GenerateFirstRooms();
+        GenerateFirstRooms(startSet);
 
         // Keep generating rooms until you have generated enough
         RoomGenerationLoop();
@@ -225,13 +239,13 @@ public class RoomGenerator : MonoBehaviour
 
 
     #region First Room Creation
-    private void GenerateFirstRooms()
+    private void GenerateFirstRooms(PreSet startSet)
     {
         // Check if Starting Layout has been given
-        if (startingLayout != null)
+        if (startSet != null)
         {
             // Use the Starting Layout
-            UnravelStartingLayout();
+            UnravelStartingLayout(startSet);
         }
         else
         {
@@ -239,7 +253,7 @@ public class RoomGenerator : MonoBehaviour
         }
     }
 
-    private void UnravelStartingLayout()
+    private void UnravelStartingLayout(PreSet startingLayout)
     {
         List<(Room, PreSet.Layout)> startingRooms = new List<(Room, PreSet.Layout)>();
 
