@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 {
     #region Properties
     static public GameManager Instance;
+
+    public List<Level> levels = new List<Level>();
     #endregion
 
     #region Setup
