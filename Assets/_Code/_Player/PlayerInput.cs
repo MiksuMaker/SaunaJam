@@ -12,6 +12,8 @@ public class PlayerInput : MonoBehaviour
 
     KeyCode WriteKey = KeyCode.R;
     KeyCode EnterKey = KeyCode.Return;
+
+    bool controlsDisabled = false;
     #endregion
 
     #region Setup
@@ -23,6 +25,8 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
+        if (controlsDisabled) { return; }
+
         if (!writer.writing)
         {
             CheckForTurnInput();
@@ -126,6 +130,13 @@ public class PlayerInput : MonoBehaviour
                 }
             }
         }
+    }
+    #endregion
+
+    #region Helpers
+    public void DisablePlayerControls()
+    {
+        controlsDisabled = true;
     }
     #endregion
 }

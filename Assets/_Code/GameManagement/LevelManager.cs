@@ -29,7 +29,7 @@ public class LevelManager : MonoBehaviour
     public Level GetCurrentLevel()
     {
         // Check that level is found
-        if (currentLevel > levels.Count) { Debug.Log("No preferences for level number " + currentLevel); return null; }
+        if (currentLevel >= levels.Count) { Debug.Log("No preferences for level number " + currentLevel); return null; }
 
         // Return that level
         return levels[currentLevel];
@@ -38,5 +38,10 @@ public class LevelManager : MonoBehaviour
     public void UpdateCurrentLevel()
     {
         currentLevel++;
+
+        if (levels.Count <= currentLevel)
+        {
+            currentLevel = levels.Count - 1;
+        }
     }
 }

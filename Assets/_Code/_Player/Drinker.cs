@@ -130,6 +130,7 @@ public class Drinker : MonoBehaviour
     private void DieOfDehydration()
     {
         // Lock Player Controls
+        FindObjectOfType<PlayerInput>().DisablePlayerControls();
 
         // Execute Animation
         CameraHandler.Instance.DoDehydrateAnimation();

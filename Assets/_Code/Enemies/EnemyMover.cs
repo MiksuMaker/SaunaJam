@@ -109,7 +109,7 @@ public class EnemyMover : MonoBehaviour
         // If you're a gnome, check that Player doesn't see the room you're going to
         if (e.type == Enemy.Type.gnome && DoesPlayerSeeEnemy(toRoom))
         {
-            Debug.Log("Gnome MOVING TO PLAYER ROOM PREVENTED");
+            //Debug.Log("Gnome MOVING TO PLAYER ROOM PREVENTED");
             return;
         }
 
@@ -122,7 +122,7 @@ public class EnemyMover : MonoBehaviour
         e.currentRoom = toRoom;
         e.lastRoom = fromRoom;
 
-        PrintEnemyStatus(e, fromRoom, toRoom);
+        //PrintEnemyStatus(e, fromRoom, toRoom);
     }
 
     private Orientation CalculateOrientation(Room previous, Room next)
@@ -325,7 +325,7 @@ public class EnemyMover : MonoBehaviour
 
     public void AggroEnemy(Enemy e)
     {
-        Debug.Log("Going AFTER the Player");
+        //Debug.Log("Going AFTER the Player");
 
         UpdateTargetPos(e);
 
@@ -342,7 +342,7 @@ public class EnemyMover : MonoBehaviour
     {
         if (e.mode == Enemy.Mode.hunt)
         {
-            Debug.Log(e.type + " is calmed...");
+            //Debug.Log(e.type + " is calmed...");
             e.mode = Enemy.Mode.patrol;
         }
     }
