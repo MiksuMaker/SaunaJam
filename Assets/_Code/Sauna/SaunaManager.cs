@@ -33,6 +33,11 @@ public class SaunaManager : MonoBehaviour
 
         saunaGraphics = GetComponent<SaunaGraphicsController>();
     }
+
+    public void SetupSaunaManager(int requiredLogs)
+    {
+        neededWoodLogs = requiredLogs;
+    }
     #endregion
 
     #region SACRIFICES

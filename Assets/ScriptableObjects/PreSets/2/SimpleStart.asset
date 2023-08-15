@@ -19,15 +19,27 @@ MonoBehaviour:
     north_Neighbour_name: 
     west_Neighbour_name: 
     east_Neighbour_name: 
-    south_Neighbour_name: 
-    saunaRoom: 1
-    firstRoom: 0
+    south_Neighbour_name: PlayerStart
+    items:
+    - type: 0
+      wallOrientation: 0
+      description: 
   - name: PlayerStart
-    type: 5
+    type: 4
+    orientation: 0
+    north_Neighbour_name: Sauna
+    west_Neighbour_name: 
+    east_Neighbour_name: 
+    south_Neighbour_name: 
+    items: []
+  - name: Random
+    type: 1
     orientation: 0
     north_Neighbour_name: 
     west_Neighbour_name: 
     east_Neighbour_name: 
     south_Neighbour_name: 
-    saunaRoom: 0
-    firstRoom: 1
+    items:
+    - type: 1
+      wallOrientation: 3
+      description: Beware

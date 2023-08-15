@@ -45,6 +45,9 @@ public class GameManager : MonoBehaviour
         // Generate Enemies
         EnemyManager.Instance.SpawnEnemies(current.steamSpawnAmount, current.gnomeSpawnAmount);
 
+        // Setup Sauna
+        SaunaManager.Instance.SetupSaunaManager(current.requiredLogs);
+
         // Manifest it
         RoomManager.Instance.LoadInitialRooms();
     }
