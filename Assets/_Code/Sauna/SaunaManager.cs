@@ -156,7 +156,7 @@ public class SaunaManager : MonoBehaviour
             UI_Controller.Instance.FlashTextOnScreen(texts);
 
             // End the Game
-            GameManager.Instance.EndGame(1f);
+            GameManager.Instance.LoadNextLevel(1f);
         }
         else
         {

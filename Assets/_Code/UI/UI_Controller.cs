@@ -100,6 +100,7 @@ public class UI_Controller : MonoBehaviour
             }
 
             // Stay On
+            textMesh.color = new Color(1f, 1f, 1f, 1f);
             passedTime = 0f;
             while (passedTime < t.stayOnTime)
             {

@@ -25,6 +25,7 @@ public class LevelManager : MonoBehaviour
     }
 
 
+    #endregion
     public Level GetCurrentLevel()
     {
         // Check that level is found
@@ -33,5 +34,9 @@ public class LevelManager : MonoBehaviour
         // Return that level
         return levels[currentLevel];
     }
-    #endregion
+
+    public void UpdateCurrentLevel()
+    {
+        currentLevel++;
+    }
 }

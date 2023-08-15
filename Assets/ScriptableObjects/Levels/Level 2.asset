@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9631a35c31aa833419f11146e2386589, type: 3}
-  m_Name: First Level
+  m_Name: Level 2
   m_EditorClassIdentifier: 
   preset: {fileID: 11400000, guid: 1f9c47770d4c11a48b979fc754ef4c25, type: 2}
-  preference: {fileID: 11400000, guid: 996833c3c782d744490b6fbcbf0c3f90, type: 2}
+  preference: {fileID: 11400000, guid: 2320c8072db99ac40824b8b1f50d7626, type: 2}
   steamSpawnAmount: 1
   gnomeSpawnAmount: 1
   itemSet: {fileID: 11400000, guid: f74a487f9c7aae44095166cfd8136dd4, type: 2}

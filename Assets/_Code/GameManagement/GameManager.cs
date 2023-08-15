@@ -49,8 +49,11 @@ public class GameManager : MonoBehaviour
         RoomManager.Instance.LoadInitialRooms();
     }
 
-    public void EndGame(float endTime)
+    public void LoadNextLevel(float endTime)
     {
+        // Update LevelManager
+        LevelManager.Instance.UpdateCurrentLevel();
+
         // Load the Next Scene?
         StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex, endTime));
     }
