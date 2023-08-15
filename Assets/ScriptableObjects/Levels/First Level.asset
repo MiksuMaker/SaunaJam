@@ -16,3 +16,4 @@ MonoBehaviour:
   preference: {fileID: 11400000, guid: 996833c3c782d744490b6fbcbf0c3f90, type: 2}
   steamSpawnAmount: 0
   gnomeSpawnAmount: 0
+  itemSet: {fileID: 11400000, guid: f74a487f9c7aae44095166cfd8136dd4, type: 2}

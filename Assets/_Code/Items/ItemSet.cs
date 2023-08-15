@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemSet : MonoBehaviour
+[CreateAssetMenu(menuName = "ScriptableObjects/ItemSet")]
+public class ItemSet : ScriptableObject
 {
     public int water = 0;
     public int wood = 0;

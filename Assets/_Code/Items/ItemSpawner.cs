@@ -10,7 +10,7 @@ public class ItemSpawner : MonoBehaviour
     #endregion
 
     #region Setup
-    public void SpawnItems()
+    public void SpawnItems(ItemSet set)
     {
         // Get a list of rooms
         List<Room> rooms = RoomManager.Instance.roomsList;
@@ -22,7 +22,8 @@ public class ItemSpawner : MonoBehaviour
         // First, spawn those items that MUST be spawned
         //MustPlaceItem(rooms, 1, 1, 1, 0, 1);
         //MustPlaceItem(rooms, 10, 8, 6);
-        MustPlaceItem(rooms, 10, 80, 6);
+        //MustPlaceItem(rooms, 10, 80, 6);
+        MustPlaceItem(rooms, set.water, set.wood, set.stone, set.write, set.sauna);
 
 
         int amountOfRandomItems = 5;

@@ -42,9 +42,9 @@ public class ItemManager : MonoBehaviour
     #endregion
 
     #region Spawn Items
-    public void SpawnItems()
+    public void SpawnItems(ItemSet set)
     {
-        itemSpawner.SpawnItems();
+        itemSpawner.SpawnItems(set);
     }
     #endregion
 

@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        // When the Scene is loaded, this Start() function boots up the game
         StartLevel();
     }
     #endregion
@@ -37,6 +38,15 @@ public class GameManager : MonoBehaviour
 
         // Start Generation
         RoomGenerator.Instance.StartRoomGeneration(current.preset, current.preference);
+
+        // Generate Items
+        ItemManager.Instance.SpawnItems(current.itemSet);
+
+        // Generate Enemies
+        EnemyManager.Instance.SpawnEnemies();
+
+        // Manifest it
+        RoomManager.Instance.LoadInitialRooms();
     }
 
     public void EndGame(float endTime)

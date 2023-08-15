@@ -13,6 +13,10 @@ public class Level : ScriptableObject
 	public int steamSpawnAmount = 0;
 	[SerializeField]
 	public int gnomeSpawnAmount = 0;
+
+	[SerializeField]
+	public ItemSet itemSet;
+
 	//[SerializeField]
 	// Start Dialogue here
 	// Reaction Dialogues object
