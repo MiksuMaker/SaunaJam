@@ -13,6 +13,8 @@ public class EnemyManager : MonoBehaviour
     public List<Enemy> enemies = new List<Enemy>();
     public List<EnemyManifest> manifestations = new List<EnemyManifest>();
 
+    private List<Room> usedRooms = new List<Room>();
+
     string enemyPath = "Enemies/Enemy Manifest";
 
     #endregion
@@ -34,15 +36,34 @@ public class EnemyManager : MonoBehaviour
     #endregion
 
     #region SPAWNING
-    public void SpawnEnemies()
+    public void SpawnEnemies(int steams = 1, int gnomes = 1)
+    {
+
+        // Spawn
+        
+        SpawnEnemies(Enemy.Type.steam, steams);
+        SpawnEnemies(Enemy.Type.gnome, gnomes);
+    }
+
+    private void SpawnEnemies(Enemy.Type type, int amount)
     {
         List<Room> rooms = RoomManager.Instance.roomsList;
 
-        // Spawn
-        SpawnEnemy(Enemy.Type.steam, rooms[1]);
-        //SpawnEnemy(Enemy.Type.steam, rooms[2]);
-        //SpawnEnemy(Enemy.Type.steam, rooms[3]);
-        SpawnEnemy(Enemy.Type.gnome, rooms[2]);
+        for (int i = 0; i < amount; i++)
+        {
+            // Get a random room
+            Room rand = rooms[Random.Range(0, rooms.Count)];
+
+            // Test if it is already used
+            if (!usedRooms.Contains(rand))
+            {
+                // Spawn the wanted Enemy there
+                SpawnEnemy(type, rand);
+
+                // Add the room to used rooms
+                usedRooms.Add(rand);
+            }
+        }
     }
 
     private void SpawnEnemy(Enemy.Type type, Room spawnRoom)

@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         ItemManager.Instance.SpawnItems(current.itemSet);
 
         // Generate Enemies
-        EnemyManager.Instance.SpawnEnemies();
+        EnemyManager.Instance.SpawnEnemies(current.steamSpawnAmount, current.gnomeSpawnAmount);
 
         // Manifest it
         RoomManager.Instance.LoadInitialRooms();
