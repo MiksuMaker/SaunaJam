@@ -15,6 +15,7 @@ public class UI_Controller : MonoBehaviour
     IEnumerator textFader;
     [HideInInspector]
     public bool textInProcess = false;
+    EventHappened happened;
     #endregion
 
     #region Setup
@@ -34,6 +35,7 @@ public class UI_Controller : MonoBehaviour
         steamEffectController = GetComponentInChildren<SteamEffectController>();
 
         SetupText();
+        SetupEvents();
     }
     #endregion
 
@@ -69,7 +71,7 @@ public class UI_Controller : MonoBehaviour
         StartCoroutine(textFader);
     }
 
-    
+
 
     IEnumerator TextFader(UIText[] texts)
     {
@@ -125,6 +127,53 @@ public class UI_Controller : MonoBehaviour
         textInProcess = false;
     }
     #endregion
+
+    #region Events
+    private void SetupEvents()
+    {
+        // Setup new first-time Events
+        happened = new EventHappened();
+    }
+    public void HandleEvent(EventType _event)
+    {
+        UIText[] texts;
+
+        // Check if that event has happened already
+        switch (_event)
+        {
+            case EventType.thirst:
+                if (happened.firstThirst)
+                {
+                    // Trigger UI element for this
+                    texts = new UIText[] { new UIText("You're getting thirsty...", 2f, 1f, 3f) };
+                    FlashTextOnScreen(texts);
+
+                    happened.firstThirst = false;
+                }
+                break;
+            case EventType.fullHydration:
+                //if (happened.firstFullHydration)
+                //{
+                    // Trigger UI element for this
+                    texts = new UIText[] { new UIText("You're fully hydrated", 1f, 1f, 1f) };
+                    FlashTextOnScreen(texts);
+
+                    happened.firstFullHydration = false;
+                //}
+                break;
+            case EventType.steamAttack:
+                if (happened.firstSteamAttack)
+                {
+                    // Trigger UI element for this
+                    texts = new UIText[] { new UIText("The heat is unbearable", 2f, 1f, 3f) };
+                    FlashTextOnScreen(texts);
+
+                    happened.firstSteamAttack = false;
+                }
+                break;
+        }
+    }
+    #endregion
 }
 
 public class UIText
@@ -138,4 +187,18 @@ public class UIText
     {
         this.text = text; fadeInTime = fadeIn; stayOnTime = stayOn; fadeOutTime = fadeOut;
     }
+}
+
+public class EventHappened
+{
+    public bool firstThirst = true;
+    public bool firstSteamAttack = true;
+    public bool firstFullHydration = true;
+
+    //public bool firstSaunaStone = true;
+}
+
+public enum EventType
+{
+    thirst, steamAttack, fullHydration,
 }

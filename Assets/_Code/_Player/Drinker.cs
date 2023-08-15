@@ -92,10 +92,10 @@ public class Drinker : MonoBehaviour
         }
 
         // Check for effects
-        CheckDehydration();
+        CheckDehydration(attacked);
     }
 
-    public void CheckDehydration()
+    public void CheckDehydration(bool attacked = false)
     {
         // Check if Hydration is below warning percentage
         if (warningPercentage >= ((float)current_hydrationLevel / (float)MAX_hydrationLevel))
@@ -109,6 +109,8 @@ public class Drinker : MonoBehaviour
             // Do some UI depending on how dehydrated you are
             HandleDehydrationEffects();
 
+            if (!attacked) { UI_Controller.Instance.HandleEvent(EventType.thirst); }
+            else { UI_Controller.Instance.HandleEvent(EventType.steamAttack); }
 
             // Check if opposite of drowning has happened
             if (current_hydrationLevel <= 0)
@@ -149,7 +151,13 @@ public class Drinker : MonoBehaviour
         current_hydrationLevel += hydrationPerDrink;
 
         // Check that hydration doesn't go too high
-        current_hydrationLevel = Mathf.Min(current_hydrationLevel, MAX_hydrationLevel);
+        if (current_hydrationLevel >= MAX_hydrationLevel)
+        {
+            current_hydrationLevel = Mathf.Min(current_hydrationLevel, MAX_hydrationLevel);
+
+            // Inform with UI
+            UI_Controller.Instance.HandleEvent(EventType.fullHydration);
+        }
 
         if (debugOn) { Debug.Log("Hydration is now at " + current_hydrationLevel); }
 
