@@ -11,6 +11,7 @@ public class RoomExplorer : MonoBehaviour
     public MovementTick moveTick;
 
     public Orientation currentOrientation = Orientation.north;
+    Vector3 currentDesiredWorldPos = Vector3.zero;
 
     [SerializeField]
     float timeToMoveBetweenRooms = 2f;
@@ -26,7 +27,6 @@ public class RoomExplorer : MonoBehaviour
     IEnumerator moveCoroutine;
     IEnumerator idleCoroutine;
     float idleCount = 20f; float currentIdleCount = 0f;
-
     #endregion
 
     #region Setup
@@ -107,8 +107,10 @@ public class RoomExplorer : MonoBehaviour
     {
         #region New Version
 
-        Vector3 beginPos = Player.transform.position;
+        //Vector3 beginPos = Player.transform.position; // Old and buggy
+        Vector3 beginPos = currentDesiredWorldPos;
         Vector3 wantedPos = GetRoundedPos(beginPos + (wantedDir * WorldStats.Instance.Scale));
+        currentDesiredWorldPos = wantedPos;
 
         float progress = 0f;
         float increment = 0.01f;
@@ -122,6 +124,9 @@ public class RoomExplorer : MonoBehaviour
             Player.transform.position = Vector3.Lerp(Player.transform.position, wantedPos, (progress / timeToMove));
 
             yield return new WaitForSeconds(increment);
+
+            // Check if over halfway
+            //if (progress >= halfway) { allowedToMoveAgain = true; }
         }
         Player.transform.position = wantedPos;
         #endregion
