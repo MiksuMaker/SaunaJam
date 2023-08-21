@@ -31,6 +31,7 @@ public class CameraHandler : MonoBehaviour
     IEnumerator cameraMover;
     IEnumerator cameraTurner;
     bool dying = false;
+    bool cameraTurnDenied = false;
     #endregion
 
     #region Setup
@@ -142,8 +143,10 @@ public class CameraHandler : MonoBehaviour
         }
     }
 
-    private void TurnCamera(CamTurn[] turns)
+    private void TurnCamera(CamTurn[] turns, bool overridden = false)
     {
+        if (cameraTurnDenied) { if (!overridden) { return; } }
+
         if (cameraTurner != null) { StopCoroutine(cameraTurner); }
         cameraTurner = CameraTurner(turns);
         StartCoroutine(cameraTurner);
@@ -201,7 +204,8 @@ public class CameraHandler : MonoBehaviour
         foreach (var m in moves)
         {
             Vector3 startVector;
-            startVector = m.startPos == Vector3.zero ? transform.localPosition : m.startPos;
+            //startVector = m.startPos == Vector3.zero ? transform.localPosition : m.startPos;
+            startVector = transform.position;
 
             passedTime = 0f;
 
@@ -253,6 +257,113 @@ public class CameraHandler : MonoBehaviour
         TurnCamera(turns);
         //transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, -70f));
         dying = true;
+    }
+
+    public void DoGnomeDeathAnimation(Orientation gnomeOrientation)
+    {
+        #region Attempt 1
+        //cameraTurnDenied = true;
+
+        //Vector3 lookPos = Vector3.zero;
+        //Vector3 bePos = Vector3.zero;
+
+        //switch (gnomeOrientation)
+        //{
+        //    case Orientation.north:
+        //        lookPos += -Vector3.forward;
+        //        break;
+        //    case Orientation.west:
+        //        lookPos += -Vector3.left;
+        //        break;
+        //    case Orientation.east:
+        //        lookPos += -Vector3.right;
+        //        break;
+        //    case Orientation.south:
+        //        lookPos += -Vector3.back;
+        //        break;
+        //}
+
+        ////bePos += lookPos;
+        //lookPos *= 1f;
+        //lookPos += cameraGO.transform.position;
+        //bePos += cameraGO.transform.localPosition + Vector3.up;
+
+        //Debug.Log("LookPos: " + lookPos.ToString());
+        //Debug.Log("OG Pos: " + transform.position.ToString());
+        //Debug.DrawLine(lookPos, lookPos + Vector3.up, Color.red, 50f);
+
+        //// Turn towards that position
+        //Quaternion ogRotation = cameraGO.transform.rotation;
+        //cameraGO.transform.LookAt(lookPos);
+        //Debug.DrawRay(cameraGO.transform.position, cameraGO.transform.forward, Color.magenta, 50f);
+        //Quaternion wantedRotation = cameraGO.transform.rotation;
+        ////// Reset
+        //cameraGO.transform.rotation = ogRotation;
+
+        ////// Return that rotation to CameraTurner
+        //float animationTime = 2f;
+
+        //CamTurn[] turns = new CamTurn[] { new CamTurn(wantedRotation.eulerAngles, animationTime), };
+        //TurnCamera(turns, true);
+
+        //CamMove[] moves = new CamMove[] { new CamMove(cameraGO.transform.position, bePos, animationTime), };
+        //MoveCamera(moves);
+
+        //TiltCamera(normalRot);
+        #endregion
+
+
+        cameraTurnDenied = true;
+
+        Vector3 lookRot = Vector3.zero;
+        Vector3 counterRot = Vector3.zero;
+
+        // Counter according to Player's current Rotation
+        switch (RoomExplorer.Instance.currentOrientation)
+        {
+            case Orientation.north:
+                counterRot = new Vector3(0f, 0f, 0f);
+                break;
+            case Orientation.west:
+                counterRot = new Vector3(0f, 90f, 0f);
+                break;
+            case Orientation.east:
+                counterRot = new Vector3(0f, -90f, 0f);
+                break;
+            case Orientation.south:
+                counterRot = new Vector3(0f, 180f, 0f);
+                break;
+        }
+
+        //Debug.Log("Gnome Orientation: " + gnomeOrientation.ToString());
+        switch (gnomeOrientation)
+        {
+            case Orientation.north:
+                lookRot = new Vector3(0f, 180f, 0f);
+                break;
+            case Orientation.west:
+                lookRot = new Vector3(0f, 90f, 0f);
+                break;
+            case Orientation.east:
+                lookRot = new Vector3(0f, -90f, 0f);
+                break;
+            case Orientation.south:
+                lookRot = new Vector3(0f, 180f, 0f);
+                break;
+        }
+
+        lookRot += counterRot;
+
+        float animationTime = 2f;
+        CamTurn[] turns = new CamTurn[] { new CamTurn(lookRot, animationTime), };
+        TurnCamera(turns, true);
+
+        Vector3 exPos = transform.position;
+        Vector3 bePos = new Vector3(0f, 1f, 0.5f) + exPos;
+        CamMove[] moves = new CamMove[] { new CamMove(exPos, bePos, animationTime) };
+        //MoveCamera(moves);
+
+        TiltCamera(normalRot);
     }
 
     #endregion

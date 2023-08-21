@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9631a35c31aa833419f11146e2386589, type: 3}
+  m_Name: DeathTest
+  m_EditorClassIdentifier: 
+  preset: {fileID: 11400000, guid: daf084cb75ae7a1428226f4ec53f9656, type: 2}
+  preference: {fileID: 11400000, guid: 2c4dcf3390af0b64482b6b3c96ad3c25, type: 2}
+  steamSpawnAmount: 0
+  gnomeSpawnAmount: 1
+  itemSet: {fileID: 11400000, guid: f74a487f9c7aae44095166cfd8136dd4, type: 2}
+  requiredLogs: 1

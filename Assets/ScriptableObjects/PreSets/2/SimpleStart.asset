@@ -32,14 +32,3 @@ MonoBehaviour:
     east_Neighbour_name: 
     south_Neighbour_name: 
     items: []
-  - name: Random
-    type: 1
-    orientation: 0
-    north_Neighbour_name: 
-    west_Neighbour_name: 
-    east_Neighbour_name: 
-    south_Neighbour_name: 
-    items:
-    - type: 1
-      wallOrientation: 3
-      description: Beware

@@ -358,8 +358,11 @@ public class EnemyMover : MonoBehaviour
         }
         else
         {
-            // Trigger the "gnome is behind you" animation
+            // Disable Player Controls
+            FindObjectOfType<PlayerInput>().DisablePlayerControls();
 
+            // Trigger the "gnome is behind you" animation
+            CameraHandler.Instance.DoGnomeDeathAnimation(e.orientation);
 
             // Kill the Player
         }
