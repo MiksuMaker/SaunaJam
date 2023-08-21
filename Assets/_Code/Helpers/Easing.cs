@@ -4,6 +4,25 @@ using UnityEngine;
 
 static public class Easing
 {
+    public enum Type
+    {
+        inOutBack, inOutExpo, inOutBackExpoHybrid, inExpo, outQuart, easeInCirc,
+    }
+
+    static public float EaseType(float x, Type type)
+    {
+        switch (type)
+        {
+            case Type.inOutBack: return EaseInOutBack(x);
+            case Type.inOutExpo: return EaseInOutExpo(x);
+            case Type.inOutBackExpoHybrid: return EaseInOutBackExpoHybrid(x);
+            case Type.inExpo: return EaseInExpo(x);
+            case Type.outQuart: return EaseOutQuart(x);
+            case Type.easeInCirc: return EaseInCirc(x);
+            default: return 0;
+        }
+    }
+
     static public float EaseInOutBack(float x)
     {
         float c1 = 1.70158f;
@@ -39,5 +58,10 @@ static public class Easing
     static public float EaseOutQuart(float x)
     {
         return 1 - ((1 - x) * (1 - x) * (1 - x) * (1 - x));
+    }
+
+    static public float EaseInCirc(float x)
+    {
+        return 1 - Mathf.Sqrt(1 - (x * x));
     }
 }

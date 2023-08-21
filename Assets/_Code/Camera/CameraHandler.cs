@@ -143,16 +143,16 @@ public class CameraHandler : MonoBehaviour
         }
     }
 
-    private void TurnCamera(CamTurn[] turns, bool overridden = false)
+    private void TurnCamera(CamTurn[] turns, Easing.Type type = Easing.Type.inExpo, bool overridden = false)
     {
         if (cameraTurnDenied) { if (!overridden) { return; } }
 
         if (cameraTurner != null) { StopCoroutine(cameraTurner); }
-        cameraTurner = CameraTurner(turns);
+        cameraTurner = CameraTurner(turns, type);
         StartCoroutine(cameraTurner);
     }
 
-    IEnumerator CameraTurner(CamTurn[] turns)
+    IEnumerator CameraTurner(CamTurn[] turns, Easing.Type type = Easing.Type.inExpo)
     {
         float passedTime;
         float increment = 0.01f;
@@ -172,7 +172,8 @@ public class CameraHandler : MonoBehaviour
             {
                 passedTime += increment;
                 //nextRot = Vector3.Lerp(startVector, m.endRot, Easing.EaseInExpo(passedTime / m.timeToTurn));
-                nextRot = Quaternion.Lerp(Quaternion.Euler(startVector), Quaternion.Euler(m.endRot), Easing.EaseInExpo(passedTime / m.timeToTurn));
+                //nextRot = Quaternion.Lerp(Quaternion.Euler(startVector), Quaternion.Euler(m.endRot), Easing.EaseInExpo(passedTime / m.timeToTurn));
+                nextRot = Quaternion.Lerp(Quaternion.Euler(startVector), Quaternion.Euler(m.endRot), Easing.EaseType(passedTime / m.timeToTurn, type));
                 //gameObject.transform.localPosition = nextPos;
                 gameObject.transform.localRotation = nextRot;
                 yield return wait;
@@ -186,14 +187,16 @@ public class CameraHandler : MonoBehaviour
 
     #region Moving Camera
 
-    private void MoveCamera(CamMove[] moves)
+    private void MoveCamera(CamMove[] moves, Easing.Type type = Easing.Type.inExpo, bool overridden = false)
     {
+        if (cameraTurnDenied) { if (!overridden) { return; } }
+
         if (cameraMover != null) { StopCoroutine(cameraMover); }
-        cameraMover = CameraMover(moves);
+        cameraMover = CameraMover(moves, type);
         StartCoroutine(cameraMover);
     }
 
-    IEnumerator CameraMover(CamMove[] moves)
+    IEnumerator CameraMover(CamMove[] moves, Easing.Type type = Easing.Type.inExpo)
     {
         float passedTime;
         float increment = 0.01f;
@@ -205,14 +208,14 @@ public class CameraHandler : MonoBehaviour
         {
             Vector3 startVector;
             //startVector = m.startPos == Vector3.zero ? transform.localPosition : m.startPos;
-            startVector = transform.position;
+            startVector = transform.localPosition;
 
             passedTime = 0f;
 
             while (passedTime < m.timeToMove)
             {
                 passedTime += increment;
-                nextPos = Vector3.Lerp(startVector, m.endPos, Easing.EaseInExpo(passedTime / m.timeToMove));
+                nextPos = Vector3.Lerp(startVector, m.endPos, Easing.EaseType(passedTime / m.timeToMove, type));
                 gameObject.transform.localPosition = nextPos;
                 yield return wait;
             }
@@ -312,7 +315,7 @@ public class CameraHandler : MonoBehaviour
         //TiltCamera(normalRot);
         #endregion
 
-
+        #region Camera Turn
         cameraTurnDenied = true;
 
         Vector3 lookRot = Vector3.zero;
@@ -348,7 +351,7 @@ public class CameraHandler : MonoBehaviour
                 lookRot = new Vector3(0f, -90f, 0f);
                 break;
             case Orientation.south:
-                lookRot = new Vector3(0f, 180f, 0f);
+                lookRot = new Vector3(0f, 0f, 0f);
                 break;
         }
 
@@ -356,12 +359,15 @@ public class CameraHandler : MonoBehaviour
 
         float animationTime = 2f;
         CamTurn[] turns = new CamTurn[] { new CamTurn(lookRot, animationTime), };
-        TurnCamera(turns, true);
+        TurnCamera(turns, Easing.Type.outQuart, true);
+        #endregion
 
-        Vector3 exPos = transform.position;
-        Vector3 bePos = new Vector3(0f, 1f, 0.5f) + exPos;
+
+        Vector3 exPos = transform.localPosition;
+        //Vector3 bePos = new Vector3(0f, 1f, 0.5f) + exPos;
+        Vector3 bePos = new Vector3(0f, 1f, 0f);
         CamMove[] moves = new CamMove[] { new CamMove(exPos, bePos, animationTime) };
-        //MoveCamera(moves);
+        MoveCamera(moves, Easing.Type.outQuart, true);
 
         TiltCamera(normalRot);
     }
