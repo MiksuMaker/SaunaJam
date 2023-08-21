@@ -204,6 +204,8 @@ public class EnemyMover : MonoBehaviour
         {
             // Move
             MoveToRoom(e, e.currentRoom, neighbour);
+
+            if (rm.currentRoom == e.currentRoom) { AttackPlayer(e); return; }
         }
         else
         {
