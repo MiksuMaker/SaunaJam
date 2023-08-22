@@ -35,17 +35,17 @@ public class SteamEffectController : MonoBehaviour
     #endregion
 
     #region Functions
-    public void AdjustSteamImage(float percentage) // Percentage is a value between 0 and 1
+    public void AdjustSteamImage(float percentage, float fadeTime = 2f) // Percentage is a value between 0 and 1
     {
         if (heatAdjuster != null)
         {
             StopCoroutine(heatAdjuster);
         }
-        heatAdjuster = Adjuster(MAX_Alpha * percentage);
+        heatAdjuster = Adjuster(MAX_Alpha * percentage, fadeTime);
         StartCoroutine(heatAdjuster);
     }
 
-    IEnumerator Adjuster(float newAlpha)
+    IEnumerator Adjuster(float newAlpha, float steamTime = 2f)
     {
         if (newAlpha == steamImage.color.a) { yield break; }
 
@@ -66,7 +66,7 @@ public class SteamEffectController : MonoBehaviour
         // with a COntextMenu action, otherwise the deltaTime will be 0.3333... seconds for some reason
         yield return new WaitForSeconds(Time.deltaTime); 
 
-        while (passedTime < steamSlideTime)
+        while (passedTime < steamTime)
         {
 
             // Slide

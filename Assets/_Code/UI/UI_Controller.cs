@@ -45,9 +45,9 @@ public class UI_Controller : MonoBehaviour
         heatEffectController.AdjustHeatImage(percentage);
     }
 
-    public void AdjustSteamEffect(float percentage)
+    public void AdjustSteamEffect(float percentage, float fadeTime = 2f)
     {
-        steamEffectController.AdjustSteamImage(percentage);
+        steamEffectController.AdjustSteamImage(percentage, fadeTime);
     }
     #endregion
 

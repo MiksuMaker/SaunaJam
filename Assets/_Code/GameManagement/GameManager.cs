@@ -77,14 +77,21 @@ public class GameManager : MonoBehaviour
                                             new UIText("How disappointing", 0.2f, 1f, 1f),};
 
                 UI_Controller.Instance.FlashTextOnScreen(texts);
+                StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex, time));
                 break;
 
             case Reason.gnomeAttack:
-
+                StartCoroutine(DoGnomeAttack(time));
                 break;
         }
 
-        StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex, 1f));
+    }
+
+    IEnumerator DoGnomeAttack(float timeBeforeFlash = 1f)
+    {
+        yield return new WaitForSeconds(timeBeforeFlash);
+
+        StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex, 2f, 0.01f, true));
     }
 
     public enum Reason // For restarting
@@ -92,20 +99,23 @@ public class GameManager : MonoBehaviour
         dehydration, steamAttack, gnomeAttack,
     }
 
-    IEnumerator LoadScene(int sceneNum, float loadTime)
+    IEnumerator LoadScene(int sceneNum, float loadTime, float fadeTime = 2f, bool forceFade = false)
     {
         float passedTime = 0f;
 
         // DO THE BEFORE LOAD STUFF HERE
 
         // Wait for the text to finish
-        while (UI_Controller.Instance.textInProcess)
+        if (!forceFade)
         {
-            yield return new WaitForEndOfFrame();
+            while (UI_Controller.Instance.textInProcess)
+            {
+                yield return new WaitForEndOfFrame();
+            }
         }
 
         // FADE
-        UI_Controller.Instance.AdjustSteamEffect(1f);
+        UI_Controller.Instance.AdjustSteamEffect(1f, fadeTime);
 
         // WAIT
         while (passedTime < loadTime)

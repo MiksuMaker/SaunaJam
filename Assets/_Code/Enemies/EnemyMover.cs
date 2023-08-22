@@ -383,6 +383,7 @@ public class EnemyMover : MonoBehaviour
             CameraHandler.Instance.DoGnomeDeathAnimation(e.orientation);
 
             // Kill the Player
+            GameManager.Instance.RestartLevel(1f, GameManager.Reason.gnomeAttack);
         }
     }
     #endregion
