@@ -107,7 +107,7 @@ public class EnemyMover : MonoBehaviour
         }
 
         // If you're a gnome, check that Player doesn't see the room you're going to
-        if (e.type == Enemy.Type.gnome && DoesPlayerSeeEnemy(toRoom))
+        if (e.type == Enemy.Type.gnome && DoesPlayerSeeEnemy(toRoom, true))
         {
             //Debug.Log("Gnome MOVING TO PLAYER ROOM PREVENTED");
             return;
@@ -228,23 +228,39 @@ public class EnemyMover : MonoBehaviour
         else { return false; }
     }
 
-    private bool DoesPlayerSeeEnemy(Room enemyRoom)
+    private bool DoesPlayerSeeEnemy(Room enemyRoom, bool overrideTurning = false)
     {
+        RoomExplorer re = RoomExplorer.Instance;
+
         // Get Player orientation
-        Orientation pOrientation = RoomExplorer.Instance.currentOrientation;
+        Orientation currentOrientation = re.currentOrientation;
+        Orientation previousOrientation = re.previousOrientation;
+        bool wasLastMoveTurn = re.lastMoveWasTurn;
+        Debug.Log("LastMoveWasTurn: " + wasLastMoveTurn);
+
+        bool seenByPlayer = false;
 
         // Get X amount of rooms in that direction
         int playerSeeDistance = 4;
-        if (RoomManager.Instance.IsOtherRoomInDirection(RoomManager.Instance.currentRoom, enemyRoom, pOrientation, playerSeeDistance))
+        if (RoomManager.Instance.IsOtherRoomInDirection(RoomManager.Instance.currentRoom, enemyRoom, currentOrientation, playerSeeDistance))
         {
             // If Gnome is in any of those, Player sees them
-            return true;
+
+            if (!wasLastMoveTurn || overrideTurning)
+            {
+                seenByPlayer = true;
+            }
         }
         else
         {
-            // If not, return false
-            return false;
+            // If not, check if the Gnome is in the previous orientation IN THE NEXT ROOM
+            if (RoomManager.Instance.IsOtherRoomInDirection(RoomManager.Instance.currentRoom, enemyRoom, previousOrientation, 1))
+            {
+                seenByPlayer = true;
+            }
         }
+
+        return seenByPlayer;
     }
     #endregion
 

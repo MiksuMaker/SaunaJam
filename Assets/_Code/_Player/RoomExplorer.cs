@@ -11,6 +11,8 @@ public class RoomExplorer : MonoBehaviour
     public MovementTick moveTick;
 
     public Orientation currentOrientation = Orientation.north;
+    public Orientation previousOrientation = Orientation.north;
+    public bool lastMoveWasTurn = false;
     Vector3 currentDesiredWorldPos = Vector3.zero;
 
     [SerializeField]
@@ -85,6 +87,9 @@ public class RoomExplorer : MonoBehaviour
     {
         if (ItemManager.Instance.TestForItem(RoomManager.Instance.currentRoom, currentOrientation))
         {
+            // Update previous Orientation
+            previousOrientation = currentOrientation;
+
             itemHandler.InteractWithItem(ItemManager.Instance.GetItemManifest(RoomManager.Instance.currentRoom, currentOrientation));
         }
     }
@@ -92,6 +97,9 @@ public class RoomExplorer : MonoBehaviour
     #region Moving
     private void MovePlayer(Vector3 moveVector)
     {
+        // Update turn bool
+        lastMoveWasTurn = false;
+
         // Call delegate
         moveTick();
 
@@ -155,6 +163,8 @@ public class RoomExplorer : MonoBehaviour
 
     private void TurnToFace(Orientation nextFaceDirection)
     {
+        // Update current and previous orientation
+        previousOrientation = currentOrientation;
         currentOrientation = nextFaceDirection;
 
         // Turn camera towards new direction
@@ -172,6 +182,9 @@ public class RoomExplorer : MonoBehaviour
     {
         OrientCamera(true);
 
+        // Update turning bool
+        lastMoveWasTurn = true;
+
         if (turnCoroutine != null)
         {
             StopCoroutine(turnCoroutine);
@@ -179,6 +192,7 @@ public class RoomExplorer : MonoBehaviour
         turnCoroutine = TurningCoroutine(turningTime, facingVector);
         StartCoroutine(turnCoroutine);
 
+        //UpdateGameOnRandom(0.2f);
         UpdateGameOnRandom(0.2f);
     }
 

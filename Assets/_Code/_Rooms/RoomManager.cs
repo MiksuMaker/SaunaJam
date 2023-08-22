@@ -657,63 +657,64 @@ public class RoomManager : MonoBehaviour
         // Prep EnemyManager
         EnemyManager em = EnemyManager.Instance;
 
+        bool result = false;
+
         if (moveVector == Vector3.forward)
         {
             // Try go north
             if (currentRoom.north.neighbour != null)
             {
                 em.CheckIfRoomHasEnemies(currentRoom.north.neighbour);
+                RoomExplorer.Instance.lastMoveWasTurn = false;
                 //if (em.CheckIfRoomHasEnemies(currentRoom.north.neighbour)) { return false; }
                 UpdateCurrentDesiredPosition(Vector3.forward);
                 MoveAndUpdate(currentRoom.north.neighbour);
-                return true;
+                result = true;
             }
-            else { return false; }
         }
         else if (moveVector == Vector3.left)
         {
             if (currentRoom.west.neighbour != null)
             {
                 em.CheckIfRoomHasEnemies(currentRoom.west.neighbour);
+                RoomExplorer.Instance.lastMoveWasTurn = false;
                 //if (em.CheckIfRoomHasEnemies(currentRoom.west.neighbour)) { return false; }
                 UpdateCurrentDesiredPosition(Vector3.left);
                 MoveAndUpdate(currentRoom.west.neighbour);
 
-                return true;
+                result = true;
             }
-            else { return false; }
         }
         else if (moveVector == Vector3.right)
         {
             if (currentRoom.east.neighbour != null)
             {
                 em.CheckIfRoomHasEnemies(currentRoom.east.neighbour);
+                RoomExplorer.Instance.lastMoveWasTurn = false;
                 //if (em.CheckIfRoomHasEnemies(currentRoom.east.neighbour)) { return false; }
                 UpdateCurrentDesiredPosition(Vector3.right);
                 MoveAndUpdate(currentRoom.east.neighbour);
-                return true;
+                result = true;
             }
-            else { return false; }
         }
         else if (moveVector == Vector3.back)
         {
             if (currentRoom.south.neighbour != null)
             {
                 em.CheckIfRoomHasEnemies(currentRoom.south.neighbour);
-                //if (em.CheckIfRoomHasEnemies(currentRoom.south.neighbour)) { return false; }
+                RoomExplorer.Instance.lastMoveWasTurn = false;
                 UpdateCurrentDesiredPosition(Vector3.back);
                 MoveAndUpdate(currentRoom.south.neighbour);
-                return true;
+                result = true;
             }
-            else { return false; }
         }
         else
         {
             Debug.Log("Bonk! There is a wall in " + moveVector.ToString() + " direction");
-            return false;
+            //return false;
         }
 
-
+        return result;
         //    //DebugLogRoom(currentRoom);
     }
 
