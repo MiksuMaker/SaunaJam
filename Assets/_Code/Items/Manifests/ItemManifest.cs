@@ -75,7 +75,14 @@ public class ItemManifest : MonoBehaviour
                 break;
             case RoomAttribute.wide:
                 // Move
-                PlaceGraphics(new Vector3(0f, 0f, 2.5f));
+                if (item.type != Item.Type.sauna)
+                {
+                    PlaceGraphics(new Vector3(0f, 0f, 2.5f));
+                }
+                else
+                {
+                    PlaceGraphics(new Vector3(0f, 0f, 2f));
+                }
                 break;
         }
     }
