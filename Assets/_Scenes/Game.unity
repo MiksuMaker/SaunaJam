@@ -318,6 +318,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentOrientation: 0
+  previousOrientation: 0
+  lastMoveWasTurn: 0
   timeToMoveBetweenRooms: 4
   turningTime: 0.5
   Player: {fileID: 1755068054}
@@ -1127,10 +1129,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: One more log to go
+  m_text: Welcome to the SAUNA
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5a391b80ad849d1419d14470ac1156b1, type: 2}
+  m_sharedMaterial: {fileID: -4491755441090820186, guid: 5a391b80ad849d1419d14470ac1156b1, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
