@@ -102,7 +102,8 @@ public class RoomManager : MonoBehaviour
         //Debug.Log(path);
 
         // Instantiate graphics
-        GameObject graphics = Instantiate(Resources.Load(path + mockupModifier), husk.transform) as GameObject;
+        //GameObject graphics = Instantiate(Resources.Load(path + mockupModifier), husk.transform) as GameObject;
+        GameObject graphics = Instantiate(Resources.Load(path), husk.transform) as GameObject;
         if (husk == null) { Debug.LogError("No husk found"); }
         if (graphics == null) { Debug.LogError("No graphics found"); }
         husk.ChangeHuskGraphics(graphics);
