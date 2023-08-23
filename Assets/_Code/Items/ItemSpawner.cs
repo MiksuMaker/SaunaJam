@@ -25,8 +25,14 @@ public class ItemSpawner : MonoBehaviour
         //MustPlaceItem(rooms, 10, 80, 6);
         MustPlaceItem(rooms, set.water, set.wood, set.stone, set.write, set.sauna);
 
+        //SpawnRandomItems(5);
+        
+    }
+    #endregion
 
-        int amountOfRandomItems = 5;
+    #region Item Randomization
+    private void SpawnRandomItems(int amountOfRandomItems, List<Room> rooms)
+    {
         int itemsPlaced = 0;
 
         // Start spawning items
@@ -46,9 +52,7 @@ public class ItemSpawner : MonoBehaviour
         }
         Debug.Log("Items placed: " + itemsPlaced);
     }
-    #endregion
 
-    #region Item Randomization
     private Item.Type GetRandomItem(float waterChance = 1f, float woodChance = 1f, float stoneChance = 1f)
     {
         float woodLikelyhood = waterChance;

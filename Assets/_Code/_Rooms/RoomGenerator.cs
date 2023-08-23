@@ -258,7 +258,7 @@ public class RoomGenerator : MonoBehaviour
             r.orientation = i.orientation;
 
             // Check if Sauna
-            if (r.name == "Sauna") { r.attribute = RoomAttribute.wide; }
+            if (r.name.Contains("Sauna")) { r.attribute = RoomAttribute.wide; }
 
             SetupRoomWalls(r, r.type, r.orientation);
             RoomManager.Instance.AddRoomToList(r);

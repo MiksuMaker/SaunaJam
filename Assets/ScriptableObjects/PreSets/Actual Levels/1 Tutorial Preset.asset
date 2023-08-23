@@ -1,0 +1,122 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56e5e138b472ba84e84d941c65a3483e, type: 3}
+  m_Name: 1 Tutorial Preset
+  m_EditorClassIdentifier: 
+  instructions:
+  - name: Start
+    type: 0
+    orientation: 3
+    north_Neighbour_name: 
+    west_Neighbour_name: 
+    east_Neighbour_name: 
+    south_Neighbour_name: 
+    items:
+    - type: 1
+      wallOrientation: 0
+      description: Use A and D to turn around
+  - name: 2
+    type: 1
+    orientation: 0
+    north_Neighbour_name: Start
+    west_Neighbour_name: 
+    east_Neighbour_name: 3
+    south_Neighbour_name: 
+    items:
+    - type: 1
+      wallOrientation: 3
+      description: Use W to move
+  - name: 3
+    type: 4
+    orientation: 0
+    north_Neighbour_name: 11 North
+    west_Neighbour_name: 2
+    east_Neighbour_name: 4 Water
+    south_Neighbour_name: 6
+    items: []
+  - name: 4 Water
+    type: 0
+    orientation: 1
+    north_Neighbour_name: 
+    west_Neighbour_name: 3
+    east_Neighbour_name: 
+    south_Neighbour_name: 
+    items:
+    - type: 1
+      wallOrientation: 0
+      description: Press SPACE to pick up items
+    - type: 2
+      wallOrientation: 2
+      description: 
+  - name: 6
+    type: 3
+    orientation: 0
+    north_Neighbour_name: 3
+    west_Neighbour_name: 
+    east_Neighbour_name: 8
+    south_Neighbour_name: 7 Sauna
+    items: []
+  - name: 7 Sauna
+    type: 0
+    orientation: 0
+    north_Neighbour_name: 6
+    west_Neighbour_name: 
+    east_Neighbour_name: 
+    south_Neighbour_name: 
+    items:
+    - type: 0
+      wallOrientation: 3
+      description: 
+    - type: 1
+      wallOrientation: 1
+      description: Find wooden logs
+    - type: 1
+      wallOrientation: 2
+      description: Feed the SAUNA
+  - name: 8
+    type: 2
+    orientation: 1
+    north_Neighbour_name: 
+    west_Neighbour_name: 6
+    east_Neighbour_name: 9
+    south_Neighbour_name: 
+    items:
+    - type: 4
+      wallOrientation: 0
+      description: 
+  - name: 9
+    type: 2
+    orientation: 1
+    north_Neighbour_name: 
+    west_Neighbour_name: 8
+    east_Neighbour_name: 10
+    south_Neighbour_name: 
+    items:
+    - type: 4
+      wallOrientation: 3
+      description: 
+  - name: 10
+    type: 1
+    orientation: 3
+    north_Neighbour_name: 
+    west_Neighbour_name: 9
+    east_Neighbour_name: 
+    south_Neighbour_name: 5
+    items: []
+  - name: 11 North
+    type: 2
+    orientation: 0
+    north_Neighbour_name: 10
+    west_Neighbour_name: 
+    east_Neighbour_name: 
+    south_Neighbour_name: 3
+    items: []
