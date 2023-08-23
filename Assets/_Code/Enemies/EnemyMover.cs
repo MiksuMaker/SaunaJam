@@ -236,7 +236,6 @@ public class EnemyMover : MonoBehaviour
         Orientation currentOrientation = re.currentOrientation;
         Orientation previousOrientation = re.previousOrientation;
         bool wasLastMoveTurn = re.lastMoveWasTurn;
-        Debug.Log("LastMoveWasTurn: " + wasLastMoveTurn);
 
         bool seenByPlayer = false;
 

@@ -51,8 +51,26 @@ public class EnemyManager : MonoBehaviour
 
         for (int i = 0; i < amount; i++)
         {
-            // Get a random room
-            Room rand = rooms[Random.Range(0, rooms.Count)];
+            // Scramble rooms
+            rooms = RoomShuffler.ShuffleRooms(rooms);
+
+            foreach (var r in rooms)
+            {
+                Debug.Log("Room depth: " + r.depth);
+            }
+
+            // Order them by last rooms
+            rooms = RoomShuffler.OrderByLast(rooms);
+
+            Debug.Log("Ordered!");
+
+            foreach (var r in rooms)
+            {
+                Debug.Log("Room depth: " + r.depth);
+            }
+
+            // Get a random room from the end
+            Room rand = rooms[Random.Range(0, Mathf.RoundToInt(rooms.Count / 2))];
 
             // Test if it is already used
             if (!usedRooms.Contains(rand))
@@ -60,9 +78,12 @@ public class EnemyManager : MonoBehaviour
                 // Spawn the wanted Enemy there
                 SpawnEnemy(type, rand);
 
+                Debug.Log("Enemy soawned at depth " + rand.depth);
+
                 // Add the room to used rooms
                 usedRooms.Add(rand);
             }
+            else { i--; }
         }
     }
 
