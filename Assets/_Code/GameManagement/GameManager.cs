@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
                                             new UIText("How disappointing", 0.2f, 1f, 1f),};
 
                 UI_Controller.Instance.FlashTextOnScreen(texts);
-                StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex, time));
+                StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex, 1f));
                 break;
 
             case Reason.gnomeAttack:

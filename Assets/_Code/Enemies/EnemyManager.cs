@@ -54,20 +54,9 @@ public class EnemyManager : MonoBehaviour
             // Scramble rooms
             rooms = RoomShuffler.ShuffleRooms(rooms);
 
-            foreach (var r in rooms)
-            {
-                Debug.Log("Room depth: " + r.depth);
-            }
-
             // Order them by last rooms
             rooms = RoomShuffler.OrderByLast(rooms);
 
-            Debug.Log("Ordered!");
-
-            foreach (var r in rooms)
-            {
-                Debug.Log("Room depth: " + r.depth);
-            }
 
             // Get a random room from the end
             Room rand = rooms[Random.Range(0, Mathf.RoundToInt(rooms.Count / 2))];

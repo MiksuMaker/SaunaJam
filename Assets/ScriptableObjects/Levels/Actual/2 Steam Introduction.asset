@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9631a35c31aa833419f11146e2386589, type: 3}
-  m_Name: 1 Tutorial
+  m_Name: 2 Steam Introduction
   m_EditorClassIdentifier: 
-  preset: {fileID: 11400000, guid: 2f03de1fc5429cc4da0e84f22ff9c2e3, type: 2}
-  preference: {fileID: 11400000, guid: 4dce12cda7f487e4eb81d7ab2065d49f, type: 2}
-  steamSpawnAmount: 0
+  preset: {fileID: 11400000, guid: ecd88d9b34fc0e94cbea23195e2c5e77, type: 2}
+  preference: {fileID: 11400000, guid: 1070ec89dd5bca84caec53f973db93ea, type: 2}
+  steamSpawnAmount: 1
   gnomeSpawnAmount: 0
-  itemSet: {fileID: 11400000, guid: e26c14d4491c9fb4796fc71114eb9147, type: 2}
-  requiredLogs: 3
+  itemSet: {fileID: 11400000, guid: ae1426b946348d744968e6c476b245e3, type: 2}
+  requiredLogs: 5

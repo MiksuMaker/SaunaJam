@@ -52,10 +52,10 @@ MonoBehaviour:
     south_Neighbour_name: 
     items:
     - type: 1
-      wallOrientation: 0
-      description: Press SPACE to pick up items
-    - type: 2
       wallOrientation: 2
+      description: Press SPACE to pick up items
+    - type: 4
+      wallOrientation: 0
       description: 
   - name: 6
     type: 3
@@ -98,17 +98,45 @@ MonoBehaviour:
     orientation: 1
     north_Neighbour_name: 
     west_Neighbour_name: 8
-    east_Neighbour_name: 10
+    east_Neighbour_name: Corner 1
     south_Neighbour_name: 
     items:
     - type: 4
       wallOrientation: 3
       description: 
-  - name: 10
+  - name: Corner 1
     type: 1
     orientation: 3
     north_Neighbour_name: 
     west_Neighbour_name: 9
+    east_Neighbour_name: 
+    south_Neighbour_name: Corner 2
+    items:
+    - type: 1
+      wallOrientation: 2
+      description: Drink WATER stay hydrated
+    - type: 2
+      wallOrientation: 0
+      description: 
+  - name: Corner 2
+    type: 1
+    orientation: 0
+    north_Neighbour_name: Corner 1
+    west_Neighbour_name: 
+    east_Neighbour_name: 10
+    south_Neighbour_name: 
+    items:
+    - type: 2
+      wallOrientation: 3
+      description: 
+    - type: 2
+      wallOrientation: 1
+      description: 
+  - name: 10
+    type: 1
+    orientation: 3
+    north_Neighbour_name: 
+    west_Neighbour_name: Corner 2
     east_Neighbour_name: 
     south_Neighbour_name: 5
     items: []

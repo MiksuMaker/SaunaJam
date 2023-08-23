@@ -398,7 +398,7 @@ public class EnemyMover : MonoBehaviour
 
         // Then teleport them
         int teleportDistance = 6;
-        e.currentRoom = GetRandomRoomAt(e.currentRoom, teleportDistance);
+        e.currentRoom = GetRandomRoomAt2(RoomManager.Instance.currentRoom, teleportDistance);
     }
 
     public Room GetRandomRoomAt(Room original, int howFar)
@@ -408,7 +408,7 @@ public class EnemyMover : MonoBehaviour
         Room temp = original;
 
         // Sample (tries) amount of different paths
-        int tries = 3;
+        int tries = 10;
         // How many TRIES
         for (int i = 0; i < tries; i++)
         {
@@ -428,7 +428,7 @@ public class EnemyMover : MonoBehaviour
                 if (tempList.Count == 0) { break; }
 
                 // Update temp
-                temp = tempList[0];
+                temp = tempList[Random.Range(0, tempList.Count)];
 
                 // Add it to the list
                 roomLists[i].Add(temp);
@@ -440,8 +440,73 @@ public class EnemyMover : MonoBehaviour
         // Order Lists by which goes the longest
         roomLists.OrderByDescending(x => x.Count);
 
+        Debug.Log("Found a room at " + howFar);
+
         // Return that room
         return roomLists[0][0];
+    }
+
+    public Room GetRandomRoomAt2(Room original, int howFar)
+    {
+        List<Room> rooms = RoomManager.Instance.roomsList;
+        Room temp = original;
+
+        // Check the maximum depth
+        int maxDepth = 0;
+        foreach (var r in rooms)
+        {
+            if (r.depth > maxDepth)
+            { maxDepth = r.depth; }
+        }
+
+        // Check if Current room is in the beginning or the end of rooms by depth
+        bool atBeginning = false;
+        if (original.depth <= maxDepth / 2) { atBeginning = true; }
+
+        bool realSmall = false;
+        if (maxDepth <= 5) { realSmall = true; }
+
+        // Reorder the rooms
+        rooms = RoomShuffler.OrderBySmallest(rooms);
+
+        // Try get random rooms that are not visible to Player
+        int tries = 50;
+        // How many TRIES
+        for (int i = 0; i < tries; i++)
+        {
+            if (atBeginning)
+            {
+                // Spawn DEEP
+                if (realSmall)
+                {
+                    temp = rooms[Random.Range(rooms.Count - 2, rooms.Count)];
+                }
+                else
+                    temp = rooms[Random.Range(Mathf.RoundToInt(rooms.Count / 2), rooms.Count)];
+            }
+            else
+            {
+                // Spawn AT BEGINNING
+                if (realSmall)
+                {
+                    temp = rooms[Random.Range(0, Mathf.Min(5, rooms.Count))];
+                }
+                else
+                    temp = rooms[Random.Range(0, Mathf.RoundToInt(rooms.Count / 2))];
+            }
+
+            // Check if room isnt visible to Player
+            if (!RoomManager.Instance.IsOtherRoomNear(temp, RoomManager.Instance.currentRoom, 5))
+            {
+                // Exit the loop
+                break;
+            }
+            // If not, try again
+        }
+
+        // Return that room
+        Debug.Log("Room found at depth of " + temp.depth);
+        return temp;
     }
     #endregion
 }

@@ -76,11 +76,11 @@ public class Drinker : MonoBehaviour
             if (attacked)
             {
                 // Reduce Hydration to half first
-                float half = (MAX_hydrationLevel / 2);
-                if (current_hydrationLevel > half)
-                {
-                    current_hydrationLevel = Mathf.FloorToInt(half);
-                }
+                //float half = (MAX_hydrationLevel / 2);
+                //if (current_hydrationLevel > half)
+                //{
+                //    current_hydrationLevel = Mathf.FloorToInt(half);
+                //}
                 // Reduce it too
                 current_hydrationLevel -= 2;
             }
@@ -103,7 +103,7 @@ public class Drinker : MonoBehaviour
             //Debug.Log("Warning%: " + warningPercentage + ", value: " + ((float)current_hydrationLevel / (float)MAX_hydrationLevel));
 
             // Getting dehydrated!
-            if (debugOn) { Debug.Log("Getting thirsty.."); }
+            if (debugOn) { Debug.Log("thirsty! " + current_hydrationLevel); }
 
 
             // Do some UI depending on how dehydrated you are

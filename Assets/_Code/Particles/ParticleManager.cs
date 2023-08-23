@@ -34,12 +34,13 @@ public class ParticleManager : MonoBehaviour
     {
         // Spawn More
         Particle temp;
-        int amountToPool = 3;
+        int amountToPool = 10;
         for (int i = 0; i < amountToPool; i++)
         {
             temp = (Instantiate(Resources.Load(steamPath)) as GameObject).GetComponent<Particle>();
             temp.Hide();
             pooledSteamMonsterParticles.Add(temp);
+            temp.gameObject.transform.parent = transform;
         }
     }
     #endregion

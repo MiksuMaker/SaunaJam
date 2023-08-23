@@ -36,4 +36,15 @@ static public class RoomShuffler
 
         return rooms;
     }
+
+    static public List<Room> OrderBySmallest(List<Room> rooms)
+    {
+        // First check that the list isn't empty
+        if (rooms.Count == 0) { return rooms; }
+
+        // Order so that the furthest rooms are last
+        rooms = rooms.OrderBy(x => x.depth).ToList();
+
+        return rooms;
+    }
 }

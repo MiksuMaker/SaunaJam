@@ -469,7 +469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad3c49631705512428a5e1662095dc0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  woodAmountCollected: 1
+  woodAmountCollected: 0
   stoneAmountCollected: 0
 --- !u!114 &572642064
 MonoBehaviour:
@@ -484,7 +484,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugOn: 1
-  START_hydrationLevel: 10
+  START_hydrationLevel: 12
   MAX_hydrationLevel: 20
   current_hydrationLevel: 0
   warningPercentage: 0.4
@@ -977,9 +977,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levels:
+  - {fileID: 11400000, guid: 5d2d255ca284b4e49bc642613dc7104d, type: 2}
   - {fileID: 11400000, guid: 8e39c59f4bbe48843b482a01694c0322, type: 2}
-  - {fileID: 11400000, guid: dcbbb3ed32cfcb2499e164f9719d2df0, type: 2}
   - {fileID: 11400000, guid: 50d44f23c789883408d13f7ac90c7e66, type: 2}
+  - {fileID: 11400000, guid: dcbbb3ed32cfcb2499e164f9719d2df0, type: 2}
   - {fileID: 11400000, guid: d01c2969bc6b24d43a528026230457f2, type: 2}
   currentLevel: 0
 --- !u!4 &1368155795

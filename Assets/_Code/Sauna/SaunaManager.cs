@@ -71,7 +71,12 @@ public class SaunaManager : MonoBehaviour
         if (!sacrificeSuccess)
         {
             // Prompt Player that they need to collect stuff
-            Debug.Log("No items to sacrifice!");
+            //Debug.Log("No items to sacrifice!");
+            UIText[] texts = new UIText[] { new UIText("You come empty handed", 1f, 1f, 1f),
+                                            new UIText("Find the scattered wooden logs", 1f, 1f, 1f),
+                                            new UIText("...and feed them to the Sauna", 1f, 1f, 1f),
+            };
+            UI_Controller.Instance.FlashTextOnScreen(texts);
         }
     }
 
