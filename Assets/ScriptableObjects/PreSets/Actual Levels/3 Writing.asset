@@ -20,7 +20,11 @@ MonoBehaviour:
     west_Neighbour_name: 
     east_Neighbour_name: 2 Intersection
     south_Neighbour_name: 
-    items: []
+    items:
+    - type: 1
+      wallOrientation: 3
+      description: You're not alone
+      official: 0
   - name: 0 Sauna
     type: 0
     orientation: 3
@@ -31,7 +35,7 @@ MonoBehaviour:
     items:
     - type: 1
       wallOrientation: 0
-      description: You can ENTER your thoughts on the walls
+      description: Watch your back!
       official: 1
     - type: 0
       wallOrientation: 1

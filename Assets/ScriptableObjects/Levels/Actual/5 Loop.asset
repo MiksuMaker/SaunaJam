@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9631a35c31aa833419f11146e2386589, type: 3}
-  m_Name: 3 Writing
+  m_Name: 5 Loop
   m_EditorClassIdentifier: 
-  preset: {fileID: 11400000, guid: 8b638c50e2d663f4884151ae19263639, type: 2}
-  preference: {fileID: 11400000, guid: 8f2382ed815bbfc44ae4a1073bbdd62b, type: 2}
+  preset: {fileID: 11400000, guid: bf6fe964d3867984e933cbb1cd15fec2, type: 2}
+  preference: {fileID: 11400000, guid: 90c7f9b19c7a3b24ebb8df1cb17fce93, type: 2}
   steamSpawnAmount: 1
-  gnomeSpawnAmount: 0
-  itemSet: {fileID: 11400000, guid: fca48f9cec0dff343b65c3e2aa49c7c8, type: 2}
-  requiredLogs: 7
+  gnomeSpawnAmount: 1
+  itemSet: {fileID: 11400000, guid: bddee2d72d1e142418be5d87d126c209, type: 2}
+  requiredLogs: 12
