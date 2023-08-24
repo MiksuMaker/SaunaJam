@@ -75,13 +75,17 @@ public class ItemManifest : MonoBehaviour
                 break;
             case RoomAttribute.wide:
                 // Move
-                if (item.type != Item.Type.sauna)
+                if (item.type == Item.Type.sauna)
                 {
-                    PlaceGraphics(new Vector3(0f, 0f, 2.5f));
+                    PlaceGraphics(new Vector3(0f, 0f, 2f));
+                }
+                else if (item.type == Item.Type.writing)
+                {
+                    PlaceGraphics(new Vector3(0f, 0f, 2.99f));
                 }
                 else
                 {
-                    PlaceGraphics(new Vector3(0f, 0f, 2f));
+                    PlaceGraphics(new Vector3(0f, 0f, 2.5f));
                 }
                 break;
         }

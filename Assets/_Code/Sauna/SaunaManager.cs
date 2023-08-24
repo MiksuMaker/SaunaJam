@@ -161,7 +161,7 @@ public class SaunaManager : MonoBehaviour
         {
             // Congratulate the Player
             UIText[] texts = new UIText[] { new UIText("Very Good", 0.5f, 1f, 1f),
-                                            new UIText("You have pleased the Sauna", 0.2f, 1f, 2f)};
+                                            new UIText("You have pleased the Sauna", 0.2f, 1f, 0.5f)};
             
             UI_Controller.Instance.FlashTextOnScreen(texts);
 
@@ -172,8 +172,8 @@ public class SaunaManager : MonoBehaviour
         {
             // Inform how much the Sauna still needs
             UIText[] texts = new UIText[] { new UIText("Good", 0.5f, 0.5f, 0.5f),
-                                            new UIText("But Sauna is not yet satisfied", 0.5f, 2f, 0.5f),
-                                            new UIText("Bring " + GiveCorrectAmount() + " to the Sauna", 0.2f, 1f, 0.2f),
+                                            new UIText("But Sauna is not yet satisfied", 0.5f, 1f, 0.5f),
+                                            new UIText("Bring " + GiveCorrectAmount() + " to the Sauna", 0.5f, 1f, 1f),
                                             new UIText("And you shall be rewarded", 0.2f, 2f, 1f)};
 
             UI_Controller.Instance.FlashTextOnScreen(texts);

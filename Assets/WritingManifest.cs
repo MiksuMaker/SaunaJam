@@ -16,6 +16,17 @@ public class WritingManifest : ItemManifest
 
         // Setup the text
         text.text = item.description;
+
+        CenterText();
+    }
+
+    public void CenterText()
+    {
+        if (item.official == true)
+        {
+            //text.alignment = TextAlignmentOptions.TopJustified;
+            text.alignment = TextAlignmentOptions.Top;
+        }
     }
     #endregion
 

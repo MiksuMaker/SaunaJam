@@ -30,4 +30,6 @@ public class WorldStats : MonoBehaviour
 
     public int numberOfRooms = 0;
     public int getNumberOfRoomsAndCountup { get { int num = numberOfRooms; numberOfRooms++; return num; } }
+
+    public float timeFactor = 1f;
 }

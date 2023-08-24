@@ -150,6 +150,11 @@ public class Drinker : MonoBehaviour
 
         current_hydrationLevel += hydrationPerDrink;
 
+        // Waver UI elements
+        UIText[] texts = new UIText[] { new UIText("",0f,0f,0.5f), };
+
+        UI_Controller.Instance.FlashTextOnScreen(texts);
+
         // Check that hydration doesn't go too high
         if (current_hydrationLevel >= MAX_hydrationLevel)
         {

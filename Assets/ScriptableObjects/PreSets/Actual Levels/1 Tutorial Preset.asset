@@ -24,6 +24,7 @@ MonoBehaviour:
     - type: 1
       wallOrientation: 0
       description: Use A and D to turn around
+      official: 0
   - name: 2
     type: 1
     orientation: 0
@@ -34,7 +35,8 @@ MonoBehaviour:
     items:
     - type: 1
       wallOrientation: 3
-      description: Use W to move
+      description: Use W and S to move
+      official: 0
   - name: 3
     type: 4
     orientation: 0
@@ -54,9 +56,11 @@ MonoBehaviour:
     - type: 1
       wallOrientation: 2
       description: Press SPACE to pick up items
+      official: 0
     - type: 4
       wallOrientation: 0
       description: 
+      official: 0
   - name: 6
     type: 3
     orientation: 0
@@ -76,12 +80,15 @@ MonoBehaviour:
     - type: 0
       wallOrientation: 3
       description: 
+      official: 0
     - type: 1
       wallOrientation: 1
       description: Find wooden logs
+      official: 0
     - type: 1
       wallOrientation: 2
       description: Feed the SAUNA
+      official: 0
   - name: 8
     type: 2
     orientation: 1
@@ -93,6 +100,7 @@ MonoBehaviour:
     - type: 4
       wallOrientation: 0
       description: 
+      official: 0
   - name: 9
     type: 2
     orientation: 1
@@ -104,6 +112,7 @@ MonoBehaviour:
     - type: 4
       wallOrientation: 3
       description: 
+      official: 0
   - name: Corner 1
     type: 1
     orientation: 3
@@ -115,9 +124,11 @@ MonoBehaviour:
     - type: 1
       wallOrientation: 2
       description: Drink WATER stay hydrated
+      official: 0
     - type: 2
       wallOrientation: 0
       description: 
+      official: 0
   - name: Corner 2
     type: 1
     orientation: 0
@@ -129,9 +140,11 @@ MonoBehaviour:
     - type: 2
       wallOrientation: 3
       description: 
+      official: 0
     - type: 2
       wallOrientation: 1
       description: 
+      official: 0
   - name: 10
     type: 1
     orientation: 3

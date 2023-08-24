@@ -105,12 +105,17 @@ public class ItemManager : MonoBehaviour
     #endregion
 
     #region PutItems
-    public void DecorateRoom(Room r, List<Item> itemList)
+    public void DecorateRoom(Room r, List<Item> itemList, bool officialText = false)
     {
         foreach (Item i in itemList)
         {
             //CreateAndAddItem(i.type, r, i.wallOrientation);
             AddItem(i, r, i.wallOrientation);
+
+            if (i.type == Item.Type.writing)
+            {
+                i.official = true;
+            }
         }
     }
 

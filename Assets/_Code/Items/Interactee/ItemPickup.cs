@@ -53,6 +53,9 @@ public class ItemPickup : MonoBehaviour
         float timeSpent = 0f;
         float pickupTime = 0.4f;
 
+        pickupTime *= WorldStats.Instance.timeFactor;
+
+
         while (timeSpent < pickupTime)
         {
             float progress = (timeSpent / pickupTime);

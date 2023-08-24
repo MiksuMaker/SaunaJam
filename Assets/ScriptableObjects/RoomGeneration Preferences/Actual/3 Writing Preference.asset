@@ -10,15 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38b5e83a089f5a64694db0abeb8fd392, type: 3}
-  m_Name: 2 Steam Introduction
+  m_Name: 3 Writing Preference
   m_EditorClassIdentifier: 
-  amountOfRooms: 5
+  amountOfRooms: 20
   deadEndChance: 1
-  cornerChance: 5
-  straigthChance: 5
-  threewayChance: 5
+  cornerChance: 4
+  straigthChance: 2
+  threewayChance: 3
   fourwayChance: 1
-  skipChance: 1
+  skipChance: 2
   forbidCuttingShort: 1
   useRules: 1
-  rules: []
+  rules:
+  - fromType: 1
+    afterType: 1
+    chanceModifier: 2
+  - fromType: 1
+    afterType: 3
+    chanceModifier: 2

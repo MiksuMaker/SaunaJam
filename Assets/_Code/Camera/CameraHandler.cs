@@ -95,6 +95,8 @@ public class CameraHandler : MonoBehaviour
 
     IEnumerator CameraTilter(Quaternion startRot, Vector3 toRot, float timeToTilt)
     {
+        timeToTilt *= WorldStats.Instance.timeFactor;
+
         // Check first if the current rotation is the ToRotation
         if (startRot == Quaternion.Euler(toRot)) { yield break; }
 

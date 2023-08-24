@@ -24,4 +24,7 @@ public class Item
     public Orientation wallOrientation;
 
     public string description = "";
+
+    [HideInInspector]
+    public bool official = false;
 }

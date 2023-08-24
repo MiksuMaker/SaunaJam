@@ -115,6 +115,8 @@ public class RoomExplorer : MonoBehaviour
     {
         #region New Version
 
+        timeToMove *= WorldStats.Instance.timeFactor;
+
         //Vector3 beginPos = Player.transform.position; // Old and buggy
         Vector3 beginPos = currentDesiredWorldPos;
         Vector3 wantedPos = GetRoundedPos(beginPos + (wantedDir * WorldStats.Instance.Scale));
@@ -207,6 +209,8 @@ public class RoomExplorer : MonoBehaviour
 
     IEnumerator TurningCoroutine(float timeToTurn, Vector3 wantedDir)
     {
+        timeToTurn *= WorldStats.Instance.timeFactor;
+
         float progress = 0f;
         float increment = 0.01f;
 

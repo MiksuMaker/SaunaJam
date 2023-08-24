@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df2846188325581418b67ecad8b0d7c8, type: 3}
-  m_Name: 2 Steam Items
+  m_Name: 4 Gnome Introduction
   m_EditorClassIdentifier: 
-  water: 6
-  wood: 8
-  stone: 0
+  water: 4
+  wood: 5
+  stone: 1
   write: 0
   sauna: 0

@@ -74,7 +74,8 @@ public class GameManager : MonoBehaviour
             case Reason.dehydration:
                 UIText[] texts = new UIText[] { new UIText("", 0.5f, 1f, 1f),
                                             new UIText("Another one succumbs to the heat", 0.5f, 1f, 1f),
-                                            new UIText("How disappointing", 0.2f, 1f, 1f),};
+                                            //new UIText("How disappointing", 0.2f, 1f, 1f),
+                };
 
                 UI_Controller.Instance.FlashTextOnScreen(texts);
                 StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex, 1f));

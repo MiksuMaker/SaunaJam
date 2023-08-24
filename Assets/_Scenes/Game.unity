@@ -489,7 +489,7 @@ MonoBehaviour:
   current_hydrationLevel: 0
   warningPercentage: 0.4
   ticksPerHydrationDrop: 2
-  hydrationPerDrink: 6
+  hydrationPerDrink: 7
 --- !u!1 &601714105
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,6 +597,7 @@ MonoBehaviour:
   Z: 6
   Scale: 6
   numberOfRooms: 0
+  timeFactor: 0.5
 --- !u!114 &602648881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -977,8 +978,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levels:
-  - {fileID: 11400000, guid: 5d2d255ca284b4e49bc642613dc7104d, type: 2}
   - {fileID: 11400000, guid: 8e39c59f4bbe48843b482a01694c0322, type: 2}
+  - {fileID: 11400000, guid: 5d2d255ca284b4e49bc642613dc7104d, type: 2}
+  - {fileID: 11400000, guid: dba2b49d7c805b7438bf82a070e026b4, type: 2}
+  - {fileID: 11400000, guid: 3ad3884376566e940ac29eb0a0c2f390, type: 2}
   - {fileID: 11400000, guid: 50d44f23c789883408d13f7ac90c7e66, type: 2}
   - {fileID: 11400000, guid: dcbbb3ed32cfcb2499e164f9719d2df0, type: 2}
   - {fileID: 11400000, guid: d01c2969bc6b24d43a528026230457f2, type: 2}

@@ -394,7 +394,7 @@ public class RoomGenerator : MonoBehaviour
             return;
         }
 
-        ItemManager.Instance.DecorateRoom(r, l.items);
+        ItemManager.Instance.DecorateRoom(r, l.items, true);
     }
 
     #region New Room Generation
