@@ -13,6 +13,14 @@ MonoBehaviour:
   m_Name: SimpleStart
   m_EditorClassIdentifier: 
   instructions:
+  - name: PlayerStart
+    type: 4
+    orientation: 0
+    north_Neighbour_name: Sauna
+    west_Neighbour_name: 
+    east_Neighbour_name: 
+    south_Neighbour_name: 
+    items: []
   - name: Sauna
     type: 0
     orientation: 3
@@ -24,11 +32,4 @@ MonoBehaviour:
     - type: 0
       wallOrientation: 0
       description: 
-  - name: PlayerStart
-    type: 4
-    orientation: 0
-    north_Neighbour_name: Sauna
-    west_Neighbour_name: 
-    east_Neighbour_name: 
-    south_Neighbour_name: 
-    items: []
+      official: 0

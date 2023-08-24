@@ -32,6 +32,7 @@ MonoBehaviour:
     - type: 1
       wallOrientation: 0
       description: Beware of the STEAM
+      official: 1
   - name: 2 Intersection
     type: 4
     orientation: 0
@@ -47,7 +48,11 @@ MonoBehaviour:
     west_Neighbour_name: 2 Intersection
     east_Neighbour_name: 5 Threeway
     south_Neighbour_name: 
-    items: []
+    items:
+    - type: 1
+      wallOrientation: 3
+      description: A drink a day will keep the heat away
+      official: 1
   - name: 4 Sauna
     type: 0
     orientation: 3
@@ -59,6 +64,7 @@ MonoBehaviour:
     - type: 0
       wallOrientation: 0
       description: 
+      official: 0
   - name: 5 Threeway
     type: 3
     orientation: 3
@@ -66,7 +72,11 @@ MonoBehaviour:
     west_Neighbour_name: 3 Seuna Entrance
     east_Neighbour_name: 
     south_Neighbour_name: 6 Infinite
-    items: []
+    items:
+    - type: 2
+      wallOrientation: 2
+      description: 
+      official: 0
   - name: 6 Infinite
     type: 2
     orientation: 0
@@ -77,7 +87,9 @@ MonoBehaviour:
     items:
     - type: 1
       wallOrientation: 1
-      description: A drink a day will keep the heat away
-    - type: 2
+      description: Empty walls are your canvas...
+      official: 1
+    - type: 1
       wallOrientation: 2
-      description: 0
+      description: ...should you want to ENTER your thoughts on them
+      official: 1
