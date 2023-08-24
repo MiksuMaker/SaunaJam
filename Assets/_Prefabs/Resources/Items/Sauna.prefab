@@ -49,6 +49,7 @@ MonoBehaviour:
     type: 0
     wallOrientation: 0
     description: 
+    official: 0
   graphicsGO: {fileID: 4782904364188151184}
 --- !u!1001 &8963581726916234115
 PrefabInstance:
@@ -63,15 +64,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3841166513909251241, guid: 6ccfbae94cede7049a5c45362ed457fd, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.7
+      value: 0.68
       objectReference: {fileID: 0}
     - target: {fileID: 3841166513909251241, guid: 6ccfbae94cede7049a5c45362ed457fd, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.7
+      value: 0.68
       objectReference: {fileID: 0}
     - target: {fileID: 3841166513909251241, guid: 6ccfbae94cede7049a5c45362ed457fd, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.7
+      value: 0.68
       objectReference: {fileID: 0}
     - target: {fileID: 3841166513909251241, guid: 6ccfbae94cede7049a5c45362ed457fd, type: 3}
       propertyPath: m_LocalPosition.x

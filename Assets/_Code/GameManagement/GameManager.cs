@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     #region Properties
     static public GameManager Instance;
 
+    bool gameEnding = false;
+
     #endregion
 
     #region Setup
@@ -82,6 +84,9 @@ public class GameManager : MonoBehaviour
                 break;
 
             case Reason.gnomeAttack:
+                // If this is the last level, end the game
+                if (LevelManager.Instance.IsThisLastLevel())
+                { Endgame(); }
                 StartCoroutine(DoGnomeAttack(time));
                 break;
         }
@@ -126,9 +131,35 @@ public class GameManager : MonoBehaviour
         }
 
 
+        if (!gameEnding)
+        {
+            Debug.Log("Loading Scene");
 
-        // Load
-        SceneManager.LoadScene(sceneNum);
+            // Load
+            SceneManager.LoadScene(sceneNum);
+        }
+        else
+        {
+            Debug.Log("Ending game");
+            UIText[] texts = new UIText[]
+            {
+                new UIText("THERE IS NO ESCAPE", 5f, 3f, 0f),
+                new UIText("", 5f, 3f, 0f),
+            };
+
+            UI_Controller.Instance.FlashTextOnScreen(texts);
+
+            yield return new WaitForSeconds(8f);
+
+            // Quit the application
+            Application.Quit();
+        }
     }
     #endregion
+
+    public void Endgame()
+    {
+        Debug.Log("Game IS ENDING!");
+        gameEnding = true;
+    }
 }

@@ -41,7 +41,21 @@ public class LevelManager : MonoBehaviour
 
         if (levels.Count <= currentLevel)
         {
-            currentLevel = levels.Count - 1;
+            //currentLevel = levels.Count - 1;
         }
+    }
+
+    public bool IsThisLastLevel()
+    {
+        Debug.Log("Current level: " + currentLevel);
+        Debug.Log("Amount of levels: " + levels.Count);
+
+        if (levels.Count == currentLevel + 1)
+        {
+            // End the Game
+            return true;
+        }
+        else
+            return false;
     }
 }

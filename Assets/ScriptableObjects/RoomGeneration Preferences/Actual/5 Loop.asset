@@ -14,23 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   amountOfRooms: 40
   deadEndChance: 1
-  cornerChance: 2
-  straigthChance: 2
-  threewayChance: 2
-  fourwayChance: 2
-  skipChance: 3
+  cornerChance: 1
+  straigthChance: 1
+  threewayChance: 1
+  fourwayChance: 1
+  skipChance: 2
   forbidCuttingShort: 1
   useRules: 1
-  rules:
-  - fromType: 2
-    afterType: 2
-    chanceModifier: 0.5
-  - fromType: 3
-    afterType: 2
-    chanceModifier: 1.5
-  - fromType: 4
-    afterType: 2
-    chanceModifier: 2
-  - fromType: 4
-    afterType: 5
-    chanceModifier: 3
+  rules: []

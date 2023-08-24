@@ -64,7 +64,11 @@ MonoBehaviour:
     west_Neighbour_name: 4 Out
     east_Neighbour_name: 
     south_Neighbour_name: 6 Straight Down
-    items: []
+    items:
+    - type: 1
+      wallOrientation: 2
+      description: In the end
+      official: 0
   - name: 6 Straight Down
     type: 2
     orientation: 0
@@ -72,7 +76,11 @@ MonoBehaviour:
     west_Neighbour_name: 
     east_Neighbour_name: 
     south_Neighbour_name: 7 Corner Connect
-    items: []
+    items:
+    - type: 1
+      wallOrientation: 2
+      description: we all burn
+      official: 0
   - name: 7 Corner Connect
     type: 1
     orientation: 1
@@ -80,4 +88,8 @@ MonoBehaviour:
     west_Neighbour_name: 1 Intersection
     east_Neighbour_name: 
     south_Neighbour_name: 
-    items: []
+    items:
+    - type: 1
+      wallOrientation: 3
+      description: to ashes
+      official: 0
