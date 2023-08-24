@@ -10,27 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38b5e83a089f5a64694db0abeb8fd392, type: 3}
-  m_Name: 5 Loop
+  m_Name: 6 The End Prefs
   m_EditorClassIdentifier: 
-  amountOfRooms: 40
+  amountOfRooms: 10
   deadEndChance: 1
-  cornerChance: 2
-  straigthChance: 2
-  threewayChance: 2
-  fourwayChance: 2
-  skipChance: 3
+  cornerChance: 1
+  straigthChance: 1
+  threewayChance: 1
+  fourwayChance: 1
+  skipChance: 1
   forbidCuttingShort: 1
   useRules: 1
-  rules:
-  - fromType: 2
-    afterType: 2
-    chanceModifier: 0.5
-  - fromType: 3
-    afterType: 2
-    chanceModifier: 1.5
-  - fromType: 4
-    afterType: 2
-    chanceModifier: 2
-  - fromType: 4
-    afterType: 5
-    chanceModifier: 3
+  rules: []

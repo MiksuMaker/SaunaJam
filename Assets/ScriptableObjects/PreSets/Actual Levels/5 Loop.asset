@@ -20,7 +20,11 @@ MonoBehaviour:
     west_Neighbour_name: 
     east_Neighbour_name: 
     south_Neighbour_name: 
-    items: []
+    items:
+    - type: 0
+      wallOrientation: 3
+      description: 
+      official: 0
   - name: 1 Intersection
     type: 3
     orientation: 2
