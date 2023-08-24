@@ -35,13 +35,17 @@ public class LevelManager : MonoBehaviour
         return levels[currentLevel];
     }
 
-    public void UpdateCurrentLevel()
+    public void UpdateCurrentLevel(int indexOverrideModifier = 1)
     {
-        currentLevel++;
+        currentLevel += indexOverrideModifier;
 
         if (levels.Count <= currentLevel)
         {
-            //currentLevel = levels.Count - 1;
+            currentLevel = levels.Count - 1;
+        }
+        else if (currentLevel < 0)
+        {
+            currentLevel = 0;
         }
     }
 

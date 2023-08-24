@@ -32,9 +32,11 @@ public class PlayerInput : MonoBehaviour
             CheckForTurnInput();
             CheckForMoveInput();
             CheckForInteractionInput();
+            CheckForCheatInput();
         }
 
         CheckForWriteInput();
+
     }
     #endregion
 
@@ -129,6 +131,22 @@ public class PlayerInput : MonoBehaviour
                     writer.Write(text + c);
                 }
             }
+        }
+    }
+
+    private void CheckForCheatInput()
+    {
+        // Uncomment this to deactivate
+        //return;
+
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            // Go to next level
+            GameManager.Instance.LoadNextLevel(0f);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            GameManager.Instance.LoadNextLevel(0f, -1);
         }
     }
     #endregion

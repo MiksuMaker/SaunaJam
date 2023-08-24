@@ -54,10 +54,10 @@ public class GameManager : MonoBehaviour
         RoomManager.Instance.LoadInitialRooms();
     }
 
-    public void LoadNextLevel(float endTime)
+    public void LoadNextLevel(float endTime, int indexOverrideModifier = 1)
     {
         // Update LevelManager
-        LevelManager.Instance.UpdateCurrentLevel();
+        LevelManager.Instance.UpdateCurrentLevel(indexOverrideModifier);
 
         // Load the Next Scene?
         StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex, endTime));
@@ -143,13 +143,13 @@ public class GameManager : MonoBehaviour
             Debug.Log("Ending game");
             UIText[] texts = new UIText[]
             {
-                new UIText("THERE IS NO ESCAPE", 5f, 3f, 0f),
-                new UIText("", 5f, 3f, 0f),
+                new UIText("THERE IS NO ESCAPE", 5f, 1f, 0f),
+                new UIText("THERE IS NO ESCAPE", 0.001f, 1f, 5f),
             };
 
             UI_Controller.Instance.FlashTextOnScreen(texts);
 
-            yield return new WaitForSeconds(8f);
+            yield return new WaitForSeconds(6f);
 
             // Quit the application
             Application.Quit();
