@@ -175,6 +175,8 @@ public class ItemManager : MonoBehaviour
 
     public void RemoveItemManifest(ItemManifest manifest)
     {
+        Item.Type type = manifest.item.type;
+
         // Go through all the manifestations, Remove from room
         int pairAmount = manifestationsList.Count;
         for (int i = 0; i < pairAmount; i++)
@@ -192,8 +194,14 @@ public class ItemManager : MonoBehaviour
             }
         }
 
+        bool moveEnemies = true;
+        if (type == Item.Type.saunaStone)
+        {
+            moveEnemies = false;
+        }
+
         // Update
-        RoomManager.Instance.UpdateRooms();
+        RoomManager.Instance.UpdateRooms(moveEnemies);
     }
 
     public Item GetItem(Room r, Orientation facing)

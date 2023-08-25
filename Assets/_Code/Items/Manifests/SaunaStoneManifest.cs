@@ -11,9 +11,9 @@ public class SaunaStoneManifest : ItemManifest
 
     public override void InteractWithItem()
     {
-
         // Destroy item
         base.InteractWithItem();
+
         
         // Notify that STONE was collected
         Collector.Instance.CollectItem(item.type);
