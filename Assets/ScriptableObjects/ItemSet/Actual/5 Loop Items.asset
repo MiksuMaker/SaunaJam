@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 5 Loop Items
   m_EditorClassIdentifier: 
   water: 20
-  wood: 15
+  wood: 16
   stone: 7
   write: 0
   sauna: 0

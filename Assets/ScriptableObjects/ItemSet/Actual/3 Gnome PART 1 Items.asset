@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df2846188325581418b67ecad8b0d7c8, type: 3}
-  m_Name: 3 New Gnome Introduction Items
+  m_Name: 3 Gnome PART 1 Items
   m_EditorClassIdentifier: 
   water: 9
-  wood: 15
+  wood: 13
   stone: 0
   write: 0
   sauna: 0
