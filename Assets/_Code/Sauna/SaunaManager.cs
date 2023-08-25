@@ -16,6 +16,8 @@ public class SaunaManager : MonoBehaviour
     [SerializeField] int neededWoodLogs = 1;
     //[SerializeField] int neededSaunaStones = 1;
 
+    [HideInInspector]
+    public bool sacrificeInProcess = false;
 
     #endregion
 
@@ -110,6 +112,8 @@ public class SaunaManager : MonoBehaviour
 
     private IEnumerator SacrificeAnimator(int amount)
     {
+        sacrificeInProcess = true;
+
         // Initiate the animationWaitTime
         float wait = 1f;
 
@@ -150,6 +154,8 @@ public class SaunaManager : MonoBehaviour
         yield return new WaitForSeconds(wait);
 
         SaunaTextUI();
+
+        sacrificeInProcess = false;
     }
     #endregion
 

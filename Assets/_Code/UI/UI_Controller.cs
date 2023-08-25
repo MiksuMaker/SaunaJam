@@ -16,6 +16,8 @@ public class UI_Controller : MonoBehaviour
     [HideInInspector]
     public bool textInProcess = false;
     EventHappened happened;
+
+    bool skip = false;
     #endregion
 
     #region Setup
@@ -85,6 +87,9 @@ public class UI_Controller : MonoBehaviour
         // Go through every text element
         foreach (var t in texts)
         {
+            // Reboot skip
+            skip = false;
+
             passedTime = 0f;
 
             // Change text
@@ -95,6 +100,8 @@ public class UI_Controller : MonoBehaviour
 
             while (passedTime < t.fadeInTime)
             {
+                if (skip) break;
+
                 nextAlpha = Mathf.Lerp(0f, 1f, (passedTime / t.fadeInTime));
                 textMesh.color = new Color(1f, 1f, 1f, nextAlpha);
                 passedTime += Time.deltaTime;
@@ -106,6 +113,8 @@ public class UI_Controller : MonoBehaviour
             passedTime = 0f;
             while (passedTime < t.stayOnTime)
             {
+                if (skip) break;
+
                 passedTime += Time.deltaTime;
                 yield return new WaitForSeconds(Time.deltaTime);
             }
@@ -114,6 +123,8 @@ public class UI_Controller : MonoBehaviour
             passedTime = 0f;
             while (passedTime < t.fadeOutTime)
             {
+                if (skip) break;
+
                 nextAlpha = Mathf.Lerp(1f, 0f, (passedTime / t.fadeInTime));
                 textMesh.color = new Color(1f, 1f, 1f, nextAlpha);
                 passedTime += Time.deltaTime;
@@ -125,6 +136,11 @@ public class UI_Controller : MonoBehaviour
         }
 
         textInProcess = false;
+    }
+
+    public void TrySkipDialogue()
+    {
+        skip = true;
     }
     #endregion
 

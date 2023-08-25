@@ -21,6 +21,10 @@ public class SaunaManifest : ItemManifest
     #region Handling
     public override void InteractWithItem()
     {
+        // Check that no dialogue is in process
+        if (UI_Controller.Instance.textInProcess || SaunaManager.Instance.sacrificeInProcess)
+        { return; }
+
         // Do what you want the item to do here
         SaunaManager.Instance.TrySacrificeItems();
 

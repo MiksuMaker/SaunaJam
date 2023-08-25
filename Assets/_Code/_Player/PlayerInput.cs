@@ -32,6 +32,7 @@ public class PlayerInput : MonoBehaviour
             CheckForTurnInput();
             CheckForMoveInput();
             CheckForInteractionInput();
+
             CheckForCheatInput();
         }
 
@@ -84,6 +85,9 @@ public class PlayerInput : MonoBehaviour
     {
         if (Input.GetKeyDown(InteractionKey))
         {
+            // If there is some dialogue going on, skip it
+            UI_Controller.Instance.TrySkipDialogue();
+
             roomExplorer.Interact();
         }
     }
