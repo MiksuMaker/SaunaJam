@@ -69,7 +69,10 @@ public class Collector : MonoBehaviour
         stoneAmountCollected++;
         Debug.Log("Stone amount: " + stoneAmountCollected);
 
-        stoneCollected?.Invoke();
+        //stoneCollected?.Invoke();
+
+        // Call to Enemy Mover to teleport any present gnomes away
+        EnemyManager.Instance.GetRidOfGnome();
     }
     #endregion
 }

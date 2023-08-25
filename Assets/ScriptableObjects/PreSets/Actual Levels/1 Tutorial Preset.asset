@@ -14,12 +14,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   instructions:
   - name: Start
+    type: 2
+    orientation: 0
+    north_Neighbour_name: 0 Intro
+    west_Neighbour_name: 
+    east_Neighbour_name: 
+    south_Neighbour_name: 2
+    items:
+    - type: 1
+      wallOrientation: 1
+      description: Welcome to the SAUNA
+      official: 0
+    - type: 1
+      wallOrientation: 2
+      description: Welcome to the SAUNA
+      official: 0
+  - name: 0 Intro
     type: 0
     orientation: 3
     north_Neighbour_name: 
     west_Neighbour_name: 
     east_Neighbour_name: 
-    south_Neighbour_name: 
+    south_Neighbour_name: Start
     items:
     - type: 1
       wallOrientation: 0

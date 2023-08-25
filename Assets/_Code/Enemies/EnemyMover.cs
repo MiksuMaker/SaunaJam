@@ -496,7 +496,7 @@ public class EnemyMover : MonoBehaviour
             }
 
             // Check if room isnt visible to Player
-            if (!RoomManager.Instance.IsOtherRoomNear(temp, RoomManager.Instance.currentRoom, 5))
+            if (!RoomManager.Instance.IsOtherRoomNear(temp, RoomManager.Instance.currentRoom, 10))
             {
                 // Exit the loop
                 break;

@@ -181,6 +181,27 @@ public class EnemyManager : MonoBehaviour
             RoomManager.Instance.UpdateRooms(false);
         }
     }
+
+    public void GetRidOfGnome()
+    {
+        bool needToUpdateEnemies = false;
+        foreach (var e in enemies)
+        {
+            // Check if they're hunting and of type steam
+            if (e.mode == Enemy.Mode.hunt && e.type == Enemy.Type.gnome)
+            {
+                // Move them away from Player
+                mover.RelocateEnemy(e);
+                needToUpdateEnemies = true;
+            }
+        }
+
+        // Update Enemies
+        if (needToUpdateEnemies)
+        {
+            RoomManager.Instance.UpdateRooms(false);
+        }
+    }
     #endregion
 }
 
