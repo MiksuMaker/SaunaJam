@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 3 Gnome PART 2
   m_EditorClassIdentifier: 
   water: 12
-  wood: 15
+  wood: 16
   stone: 5
   write: 0
   sauna: 0

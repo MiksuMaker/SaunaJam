@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   water: 20
   wood: 0
-  stone: 3
+  stone: 2
   write: 0
   sauna: 0
