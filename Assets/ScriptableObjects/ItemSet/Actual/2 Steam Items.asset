@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 2 Steam Items
   m_EditorClassIdentifier: 
   water: 6
-  wood: 8
+  wood: 3
   stone: 0
   write: 0
   sauna: 0

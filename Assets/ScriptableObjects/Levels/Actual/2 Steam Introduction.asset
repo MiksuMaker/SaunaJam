@@ -17,4 +17,4 @@ MonoBehaviour:
   steamSpawnAmount: 1
   gnomeSpawnAmount: 0
   itemSet: {fileID: 11400000, guid: ae1426b946348d744968e6c476b245e3, type: 2}
-  requiredLogs: 5
+  requiredLogs: 4

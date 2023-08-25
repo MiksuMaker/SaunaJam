@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 3 Gnome PART 2
   m_EditorClassIdentifier: 
   preset: {fileID: 11400000, guid: de0af082a417dfc49ae211703507629f, type: 2}
-  preference: {fileID: 11400000, guid: 8f2382ed815bbfc44ae4a1073bbdd62b, type: 2}
+  preference: {fileID: 11400000, guid: 2c4dcf3390af0b64482b6b3c96ad3c25, type: 2}
   steamSpawnAmount: 0
   gnomeSpawnAmount: 1
   itemSet: {fileID: 11400000, guid: 21f215523658faa409a1cffd951c59ff, type: 2}

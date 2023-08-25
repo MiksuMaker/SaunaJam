@@ -120,7 +120,7 @@ MonoBehaviour:
     - type: 1
       wallOrientation: 3
       description: Should you become lost, always remember...
-      official: 0
+      official: 1
   - name: 9 DeadEnd
     type: 0
     orientation: 2
@@ -131,7 +131,7 @@ MonoBehaviour:
     items:
     - type: 1
       wallOrientation: 3
-      description: ... that you can write on walls and...
+      description: ... that you can write on empty walls and...
       official: 1
     - type: 1
       wallOrientation: 1
