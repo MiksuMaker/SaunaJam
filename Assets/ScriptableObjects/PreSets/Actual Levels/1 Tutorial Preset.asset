@@ -24,11 +24,11 @@ MonoBehaviour:
     - type: 1
       wallOrientation: 1
       description: Welcome to the SAUNA
-      official: 0
+      official: 1
     - type: 1
       wallOrientation: 2
       description: Welcome to the SAUNA
-      official: 0
+      official: 1
   - name: 0 Intro
     type: 0
     orientation: 3
@@ -40,23 +40,23 @@ MonoBehaviour:
     - type: 1
       wallOrientation: 0
       description: Use A and D to turn around
-      official: 0
+      official: 1
   - name: 2
     type: 1
     orientation: 0
     north_Neighbour_name: Start
     west_Neighbour_name: 
-    east_Neighbour_name: 3
+    east_Neighbour_name: 3 Fourway
     south_Neighbour_name: 
     items:
     - type: 1
       wallOrientation: 3
       description: Use W and S to move
-      official: 0
-  - name: 3
+      official: 1
+  - name: 3 Fourway
     type: 4
     orientation: 0
-    north_Neighbour_name: 11 North
+    north_Neighbour_name: 12 Fake DeadEnd
     west_Neighbour_name: 2
     east_Neighbour_name: 4 Water
     south_Neighbour_name: 6
@@ -65,14 +65,14 @@ MonoBehaviour:
     type: 0
     orientation: 1
     north_Neighbour_name: 
-    west_Neighbour_name: 3
+    west_Neighbour_name: 3 Fourway
     east_Neighbour_name: 
     south_Neighbour_name: 
     items:
     - type: 1
       wallOrientation: 2
       description: Press SPACE to pick up items
-      official: 0
+      official: 1
     - type: 4
       wallOrientation: 0
       description: 
@@ -80,7 +80,7 @@ MonoBehaviour:
   - name: 6
     type: 3
     orientation: 0
-    north_Neighbour_name: 3
+    north_Neighbour_name: 3 Fourway
     west_Neighbour_name: 
     east_Neighbour_name: 8
     south_Neighbour_name: 7 Sauna
@@ -100,11 +100,11 @@ MonoBehaviour:
     - type: 1
       wallOrientation: 1
       description: Find wooden logs
-      official: 0
+      official: 1
     - type: 1
       wallOrientation: 2
       description: Feed the SAUNA
-      official: 0
+      official: 1
   - name: 8
     type: 2
     orientation: 1
@@ -140,7 +140,7 @@ MonoBehaviour:
     - type: 1
       wallOrientation: 2
       description: Drink WATER stay hydrated
-      official: 0
+      official: 1
     - type: 2
       wallOrientation: 0
       description: 
@@ -176,4 +176,12 @@ MonoBehaviour:
     west_Neighbour_name: 
     east_Neighbour_name: 
     south_Neighbour_name: 3
+    items: []
+  - name: 12 Fake DeadEnd
+    type: 0
+    orientation: 3
+    north_Neighbour_name: 
+    west_Neighbour_name: 
+    east_Neighbour_name: 
+    south_Neighbour_name: 3 Fourway
     items: []
