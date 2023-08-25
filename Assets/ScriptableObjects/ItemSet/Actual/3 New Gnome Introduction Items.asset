@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 3 New Gnome Introduction Items
   m_EditorClassIdentifier: 
   water: 9
-  wood: 8
-  stone: 2
+  wood: 15
+  stone: 0
   write: 0
   sauna: 0

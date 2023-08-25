@@ -51,7 +51,7 @@ MonoBehaviour:
     items:
     - type: 1
       wallOrientation: 3
-      description: A drink a day will keep the heat away
+      description: 
       official: 1
   - name: 4 Sauna
     type: 0
@@ -71,25 +71,89 @@ MonoBehaviour:
     north_Neighbour_name: 6 Infinite
     west_Neighbour_name: 3 Seuna Entrance
     east_Neighbour_name: 
+    south_Neighbour_name: 6 Infinite Left
+    items:
+    - type: 1
+      wallOrientation: 2
+      description: A drink a day will keep the heat away
+      official: 1
+  - name: 6 Infinite
+    type: 3
+    orientation: 0
+    north_Neighbour_name: 6 Infinite Left
+    west_Neighbour_name: 
+    east_Neighbour_name: 
+    south_Neighbour_name: 5 Threeway
+    items:
+    - type: 2
+      wallOrientation: 1
+      description: 
+      official: 0
+  - name: 6 Infinite Left
+    type: 3
+    orientation: 3
+    north_Neighbour_name: 5 Threeway
+    west_Neighbour_name: 7 Culdesac
+    east_Neighbour_name: 
     south_Neighbour_name: 6 Infinite
     items:
     - type: 2
       wallOrientation: 2
       description: 
       official: 0
-  - name: 6 Infinite
+  - name: 7 Culdesac
     type: 2
-    orientation: 0
-    north_Neighbour_name: 5 Threeway
-    west_Neighbour_name: 
-    east_Neighbour_name: 
-    south_Neighbour_name: 5 Threeway
+    orientation: 1
+    north_Neighbour_name: 
+    west_Neighbour_name: 8 Threeway
+    east_Neighbour_name: 6 Infinite Left
+    south_Neighbour_name: 
+    items: []
+  - name: 8 Threeway
+    type: 3
+    orientation: 1
+    north_Neighbour_name: 10 DeadEnd 2
+    west_Neighbour_name: 9 DeadEnd
+    east_Neighbour_name: 7 Culdesac
+    south_Neighbour_name: 
     items:
     - type: 1
-      wallOrientation: 1
-      description: Empty walls are your canvas...
+      wallOrientation: 3
+      description: Should you become lost, always remember...
+      official: 0
+  - name: 9 DeadEnd
+    type: 0
+    orientation: 2
+    north_Neighbour_name: 
+    west_Neighbour_name: 
+    east_Neighbour_name: 8 Threeway
+    south_Neighbour_name: 
+    items:
+    - type: 1
+      wallOrientation: 3
+      description: ... that you can write on walls and...
       official: 1
     - type: 1
-      wallOrientation: 2
-      description: ...should you want to ENTER your thoughts on them
+      wallOrientation: 1
+      description: ...ENTER your thoughts there
       official: 1
+  - name: 10 DeadEnd 2
+    type: 0
+    orientation: 3
+    north_Neighbour_name: 
+    west_Neighbour_name: 
+    east_Neighbour_name: 
+    south_Neighbour_name: 8 Threeway
+    items:
+    - type: 2
+      wallOrientation: 0
+      description: 
+      official: 0
+    - type: 2
+      wallOrientation: 1
+      description: 
+      official: 0
+    - type: 4
+      wallOrientation: 2
+      description: 
+      official: 0

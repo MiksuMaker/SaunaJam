@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9631a35c31aa833419f11146e2386589, type: 3}
-  m_Name: 3 New Gnome Introduction
+  m_Name: 3 Gnome PART 2
   m_EditorClassIdentifier: 
   preset: {fileID: 11400000, guid: de0af082a417dfc49ae211703507629f, type: 2}
   preference: {fileID: 11400000, guid: 8f2382ed815bbfc44ae4a1073bbdd62b, type: 2}
   steamSpawnAmount: 0
   gnomeSpawnAmount: 1
-  itemSet: {fileID: 11400000, guid: fca48f9cec0dff343b65c3e2aa49c7c8, type: 2}
+  itemSet: {fileID: 11400000, guid: 21f215523658faa409a1cffd951c59ff, type: 2}
   requiredLogs: 6

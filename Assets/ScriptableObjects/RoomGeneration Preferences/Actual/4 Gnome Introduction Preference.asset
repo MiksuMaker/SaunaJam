@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38b5e83a089f5a64694db0abeb8fd392, type: 3}
   m_Name: 4 Gnome Introduction Preference
   m_EditorClassIdentifier: 
-  amountOfRooms: 15
+  amountOfRooms: 16
   deadEndChance: 1
   cornerChance: 1
   straigthChance: 1

@@ -47,6 +47,9 @@ public class Writer : MonoBehaviour
     {
         writing = true;
 
+        // Tilt the camera
+        CameraHandler.Instance.TiltCamera(Vector3.zero);
+
         Room curRoom = roomM.currentRoom;
         Orientation Ori = explorer.currentOrientation;
         // Check if there already is text

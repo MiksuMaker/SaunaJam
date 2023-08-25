@@ -175,7 +175,7 @@ MonoBehaviour:
     north_Neighbour_name: 10
     west_Neighbour_name: 
     east_Neighbour_name: 
-    south_Neighbour_name: 3
+    south_Neighbour_name: 3 Fourway
     items: []
   - name: 12 Fake DeadEnd
     type: 0
