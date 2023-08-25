@@ -9,11 +9,11 @@ public class SaunaManager : MonoBehaviour
     public SaunaGraphicsController saunaGraphics;
 
     [Header("Sacrificed Resources")]
-    [SerializeField] int givenWoodLogs = 0;
+    [SerializeField] public int givenWoodLogs = 0;
     [SerializeField] int givenSaunaStones = 0;
 
     [Header("Needed Resources")]
-    [SerializeField] int neededWoodLogs = 1;
+    [SerializeField] public int neededWoodLogs = 1;
     //[SerializeField] int neededSaunaStones = 1;
 
     [HideInInspector]

@@ -62,6 +62,18 @@ public class Collector : MonoBehaviour
         //Debug.Log("Wood amount: " + woodAmountCollected);
 
         woodCollected?.Invoke();
+
+        // Inform Player if enough wood has been collected
+        if (woodAmountCollected + SaunaManager.Instance.givenWoodLogs == SaunaManager.Instance.neededWoodLogs + 1)
+        {
+            UIText[] texts = new UIText[]
+            {
+                new UIText("Yes", 0.3f, 1f, 0.4f),
+                new UIText("Bring the timber to me", 0.3f, 1f, 1f),
+            };
+
+            UI_Controller.Instance.FlashTextOnScreen(texts);
+        }
     }
 
     private void CollectStone()
