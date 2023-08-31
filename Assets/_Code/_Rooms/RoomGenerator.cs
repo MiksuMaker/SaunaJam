@@ -455,6 +455,7 @@ public class RoomGenerator : MonoBehaviour
 
     private TypeRoom DecideRoomType(float deadC = 1f, float cornerC = 1f, float straightC = 1f, float threeC = 1f, float fourC = 1f, float skipC = 0f)
     {
+        // Calculate chances of spawning for each room type
         float deadChance = deadC;
         float cornerChance = deadChance + cornerC;
         float straightChance = cornerChance + straightC;
@@ -463,6 +464,8 @@ public class RoomGenerator : MonoBehaviour
         float skipChance = fourChance + skipC;
         float total = skipChance;   // Cap the chances
 
+        // Pick a random float value
+        // -> this will decide what room type will be returned
         float rand = Random.Range(0f, total);
 
         TypeRoom t = TypeRoom._1_deadEnd; // Default
